@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WaterWorx — S.M.A.R.T Fountain System V4.0 User Guide</title>
-  <meta name="description" content="Complete user guide for the WaterWorx S.M.A.R.T Fountain System V4.0 for Second Life. Setup, controls, shows, multi-fountain management and more.">
+  <title>WaterWorx — S.M.A.R.T Fountain System V4.3 User Guide</title>
+  <meta name="description" content="Complete user guide for the WaterWorx S.M.A.R.T Fountain System V4.3 for Second Life. Setup, controls, shows, multi-fountain management and more.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -831,7 +831,7 @@
 
 <!-- ==================== HERO ==================== -->
 <header class="hero" id="top">
-  <div class="hero-badge">WaterWorx · Version 4.0</div>
+  <div class="hero-badge">WaterWorx · Version 4.3</div>
   <h1>💧 S.M.A.R.T <span>Fountain</span> System</h1>
   <p>by <strong>WaterWorx</strong> — Your complete guide to running stunning choreographed water shows in Second&nbsp;Life.</p>
   <div class="hero-buttons">
@@ -863,6 +863,7 @@
       <a href="#settings">⚙️ Settings</a>
       <a href="#multi">🌍 Multi</a>
       <a href="#chatcmd">💬 Chat</a>
+      <a href="#changelog">📋 Log</a>
       <a href="#admin">🛠 Admin</a>
       <a href="#troubleshoot">❓ Help</a>
       <a href="#reference">📋 Ref</a>
@@ -901,7 +902,7 @@
       <div class="package-grid">
         <div class="package-card">
           <span class="card-icon">📟</span>
-          <h4>S.M.A.R.T Panel V4.0</h4>
+          <h4>S.M.A.R.T Panel V4.3</h4>
           <p>Your touch-screen control panel for all fountains.</p>
           <span class="badge">✅ Pre-configured</span>
         </div>
@@ -1180,25 +1181,30 @@
           <h2>Colors & Lighting</h2>
         </div>
       </div>
-      <p>Make your fountain shine with <strong>51 colors</strong>, <strong>10 themes</strong>, and <strong>2 dynamic color modes!</strong></p>
+      <p>Make your fountain shine with <strong>51 colors</strong>, <strong>10 themes</strong>, and <strong>3 dynamic color modes!</strong></p>
       <p><strong>How:</strong> Click Panel → select scope → 🟡 <strong>LIGHTS</strong></p>
 
-      <h3>🌈 RGB Mode</h3>
-      <p>Smooth, flowing rainbow spectrum: 🔴→🟠→🟡→🟢→🔵→🟣→🔴</p>
-      <p>8 classic rainbow colors with seamless gradient transitions. Elegant, calm, professional — perfect for formal events.</p>
+      <h3>🔴🟢🔵 RGB Mode</h3>
+      <p>Structured 3-phase color cycling: vivid color holds → smooth rainbow sweep → gentle pastels.</p>
+      <p>All pipes share the same color, cycling through a carefully designed sequence. Elegant, calm, professional — perfect for formal events.</p>
+
+      <h3>🌈 RAINBOW Mode <span style="display:inline-block;background:#d1fae5;color:#065f46;font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;vertical-align:middle;">NEW</span></h3>
+      <p>True full-spectrum rainbow: every pipe displays a different color simultaneously! 🔴→🟠→🟡→🟢→🔵→🟣</p>
+      <p>The rainbow slowly rotates across all pipes at full saturation — vivid, magical, and always showing the complete spectrum. Perfect for garden fountains, nighttime displays, and any time you want maximum color impact.</p>
 
       <h3>🎨 MULTI Mode</h3>
       <p>Vibrant 12-color palette cycling: 💖→🟠→🟡→💚→🔵→🟣→💜</p>
-      <p>More variety with 12 carefully chosen colors. Energetic, exciting — perfect for parties & clubs.</p>
+      <p>Each pipe gets its own unique color from a flowing gradient chain. Energetic, exciting — perfect for parties & clubs.</p>
 
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Feature</th><th>🌈 RGB</th><th>🎨 MULTI</th></tr></thead>
+          <thead><tr><th>Feature</th><th>🔴🟢🔵 RGB</th><th>🌈 RAINBOW</th><th>🎨 MULTI</th></tr></thead>
           <tbody>
-            <tr><td>Colors</td><td>8</td><td>12</td></tr>
-            <tr><td>Style</td><td>Classic</td><td>Contemporary</td></tr>
-            <tr><td>Vibe</td><td>Calm & Elegant</td><td>Energetic & Fun</td></tr>
-            <tr><td>Best for</td><td>Formal events</td><td>Parties & clubs</td></tr>
+            <tr><td>Colors</td><td>8 (phased cycling)</td><td>Full spectrum (per-pipe)</td><td>12 (gradient chain)</td></tr>
+            <tr><td>Per-pipe color</td><td>All same</td><td>Each pipe unique hue</td><td>Each pipe unique gradient</td></tr>
+            <tr><td>Style</td><td>Classic 3-phase</td><td>Continuous rainbow</td><td>Contemporary</td></tr>
+            <tr><td>Vibe</td><td>Calm & Elegant</td><td>Magical & Vivid</td><td>Energetic & Fun</td></tr>
+            <tr><td>Best for</td><td>Formal events</td><td>Gardens, night shows</td><td>Parties & clubs</td></tr>
           </tbody>
         </table>
       </div>
@@ -1254,7 +1260,7 @@
       <div class="feature-grid" style="margin:20px 0;">
         <div class="feature-item" style="border-left:4px solid var(--blue-500);">
           <h5>🔁 AUTO</h5>
-          <p>Cycles all 22 patterns automatically. Set it and forget it!</p>
+          <p>Cycles all 26 patterns automatically. Set it and forget it!</p>
         </div>
         <div class="feature-item" style="border-left:4px solid var(--purple-500);">
           <h5>🎲 RANDOM</h5>
@@ -1262,11 +1268,11 @@
         </div>
         <div class="feature-item" style="border-left:4px solid var(--amber-500);">
           <h5>📌 STATIC</h5>
-          <p>Lock one favorite pattern (P0–P21) on repeat.</p>
+          <p>Lock one favorite pattern (P0–P25) on repeat.</p>
         </div>
       </div>
 
-      <h3>All 22 Patterns</h3>
+      <h3>All 26 Patterns</h3>
       <div class="table-wrap">
         <table>
           <thead><tr><th>#</th><th>Name</th><th>Type</th></tr></thead>
@@ -1293,6 +1299,10 @@
             <tr><td>P19</td><td>Grand Finale</td><td>All at maximum!</td></tr>
             <tr><td>P20</td><td>Sine Wave</td><td>Traveling wave</td></tr>
             <tr><td>P21</td><td>Equalizer Wave</td><td>All pipes, unique sine heights</td></tr>
+            <tr><td>P22</td><td>Bounce</td><td>Ball-bounce elastic motion</td></tr>
+            <tr><td>P23</td><td>Cathedral</td><td>Gothic arch formation</td></tr>
+            <tr><td>P24</td><td>Counter Chase</td><td>Two-directional sweep</td></tr>
+            <tr><td>P25</td><td>Stagger Pulse</td><td>Offset pulsing groups</td></tr>
           </tbody>
         </table>
       </div>
@@ -1301,19 +1311,19 @@
       <div class="feature-grid">
         <div class="feature-item">
           <h5>🧘 Relaxation</h5>
-          <p>P8 Heartbeat • P10 Ocean Swell</p>
+          <p>P8 Heartbeat • P10 Ocean Swell • P6 Breathing Alt</p>
         </div>
         <div class="feature-item">
           <h5>🎉 Energy & Parties</h5>
-          <p>P0 Synchronized • P14 Dancing Jets • P19 Grand Finale</p>
+          <p>P0 Synchronized • P14 Dancing Jets • P19 Grand Finale • P22 Bounce</p>
         </div>
         <div class="feature-item">
           <h5>🌹 Beauty & Elegance</h5>
-          <p>P4 Symmetric Wave • P13 Ripple • P17 Parabolic Arc</p>
+          <p>P4 Symmetric Wave • P13 Ripple • P17 Parabolic Arc • P23 Cathedral</p>
         </div>
         <div class="feature-item">
           <h5>🎬 Showmanship</h5>
-          <p>P1 Sequential Chase • P15 Spotlight • P18 Spiral Rise</p>
+          <p>P1 Sequential Chase • P15 Spotlight • P18 Spiral Rise • P24 Counter Chase</p>
         </div>
       </div>
     </div>
@@ -1468,11 +1478,12 @@
         <table>
           <thead><tr><th>Show</th><th>Color</th><th>Result</th></tr></thead>
           <tbody>
-            <tr><td>🎭 Grand</td><td>🌈 RGB</td><td>Elegant ceremony</td></tr>
+            <tr><td>🎭 Grand</td><td>🌈 RAINBOW</td><td>Magical spectacle</td></tr>
+            <tr><td>🎭 Grand</td><td>🔴🟢🔵 RGB</td><td>Elegant ceremony</td></tr>
             <tr><td>🎭 Grand</td><td>🌇 SUNSET</td><td>Warm welcome</td></tr>
             <tr><td>💕 Romantic</td><td>💖 LOVE</td><td>Classic romance</td></tr>
             <tr><td>🌙 Moonlight</td><td>❄️ SNOW</td><td>Classical mood</td></tr>
-            <tr><td>💖 Love</td><td>💖 LOVE</td><td>Pure romance</td></tr>
+            <tr><td>💖 Love</td><td>🌈 RAINBOW</td><td>Dreamy romance</td></tr>
             <tr><td>🧛 Vampire</td><td>🩸 BLOOD</td><td>Ultimate dark</td></tr>
           </tbody>
         </table>
@@ -1711,8 +1722,8 @@
         <table>
           <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
           <tbody>
-            <tr><td><code>/wx:pattern list</code></td><td>List all 22 pattern names (P0–P21) in chat</td></tr>
-            <tr><td><code>/wx:pattern 5</code></td><td>Lock to pattern #5 (STATIC mode). Use any number 0–21</td></tr>
+            <tr><td><code>/wx:pattern list</code></td><td>List all 26 pattern names (P0–P25) in chat</td></tr>
+            <tr><td><code>/wx:pattern 5</code></td><td>Lock to pattern #5 (STATIC mode). Use any number 0–25</td></tr>
             <tr><td><code>/wx:pattern auto</code></td><td>Resume cycling through all patterns</td></tr>
             <tr><td><code>/wx:pattern random</code></td><td>Pick a random pattern each cycle</td></tr>
           </tbody>
@@ -1842,7 +1853,7 @@
         <span class="cfg-key">Glow</span> = <span class="cfg-val">TRUE</span> <span class="cfg-comment"># Particle glow on startup</span><br>
         <span class="cfg-key">Wind</span> = <span class="cfg-val">FALSE</span> <span class="cfg-comment"># Wind physics on startup</span><br>
         <span class="cfg-key">SoundLevel</span> = <span class="cfg-val">0.15</span> <span class="cfg-comment"># 0.0 – 1.0</span><br>
-        <span class="cfg-key">LightMode</span> = <span class="cfg-val">1</span> <span class="cfg-comment"># 1=STATIC 2=RGB 3=MULTI 4=THEMED</span><br>
+        <span class="cfg-key">LightMode</span> = <span class="cfg-val">1</span> <span class="cfg-comment"># 1=STATIC 2=RGB 3=MULTI 4=THEMED 5=RAINBOW</span><br>
         <span class="cfg-key">Theme</span> = <span class="cfg-val">8</span> <span class="cfg-comment"># Theme 1-10</span><br>
         <span class="cfg-key">WaterColor</span> = <span class="cfg-val">#B0E0E6</span> <span class="cfg-comment"># Default color (hex)</span><br>
         <span class="cfg-key">DefaultShape</span> = <span class="cfg-val">CIRCLE</span> <span class="cfg-comment"># Auto arrangement on startup (NONE, LINE, CIRCLE, ARC, etc.)</span><br>
@@ -2004,10 +2015,10 @@
       <div class="menu-tree">🏠 HOME
 ├── 🌍 GLOBAL (all fountains)
 │   ├── ⛲ POWER — ON / OFF
-│   ├── 🔄 SEQUENCE — AUTO / RANDOM / STATIC (P0–P21)
+│   ├── 🔄 SEQUENCE — AUTO / RANDOM / STATIC (P0–P25)
 │   ├── 💃 ANIMATE — NORMAL / HYBRID / SPEED
 │   ├── 🎭 SHOWS — 5 shows + Loop + Stop + Music volume
-│   ├── 🟡 LIGHTS — RGB / MULTI / 10 Themes / 51 Colors
+│   ├── 🟡 LIGHTS — RGB / RAINBOW / MULTI / 10 Themes / 51 Colors
 │   └── ⚙️ SETTINGS — Height / Speed / Spray / Wind / Glow / Sound
 │
 ├── ⛲ [Fountain Name] (single fountain)
@@ -2025,7 +2036,7 @@
       <div class="cheat-grid">
         <div class="cheat-item"><span class="cheat-what">Turn fountain on</span><span class="cheat-how">GLOBAL → ⛲ POWER</span></div>
         <div class="cheat-item"><span class="cheat-what">Change color</span><span class="cheat-how">GLOBAL → 🟡 LIGHTS</span></div>
-        <div class="cheat-item"><span class="cheat-what">Rainbow effect</span><span class="cheat-how">LIGHTS → 🌈 RGB</span></div>
+        <div class="cheat-item"><span class="cheat-what">Rainbow effect</span><span class="cheat-how">LIGHTS → 🌈 RAINBOW</span></div>
         <div class="cheat-item"><span class="cheat-what">Party colors</span><span class="cheat-how">LIGHTS → 🎨 MULTI</span></div>
         <div class="cheat-item"><span class="cheat-what">Sunset theme</span><span class="cheat-how">LIGHTS → 🎭 → SUNSET</span></div>
         <div class="cheat-item"><span class="cheat-what">Change pattern</span><span class="cheat-how">GLOBAL → 🔄 SEQUENCE</span></div>
@@ -2091,8 +2102,8 @@
         <table>
           <thead><tr><th>Command</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td><code>/wx:pattern list</code></td><td>Show all 22 pattern names (P0–P21)</td></tr>
-            <tr><td><code>/wx:pattern 5</code></td><td>Lock pattern #5 (STATIC mode) — any number 0–21</td></tr>
+            <tr><td><code>/wx:pattern list</code></td><td>Show all 26 pattern names (P0–P25)</td></tr>
+            <tr><td><code>/wx:pattern 5</code></td><td>Lock pattern #5 (STATIC mode) — any number 0–25</td></tr>
             <tr><td><code>/wx:pattern auto</code></td><td>Cycle through all patterns automatically</td></tr>
             <tr><td><code>/wx:pattern random</code></td><td>Random pattern each cycle</td></tr>
           </tbody>
@@ -2116,11 +2127,44 @@
   </div>
 </section>
 
+<!-- ==================== CHANGELOG ==================== -->
+<section id="changelog" class="card">
+  <h2>📋 Changelog</h2>
+  <div style="max-width:720px;margin:0 auto;">
+
+    <h3 style="color:var(--cyan-400);margin-top:0;">V4.3 — June 2025</h3>
+    <ul style="line-height:1.9;">
+      <li><strong>🌈 RAINBOW Mode</strong> — New 5th light mode! Full-spectrum per-pipe hue spread with smooth continuous rotation. Every pipe shows a different color simultaneously.</li>
+      <li><strong>🔴🟢🔵 RGB Refinement</strong> — RGB mode now uses a structured 3-phase cycle (vivid holds → rainbow sweep → gentle pastels) distinct from RAINBOW.</li>
+      <li><strong>4 New Patterns (P22–P25)</strong> — Bounce, Cathedral, Counter Chase, Stagger Pulse — bringing the total to 26 choreographed patterns.</li>
+      <li><strong>Guide URL Updated</strong> — In-world GUIDE button now opens <code>water-worx.github.io/smart-edition</code>.</li>
+      <li><strong>Button Fix</strong> — Fixed RGB button emoji detection in Panel menus.</li>
+    </ul>
+
+    <h3 style="color:var(--blue-400);">V4.0.1 — Feb 2025</h3>
+    <ul style="line-height:1.9;">
+      <li><strong>Straighten Command</strong> — <code>/wx:straighten</code> resets all pipes to vertical.</li>
+      <li><strong>P21 Equalizer Wave</strong> — New pattern: all pipes with unique sine-wave heights.</li>
+      <li><strong>P2 / P6 Fix</strong> — Corrected height calculations for Alternating Pairs and Breathing Alt.</li>
+      <li><strong>Memory Optimization</strong> — Reduced peak memory usage in ENGINE PATTERNS.</li>
+    </ul>
+
+    <h3 style="color:var(--blue-400);">V4.0 — Dec 2024</h3>
+    <ul style="line-height:1.9;">
+      <li>Initial release of S.M.A.R.T Fountain System.</li>
+      <li>22 water patterns (P0–P21), 51 static colors, 10 themes, RGB & MULTI dynamic modes.</li>
+      <li>5 choreographed shows, multi-fountain sync, shape detection, pipe tilt animation module.</li>
+      <li>Dual update checker, chat command system, notecard configuration.</li>
+    </ul>
+
+  </div>
+</section>
+
 <!-- ==================== FOOTER ==================== -->
 <footer class="footer">
-  <div class="footer-brand">💧 WaterWorx — S.M.A.R.T Fountain System V4.0</div>
+  <div class="footer-brand">💧 WaterWorx — S.M.A.R.T Fountain System V4.3</div>
   <p>Complete water choreography for Second Life</p>
-  <p style="margin-top:8px;font-size:12px;color:var(--gray-500);">22 patterns · 51 colors · 10 themes · 5 choreographed shows · Multi-fountain sync · Chat commands</p>
+  <p style="margin-top:8px;font-size:12px;color:var(--gray-500);">26 patterns · 51 colors · 10 themes · 3 dynamic modes · 5 choreographed shows · Multi-fountain sync · Chat commands</p>
   <div class="footer-links">
     <a href="https://marketplace.secondlife.com/p/SMART-PRO-EDITION-NEXT-LEVEL-FOUNTAIN/23738894" target="_blank" rel="noopener">🛍️ Buy on Marketplace</a>
     <a href="#top">Back to Top</a>
