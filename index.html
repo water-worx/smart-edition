@@ -1,0 +1,2168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WaterWorx — S.M.A.R.T Fountain System V4.0 User Guide</title>
+  <meta name="description" content="Complete user guide for the WaterWorx S.M.A.R.T Fountain System V4.0 for Second Life. Setup, controls, shows, multi-fountain management and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ========== CSS Reset & Variables ========== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-50: #eff6ff;
+      --blue-100: #dbeafe;
+      --blue-200: #bfdbfe;
+      --blue-300: #93c5fd;
+      --blue-400: #60a5fa;
+      --blue-500: #3b82f6;
+      --blue-600: #2563eb;
+      --blue-700: #1d4ed8;
+      --blue-800: #1e40af;
+      --blue-900: #1e3a8a;
+      --cyan-400: #22d3ee;
+      --cyan-500: #06b6d4;
+      --purple-500: #a855f7;
+      --purple-600: #9333ea;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #22c55e;
+      --red-500: #ef4444;
+      --amber-500: #f59e0b;
+      --rose-500: #f43f5e;
+      --radius: 12px;
+      --radius-lg: 16px;
+      --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 6px -1px rgba(0,0,0,.08), 0 2px 4px -2px rgba(0,0,0,.06);
+      --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.08), 0 4px 6px -4px rgba(0,0,0,.06);
+      --shadow-xl: 0 20px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.08);
+    }
+
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      line-height: 1.7;
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ========== Animated Water Background ========== */
+    .water-bg {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      z-index: -1;
+      overflow: hidden;
+    }
+    .water-bg::before, .water-bg::after {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      border-radius: 40%;
+      opacity: .03;
+    }
+    .water-bg::before {
+      background: var(--blue-400);
+      animation: waterFloat 25s ease-in-out infinite;
+    }
+    .water-bg::after {
+      background: var(--cyan-400);
+      animation: waterFloat 30s ease-in-out infinite reverse;
+    }
+    @keyframes waterFloat {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(2%, 3%) rotate(90deg); }
+      50% { transform: translate(-1%, 5%) rotate(180deg); }
+      75% { transform: translate(3%, 1%) rotate(270deg); }
+    }
+
+    /* ========== Header / Hero ========== */
+    .hero {
+      background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-600) 40%, var(--cyan-500) 100%);
+      color: #fff;
+      padding: 100px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -60%;
+      left: -20%;
+      width: 140%;
+      height: 200%;
+      background: radial-gradient(ellipse at 30% 50%, rgba(255,255,255,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,.15);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.2);
+      padding: 6px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      text-shadow: 0 2px 20px rgba(0,0,0,.2);
+    }
+    .hero h1 span { color: var(--cyan-400); }
+    .hero p {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      max-width: 640px;
+      margin: 0 auto 36px;
+      opacity: .9;
+      line-height: 1.6;
+    }
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      color: var(--blue-700);
+      font-weight: 600;
+      font-size: 15px;
+      padding: 14px 32px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: transform .2s, box-shadow .2s;
+      box-shadow: 0 4px 14px rgba(0,0,0,.15);
+    }
+    .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+    .hero-cta-buy {
+      background: linear-gradient(135deg, #f59e0b, #ef4444);
+      color: #fff;
+    }
+    .hero-cta-buy:hover {
+      background: linear-gradient(135deg, #d97706, #dc2626);
+    }
+    .hero-wave {
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 100%;
+      line-height: 0;
+    }
+    .hero-wave svg { display: block; width: 100%; height: auto; }
+
+    /* ========== Sticky Nav ========== */
+    .sticky-nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--gray-200);
+      z-index: 100;
+      transition: box-shadow .3s;
+    }
+    .sticky-nav.scrolled { box-shadow: var(--shadow-md); }
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      height: 60px;
+      gap: 24px;
+    }
+    .nav-logo {
+      font-weight: 700;
+      font-size: 15px;
+      color: var(--blue-700);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .nav-links {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      flex: 1;
+    }
+    .nav-links::-webkit-scrollbar { display: none; }
+    .nav-links a {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-600);
+      text-decoration: none;
+      white-space: nowrap;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background .15s, color .15s;
+    }
+    .nav-links a:hover, .nav-links a.active {
+      background: var(--blue-50);
+      color: var(--blue-700);
+    }
+    .mobile-menu-btn {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: var(--gray-700);
+    }
+
+    /* ========== Content Container ========== */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ========== Sections ========== */
+    section {
+      padding: 64px 0;
+    }
+    section:nth-child(even) > .container > .section-card {
+      background: #fff;
+    }
+    .section-card {
+      background: #fff;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--gray-200);
+      padding: 48px;
+      box-shadow: var(--shadow);
+      transition: box-shadow .3s;
+    }
+    .section-card:hover { box-shadow: var(--shadow-lg); }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .section-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: var(--radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+    .icon-blue { background: var(--blue-100); }
+    .icon-green { background: #d1fae5; }
+    .icon-purple { background: #ede9fe; }
+    .icon-amber { background: #fef3c7; }
+    .icon-rose { background: #ffe4e6; }
+    .icon-cyan { background: #cffafe; }
+    .icon-gray { background: var(--gray-100); }
+
+    .section-header h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      line-height: 1.3;
+    }
+    .section-header .section-num {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--blue-500);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin: 32px 0 12px;
+    }
+    h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin: 20px 0 8px;
+    }
+    p { margin-bottom: 12px; color: var(--gray-700); }
+
+    /* ========== Package Cards ========== */
+    .package-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+    .package-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 24px;
+      text-align: center;
+      transition: transform .2s, box-shadow .2s;
+    }
+    .package-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+    .package-card .card-icon { font-size: 40px; margin-bottom: 12px; display: block; }
+    .package-card h4 { margin: 0 0 8px; color: var(--gray-900); }
+    .package-card p { font-size: 14px; color: var(--gray-600); margin: 0; }
+    .package-card .badge {
+      display: inline-block;
+      background: #d1fae5;
+      color: #065f46;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      margin-top: 10px;
+    }
+
+    /* ========== Step Cards ========== */
+    .steps { margin: 24px 0; }
+    .step {
+      display: flex;
+      gap: 20px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue-500), var(--blue-700));
+      color: #fff;
+      font-weight: 700;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-content { flex: 1; }
+    .step-content h4 { margin: 0 0 8px; font-size: 1rem; color: var(--gray-900); }
+    .step-content p { margin: 0; font-size: 14px; }
+    .step-content ul { margin: 8px 0 0 16px; font-size: 14px; color: var(--gray-600); }
+    .step-content ul li { margin-bottom: 4px; }
+
+    /* ========== Info / Tip / Warning Boxes ========== */
+    .callout {
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin: 16px 0;
+      font-size: 14px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .callout-icon { font-size: 20px; flex-shrink: 0; line-height: 1.4; }
+    .callout-tip { background: #ecfdf5; border: 1px solid #a7f3d0; color: #065f46; }
+    .callout-warn { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+    .callout-info { background: var(--blue-50); border: 1px solid var(--blue-200); color: var(--blue-800); }
+
+    /* ========== Tables ========== */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0;
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead { background: var(--gray-50); }
+    th {
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 600;
+      color: var(--gray-700);
+      border-bottom: 2px solid var(--gray-200);
+      white-space: nowrap;
+    }
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--gray-100);
+      color: var(--gray-700);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: var(--blue-50); }
+    code, .mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      background: var(--gray-100);
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: var(--blue-700);
+    }
+
+    /* ========== Feature Grid ========== */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+      margin: 16px 0;
+    }
+    .feature-item {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 16px;
+      font-size: 14px;
+    }
+    .feature-item .fi-icon { font-size: 24px; margin-bottom: 8px; display: block; }
+    .feature-item h5 { font-size: 14px; font-weight: 600; color: var(--gray-900); margin: 0 0 4px; }
+    .feature-item p { font-size: 13px; color: var(--gray-500); margin: 0; }
+
+    /* ========== Shapes Gallery ========== */
+    .shapes-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+    .shape-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 20px 16px;
+      text-align: center;
+      transition: transform .2s;
+    }
+    .shape-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); }
+    .shape-card .shape-icon { font-size: 32px; display: block; margin-bottom: 8px; }
+    .shape-card h5 { font-size: 14px; font-weight: 600; margin: 0 0 4px; }
+    .shape-card p { font-size: 12px; color: var(--gray-500); margin: 0; }
+
+    /* ========== Show Cards ========== */
+    .show-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 20px 0;
+    }
+    .show-card {
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s;
+    }
+    .show-card:hover { transform: translateY(-3px); }
+    .show-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 80%;
+      height: 160%;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      pointer-events: none;
+    }
+    .show-grand { background: linear-gradient(135deg, #1e3a8a, #3b82f6); }
+    .show-romantic { background: linear-gradient(135deg, #9d174d, #f472b6); }
+    .show-moonlight { background: linear-gradient(135deg, #1e293b, #64748b); }
+    .show-love { background: linear-gradient(135deg, #be123c, #fb7185); }
+    .show-vampire { background: linear-gradient(135deg, #1c1917, #57534e); }
+    .show-card .show-emoji { font-size: 36px; margin-bottom: 12px; display: block; }
+    .show-card h4 { font-size: 1.1rem; margin: 0 0 6px; color: #fff; }
+    .show-card .show-meta { font-size: 13px; opacity: .8; margin-bottom: 12px; }
+    .show-card p { font-size: 13px; opacity: .9; margin: 0; line-height: 1.5; }
+    .show-card .show-best {
+      margin-top: 12px;
+      font-size: 12px;
+      opacity: .8;
+      font-style: italic;
+    }
+
+    /* ========== Config Block ========== */
+    .config-block {
+      background: var(--gray-900);
+      color: #e2e8f0;
+      border-radius: var(--radius);
+      padding: 24px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      margin: 16px 0;
+      overflow-x: auto;
+    }
+    .config-block .cfg-comment { color: #64748b; }
+    .config-block .cfg-key { color: var(--cyan-400); }
+    .config-block .cfg-val { color: #a5f3fc; }
+
+    /* ========== Menu Tree ========== */
+    .menu-tree {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      margin: 16px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 2;
+      color: var(--gray-700);
+      white-space: pre;
+      overflow-x: auto;
+    }
+    .menu-tree .mt-icon { font-family: 'Inter', sans-serif; }
+
+    /* ========== Cheat Sheet ========== */
+    .cheat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin: 16px 0;
+    }
+    .cheat-item {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 14px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      font-size: 13px;
+    }
+    .cheat-what { font-weight: 600; color: var(--gray-800); flex: 1; }
+    .cheat-how { color: var(--blue-600); font-size: 12px; font-weight: 500; text-align: right; }
+
+    /* ========== Color Swatches ========== */
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .theme-swatch {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      font-size: 14px;
+    }
+    .theme-swatch .ts-icon { font-size: 20px; }
+    .theme-swatch span { font-weight: 500; color: var(--gray-700); }
+
+    /* ========== Troubleshoot Accordion ========== */
+    .faq-list { margin: 20px 0; }
+    .faq-item {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      margin-bottom: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .faq-q {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 16px 20px;
+      text-align: left;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--gray-800);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background .15s;
+      font-family: inherit;
+    }
+    .faq-q:hover { background: var(--gray-50); }
+    .faq-q::after {
+      content: '+';
+      margin-left: auto;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--gray-400);
+      transition: transform .2s;
+    }
+    .faq-item.open .faq-q::after { content: '−'; }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .3s ease;
+    }
+    .faq-a-inner {
+      padding: 0 20px 16px;
+      font-size: 14px;
+      color: var(--gray-600);
+      line-height: 1.7;
+    }
+    .faq-a-inner ol { margin: 8px 0 0 20px; }
+    .faq-a-inner ol li { margin-bottom: 4px; }
+    .faq-item.open .faq-a { max-height: 500px; }
+
+    /* ========== Footer ========== */
+    .footer {
+      background: var(--gray-900);
+      color: var(--gray-400);
+      text-align: center;
+      padding: 48px 24px;
+      font-size: 14px;
+    }
+    .footer-brand {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .footer p { margin-bottom: 4px; color: var(--gray-400); }
+    .footer-links { margin-top: 20px; display: flex; justify-content: center; gap: 24px; }
+    .footer-links a { color: var(--blue-400); text-decoration: none; font-weight: 500; transition: color .15s; }
+    .footer-links a:hover { color: var(--cyan-400); }
+
+    /* ========== Scroll-to-top ========== */
+    .scroll-top {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--blue-600);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-lg);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .3s, transform .3s;
+      z-index: 99;
+    }
+    .scroll-top.show { opacity: 1; transform: translateY(0); }
+    .scroll-top:hover { background: var(--blue-700); }
+
+    /* ========== Responsive ========== */
+    @media (max-width: 768px) {
+      .section-card { padding: 28px 20px; }
+      .nav-links { display: none; }
+      .mobile-menu-btn { display: block; }
+      .nav-links.mobile-open {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: #fff;
+        padding: 16px;
+        border-bottom: 1px solid var(--gray-200);
+        box-shadow: var(--shadow-lg);
+        gap: 4px;
+      }
+      .hero { padding: 72px 20px 60px; }
+      .cheat-grid { grid-template-columns: 1fr; }
+      .show-grid { grid-template-columns: 1fr; }
+    }
+
+    /* ========== Comparison Table ========== */
+    .comparison-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .comparison-col {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .comparison-col h5 {
+      font-size: 14px;
+      font-weight: 700;
+      margin: 0 0 8px;
+      color: var(--gray-900);
+    }
+    .comparison-col ul { margin: 0 0 0 16px; font-size: 13px; color: var(--gray-600); }
+    .comparison-col ul li { margin-bottom: 4px; }
+
+    /* ========== Pipe count guide ========== */
+    .pipe-guide {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin: 16px 0;
+    }
+    .pipe-guide-item {
+      text-align: center;
+      padding: 14px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+    }
+    .pipe-guide-item .pgi-num { font-size: 24px; font-weight: 800; color: var(--blue-600); }
+    .pipe-guide-item .pgi-label { font-size: 12px; color: var(--gray-500); margin-top: 2px; }
+
+    /* ========== Section Divider ========== */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gray-300), transparent);
+      margin: 0;
+      border: none;
+    }
+
+    /* ========== Sub-section ========== */
+    .sub-section {
+      margin: 28px 0;
+      padding-top: 20px;
+      border-top: 1px solid var(--gray-100);
+    }
+    .sub-section:first-of-type { border-top: none; padding-top: 0; }
+
+    /* ========== Color Palette Chips ========== */
+    .palette-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .palette-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gray-700);
+    }
+    .palette-chip .pc-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* Speed badges */
+    .speed-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .speed-badge {
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid var(--gray-200);
+      background: #fff;
+    }
+
+    /* Toggle switch visual */
+    .toggle-visual {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--gray-50);
+      border-radius: var(--radius);
+      border: 1px solid var(--gray-200);
+      margin: 12px 0;
+    }
+    .tv-track {
+      width: 48px;
+      height: 26px;
+      border-radius: 13px;
+      position: relative;
+    }
+    .tv-on { background: var(--green-500); }
+    .tv-off { background: var(--gray-300); }
+    .tv-track::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #fff;
+      top: 3px;
+      box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    }
+    .tv-on::after { right: 3px; }
+    .tv-off::after { left: 3px; }
+    .tv-label { font-size: 14px; font-weight: 500; color: var(--gray-700); }
+  </style>
+</head>
+<body>
+
+<div class="water-bg"></div>
+
+<!-- ==================== HERO ==================== -->
+<header class="hero" id="top">
+  <div class="hero-badge">WaterWorx · Version 4.0</div>
+  <h1>💧 S.M.A.R.T <span>Fountain</span> System</h1>
+  <p>by <strong>WaterWorx</strong> — Your complete guide to running stunning choreographed water shows in Second&nbsp;Life.</p>
+  <div class="hero-buttons">
+    <a href="#quickstart" class="hero-cta">🚀 Quick Start Guide</a>
+    <a href="https://marketplace.secondlife.com/p/SMART-PRO-EDITION-NEXT-LEVEL-FOUNTAIN/23738894" class="hero-cta hero-cta-buy" target="_blank" rel="noopener">🛍️ Buy on Marketplace</a>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path fill="#f9fafb" d="M0,40 C360,100 1080,0 1440,60 L1440,100 L0,100 Z"/>
+    </svg>
+  </div>
+</header>
+
+<!-- ==================== STICKY NAV ==================== -->
+<nav class="sticky-nav" id="stickyNav">
+  <div class="nav-inner">
+    <div class="nav-logo">💧 WaterWorx</div>
+    <button class="mobile-menu-btn" onclick="document.querySelector('.nav-links').classList.toggle('mobile-open')" aria-label="Menu">☰</button>
+    <div class="nav-links">
+      <a href="#package">📦 Package</a>
+      <a href="#quickstart">🚀 Setup</a>
+      <a href="#shapes">🎨 Shapes</a>
+      <a href="#panel">📟 Panel</a>
+      <a href="#power">⛲ Power</a>
+      <a href="#colors">🟡 Colors</a>
+      <a href="#patterns">🔄 Patterns</a>
+      <a href="#animate">💃 Animate</a>
+      <a href="#shows">🎭 Shows</a>
+      <a href="#settings">⚙️ Settings</a>
+      <a href="#multi">🌍 Multi</a>
+      <a href="#chatcmd">💬 Chat</a>
+      <a href="#admin">🛠 Admin</a>
+      <a href="#troubleshoot">❓ Help</a>
+      <a href="#reference">📋 Ref</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ==================== 1. PACKAGE ==================== -->
+<section id="package">
+  <div class="container">
+
+    <!-- IMPORTANT: First-time reset notice -->
+    <div class="callout callout-warn" style="margin-bottom:32px;">
+      <span class="callout-icon">⚠️</span>
+      <div>
+        <strong>First Time Setup — Reset All Scripts Once!</strong><br>
+        After rezzing your Fountain, reset all scripts <strong>once</strong> to initialize the system properly:<br>
+        <ol style="margin:8px 0 0 0;">
+          <li>Right-click the <strong>Fountain</strong> object and select <strong>Edit</strong></li>
+          <li>In your SL viewer menu bar, go to <strong>Build → Scripts → Reset Scripts</strong></li>
+          <li>Wait a few seconds for all scripts to initialize — done! ✅</li>
+        </ol>
+        <p style="margin-top:8px;font-size:13px;color:var(--gray-500);">You only need to do this once after first rez. After that, the system manages itself.</p>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-blue">📦</div>
+        <div>
+          <span class="section-num">Section 1</span>
+          <h2>What's in the Box</h2>
+        </div>
+      </div>
+      <p>Your S.M.A.R.T Fountain package includes two items — everything you need to create stunning water displays!</p>
+      <div class="package-grid">
+        <div class="package-card">
+          <span class="card-icon">📟</span>
+          <h4>S.M.A.R.T Panel V4.0</h4>
+          <p>Your touch-screen control panel for all fountains.</p>
+          <span class="badge">✅ Pre-configured</span>
+        </div>
+        <div class="package-card">
+          <span class="card-icon">⛲</span>
+          <h4>S.M.A.R.T Fountain Box</h4>
+          <p>The fountain brain — contains ALL scripts, settings, music, <strong>and pipe templates</strong>.</p>
+          <span class="badge">✅ Everything inside</span>
+        </div>
+      </div>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>The Fountain Box has everything inside — scripts, notecards, music files, <strong>and pipe templates</strong>. Just rez the box, click once to grant permission, and <strong>5 pipes auto-rez!</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 2. QUICK START ==================== -->
+<section id="quickstart">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-green">🚀</div>
+        <div>
+          <span class="section-num">Section 2</span>
+          <h2>Quick Start — 5 Minutes!</h2>
+        </div>
+      </div>
+      <p>Follow these 5 simple steps and your fountain will be running in minutes.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Rez the Panel</h4>
+            <ol>
+              <li>Open your Second Life Inventory</li>
+              <li>Find <strong>"S.M.A.R.T PANEL V4.0"</strong></li>
+              <li>Right-click → Drag to ground (Rez)</li>
+              <li>Wait for the chat message: 📟 <em>"BPM Display Ready"</em></li>
+              <li>Position it where you can reach it</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Rez the Fountain Box</h4>
+            <ol>
+              <li>Find <strong>"S.M.A.R.T FOUNTAIN BOX"</strong> in your Inventory</li>
+              <li>Right-click → Drag to ground (Rez)</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Grant Permission — Pipes Auto-Rez!</h4>
+            <ol>
+              <li><strong>Click the Fountain Box once</strong> — a permission dialog appears</li>
+              <li>Click <strong>"Yes"</strong> to grant rez permission</li>
+              <li><strong>5 pipes auto-rez and auto-link</strong> in a line formation — no manual work!</li>
+            </ol>
+            <div class="callout callout-tip">
+              <span class="callout-icon">💡</span>
+              <div>Want more pipes? Use the Panel's <strong>🔷 SHAPES</strong> menu → <strong>➕ BIGGER</strong> to add pipes, or enable <strong>🔗 DYNAMIC</strong> for automatic pipe scaling.</div>
+            </div>
+            <div class="pipe-guide">
+              <div class="pipe-guide-item"><div class="pgi-num">5–8</div><div class="pgi-label">Simple, bold shapes</div></div>
+              <div class="pipe-guide-item"><div class="pgi-num">10–15</div><div class="pgi-label">Standard ⭐</div></div>
+              <div class="pipe-guide-item"><div class="pgi-num">15–20</div><div class="pgi-label">Smooth curves</div></div>
+              <div class="pipe-guide-item"><div class="pgi-num">20+</div><div class="pgi-label">Maximum detail</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Choose a Shape</h4>
+            <p>Use the Panel's <strong>🔷 SHAPES</strong> menu to arrange your pipes into any formation — Circle, Line, Wave, Star, Arc, Grid, and more!</p>
+            <div class="callout callout-tip">
+              <span class="callout-icon">💡</span>
+              <div>You can switch shapes anytime from the Panel — pipes reposition automatically!</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-content">
+            <h4>Power On! 🎉</h4>
+            <ol>
+              <li>Click the Panel</li>
+              <li>You'll see the HOME screen</li>
+              <li>Click <strong>"🌍 GLOBAL"</strong></li>
+              <li>Click <strong>"⛲ POWER"</strong> to turn ON</li>
+            </ol>
+            <p style="font-size:16px;font-weight:600;color:var(--blue-700);margin-top:12px;">💧 Water is flowing! Your fountain is live!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 3. SHAPES ==================== -->
+<section id="shapes">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-purple">🎨</div>
+        <div>
+          <span class="section-num">Section 3</span>
+          <h2>Fountain Shape Ideas</h2>
+        </div>
+      </div>
+      <p>You have complete creative freedom! Arrange your pipes in any shape — the system auto-detects your layout and adapts animations accordingly.</p>
+
+      <div class="shapes-gallery">
+        <div class="shape-card"><span class="shape-icon">🔵</span><h5>Circle</h5><p>Classic fountain ring — works with every pattern</p></div>
+        <div class="shape-card"><span class="shape-icon">➡️</span><h5>Straight Line</h5><p>Water wall effect — great for pool edges</p></div>
+        <div class="shape-card"><span class="shape-icon">🌊</span><h5>Wave / Curve</h5><p>Organic S-curve — magical in gardens</p></div>
+        <div class="shape-card"><span class="shape-icon">🌙</span><h5>Moon Crescent</h5><p>Elegant half-circle — perfect for corners</p></div>
+        <div class="shape-card"><span class="shape-icon">⭐</span><h5>Star</h5><p>Pipes radiating outward — dramatic centerpiece</p></div>
+        <div class="shape-card"><span class="shape-icon">❤️</span><h5>Heart</h5><p>Romantic shape — ideal for weddings</p></div>
+        <div class="shape-card"><span class="shape-icon">🎨</span><h5>Custom</h5><p>Zigzag, spiral, letters — anything you imagine!</p></div>
+      </div>
+
+      <h3>🔄 Reshaping Your Fountain</h3>
+      <p>Use the Panel's <strong>🔷 SHAPES</strong> menu to switch formations instantly — no unlinking needed!</p>
+      <ol>
+        <li>Click the Panel → select your fountain</li>
+        <li>Click <strong>🔷 SHAPES</strong></li>
+        <li>Choose a new shape (Circle, Line, Star, etc.)</li>
+        <li>Pipes reposition automatically!</li>
+      </ol>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Use <strong>➕ BIGGER</strong> / <strong>➖ SMALLER</strong> to adjust the size. Enable <strong>🔗 DYNAMIC</strong> to auto-add/remove pipes when scaling.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 4. PANEL ==================== -->
+<section id="panel">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-cyan">📟</div>
+        <div>
+          <span class="section-num">Section 4 & 5</span>
+          <h2>Understanding the Panel & Navigation</h2>
+        </div>
+      </div>
+
+      <p>The Panel is your remote control. Touch (click) it and a dialog menu appears with buttons.</p>
+
+      <h3>🔘 Panel Indicators</h3>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <span class="fi-icon">🔘</span>
+          <h5>Toggle Button</h5>
+          <p>Slides LEFT = OFF, RIGHT = ON</p>
+        </div>
+        <div class="feature-item">
+          <span class="fi-icon">📟</span>
+          <h5>BPM Display</h5>
+          <p>"0000" = OFF, "0060" = default speed</p>
+        </div>
+        <div class="feature-item">
+          <span class="fi-icon">🎨</span>
+          <h5>Panel Color</h5>
+          <p>GRAY = OFF, GREEN = ON</p>
+        </div>
+      </div>
+
+      <h3>🏠 Home Screen</h3>
+      <p>When you click the Panel, you see the HOME screen listing all your connected fountains:</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Button</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td>🌍 GLOBAL</td><td>Control <strong>ALL</strong> fountains at once</td></tr>
+            <tr><td>⛲ [Name] #[ID]</td><td>Control <strong>one specific</strong> fountain. A ✓ means it has the ANIMATE module.</td></tr>
+            <tr><td>🛠 ADMIN</td><td>System tools — reset, access control, status</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>🧭 Navigation Buttons</h3>
+      <p>Every menu includes:</p>
+      <ul>
+        <li><strong>🏠 HOME</strong> — Return to the HOME screen instantly</li>
+        <li><strong>⬅️ BACK</strong> — Go back one level</li>
+      </ul>
+      <div class="callout callout-info">
+        <span class="callout-icon">💡</span>
+        <div>All menus save your choices automatically — you never need to "confirm" or "apply."</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 6. POWER ==================== -->
+<section id="power">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-green">⛲</div>
+        <div>
+          <span class="section-num">Section 6</span>
+          <h2>Turning Your Fountain ON / OFF</h2>
+        </div>
+      </div>
+
+      <div class="comparison-row">
+        <div class="comparison-col" style="border-left:4px solid var(--green-500);">
+          <h5>✅ To Turn ON</h5>
+          <ol>
+            <li>Click the Panel</li>
+            <li>Click 🌍 GLOBAL (or a specific ⛲)</li>
+            <li>Click ⛲ POWER</li>
+          </ol>
+          <div class="toggle-visual" style="margin-top:12px;">
+            <div class="tv-track tv-on"></div>
+            <span class="tv-label">Panel turns <strong>GREEN</strong> 🟢, BPM shows speed</span>
+          </div>
+        </div>
+        <div class="comparison-col" style="border-left:4px solid var(--gray-400);">
+          <h5>❌ To Turn OFF</h5>
+          <ol>
+            <li>Click the Panel</li>
+            <li>Click 🌍 GLOBAL (or a specific ⛲)</li>
+            <li>Click ⛲ POWER again</li>
+          </ol>
+          <div class="toggle-visual" style="margin-top:12px;">
+            <div class="tv-track tv-off"></div>
+            <span class="tv-label">Panel turns <strong>GRAY</strong> ⚪, BPM shows 0000</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>
+          <strong>Good to know:</strong> Your settings (colors, speed, patterns) are <strong>saved</strong> even when the fountain is OFF. Turn it back ON and everything resumes exactly. The fountain root prim becomes invisible when running for a clean look.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 7. COLORS ==================== -->
+<section id="colors">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-amber">🟡</div>
+        <div>
+          <span class="section-num">Section 7</span>
+          <h2>Colors & Lighting</h2>
+        </div>
+      </div>
+      <p>Make your fountain shine with <strong>51 colors</strong>, <strong>10 themes</strong>, and <strong>2 dynamic color modes!</strong></p>
+      <p><strong>How:</strong> Click Panel → select scope → 🟡 <strong>LIGHTS</strong></p>
+
+      <h3>🌈 RGB Mode</h3>
+      <p>Smooth, flowing rainbow spectrum: 🔴→🟠→🟡→🟢→🔵→🟣→🔴</p>
+      <p>8 classic rainbow colors with seamless gradient transitions. Elegant, calm, professional — perfect for formal events.</p>
+
+      <h3>🎨 MULTI Mode</h3>
+      <p>Vibrant 12-color palette cycling: 💖→🟠→🟡→💚→🔵→🟣→💜</p>
+      <p>More variety with 12 carefully chosen colors. Energetic, exciting — perfect for parties & clubs.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Feature</th><th>🌈 RGB</th><th>🎨 MULTI</th></tr></thead>
+          <tbody>
+            <tr><td>Colors</td><td>8</td><td>12</td></tr>
+            <tr><td>Style</td><td>Classic</td><td>Contemporary</td></tr>
+            <tr><td>Vibe</td><td>Calm & Elegant</td><td>Energetic & Fun</td></tr>
+            <tr><td>Best for</td><td>Formal events</td><td>Parties & clubs</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>🎭 Themes — 10 Preset Palettes</h3>
+      <div class="theme-grid">
+        <div class="theme-swatch"><span class="ts-icon">🔆</span><span>NEON</span></div>
+        <div class="theme-swatch"><span class="ts-icon">🎄</span><span>XMAS</span></div>
+        <div class="theme-swatch"><span class="ts-icon">💜</span><span>CUTE</span></div>
+        <div class="theme-swatch"><span class="ts-icon">💖</span><span>LOVE</span></div>
+        <div class="theme-swatch"><span class="ts-icon">❄️</span><span>SNOW</span></div>
+        <div class="theme-swatch"><span class="ts-icon">☁️</span><span>SKY</span></div>
+        <div class="theme-swatch"><span class="ts-icon">🌇</span><span>SUNSET</span></div>
+        <div class="theme-swatch"><span class="ts-icon">💫</span><span>GOLD</span></div>
+        <div class="theme-swatch"><span class="ts-icon">🌲</span><span>FOREST</span></div>
+        <div class="theme-swatch"><span class="ts-icon">🩸</span><span>BLOOD</span></div>
+      </div>
+
+      <h3>🎪 Palettes — 51 Individual Colors</h3>
+      <div class="palette-chips">
+        <div class="palette-chip"><span class="pc-dot" style="background:#e74c3c;"></span>Reds (5)</div>
+        <div class="palette-chip"><span class="pc-dot" style="background:#e67e22;"></span>Oranges (6)</div>
+        <div class="palette-chip"><span class="pc-dot" style="background:#f1c40f;"></span>Yellows (5)</div>
+        <div class="palette-chip"><span class="pc-dot" style="background:#27ae60;"></span>Greens (10)</div>
+        <div class="palette-chip"><span class="pc-dot" style="background:#3498db;"></span>Blues (10)</div>
+        <div class="palette-chip"><span class="pc-dot" style="background:#e91e8c;"></span>Pinks (7)</div>
+        <div class="palette-chip"><span class="pc-dot" style="background:#9b59b6;"></span>Violets (8)</div>
+        <div class="palette-chip"><span class="pc-dot" style="background:#95a5a6;"></span>Grays (6)</div>
+      </div>
+
+      <h3>🌟 GLOW Setting</h3>
+      <p>Go to ⚙️ SETTINGS → 🌟 GLOW to toggle bright particle glow. Essential for nighttime visibility and making colors pop!</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 8. PATTERNS ==================== -->
+<section id="patterns">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-blue">🔄</div>
+        <div>
+          <span class="section-num">Section 8</span>
+          <h2>Patterns (Fountain Sequences)</h2>
+        </div>
+      </div>
+      <p>Patterns control <strong>how</strong> the water jets dance — full fountain choreography!</p>
+      <p><strong>How:</strong> Click Panel → select scope → 🔄 <strong>SEQUENCE</strong></p>
+
+      <div class="feature-grid" style="margin:20px 0;">
+        <div class="feature-item" style="border-left:4px solid var(--blue-500);">
+          <h5>🔁 AUTO</h5>
+          <p>Cycles all 22 patterns automatically. Set it and forget it!</p>
+        </div>
+        <div class="feature-item" style="border-left:4px solid var(--purple-500);">
+          <h5>🎲 RANDOM</h5>
+          <p>Random order — unpredictable and exciting.</p>
+        </div>
+        <div class="feature-item" style="border-left:4px solid var(--amber-500);">
+          <h5>📌 STATIC</h5>
+          <p>Lock one favorite pattern (P0–P21) on repeat.</p>
+        </div>
+      </div>
+
+      <h3>All 22 Patterns</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Name</th><th>Type</th></tr></thead>
+          <tbody>
+            <tr><td>P0</td><td>Synchronized</td><td>All pipes together</td></tr>
+            <tr><td>P1</td><td>Sequential Chase</td><td>One-by-one sweep</td></tr>
+            <tr><td>P2</td><td>Alternating Pairs</td><td>Even/odd toggle</td></tr>
+            <tr><td>P3</td><td>Crescendo Sweep</td><td>Building intensity</td></tr>
+            <tr><td>P4</td><td>Symmetric Wave</td><td>Mirror wave</td></tr>
+            <tr><td>P5</td><td>Mountain Peak</td><td>Center high</td></tr>
+            <tr><td>P6</td><td>Breathing Alt</td><td>Gentle pulsing</td></tr>
+            <tr><td>P7</td><td>Mirror Pairs</td><td>Edge-inward</td></tr>
+            <tr><td>P8</td><td>Heartbeat Pulse</td><td>Calm breathing</td></tr>
+            <tr><td>P9</td><td>Zigzag</td><td>Left-right bounce</td></tr>
+            <tr><td>P10</td><td>Ocean Swell</td><td>Traveling wave</td></tr>
+            <tr><td>P11</td><td>Double Wave</td><td>Two waves</td></tr>
+            <tr><td>P12</td><td>Tiered</td><td>Height gradient</td></tr>
+            <tr><td>P13</td><td>Ripple</td><td>Concentric rings</td></tr>
+            <tr><td>P14</td><td>Dancing Jets</td><td>Random energy</td></tr>
+            <tr><td>P15</td><td>Spotlight</td><td>Solo pipe drama</td></tr>
+            <tr><td>P16</td><td>V-Shape</td><td>Valley formation</td></tr>
+            <tr><td>P17</td><td>Parabolic Arc</td><td>Smooth arc</td></tr>
+            <tr><td>P18</td><td>Spiral Rise</td><td>Spinning height</td></tr>
+            <tr><td>P19</td><td>Grand Finale</td><td>All at maximum!</td></tr>
+            <tr><td>P20</td><td>Sine Wave</td><td>Traveling wave</td></tr>
+            <tr><td>P21</td><td>Equalizer Wave</td><td>All pipes, unique sine heights</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>🎯 Pattern Mood Guide</h3>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h5>🧘 Relaxation</h5>
+          <p>P8 Heartbeat • P10 Ocean Swell</p>
+        </div>
+        <div class="feature-item">
+          <h5>🎉 Energy & Parties</h5>
+          <p>P0 Synchronized • P14 Dancing Jets • P19 Grand Finale</p>
+        </div>
+        <div class="feature-item">
+          <h5>🌹 Beauty & Elegance</h5>
+          <p>P4 Symmetric Wave • P13 Ripple • P17 Parabolic Arc</p>
+        </div>
+        <div class="feature-item">
+          <h5>🎬 Showmanship</h5>
+          <p>P1 Sequential Chase • P15 Spotlight • P18 Spiral Rise</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 9. ANIMATE ==================== -->
+<section id="animate">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-rose">💃</div>
+        <div>
+          <span class="section-num">Section 9</span>
+          <h2>Pipe Animation (ANIMATE)</h2>
+        </div>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div><strong>Requires:</strong> The optional ANIMATE module (shown as ✓ next to fountain name on the HOME screen).</div>
+      </div>
+
+      <p>ANIMATE makes the physical pipe prims <strong>tilt, sway, and move</strong> — adding dramatic motion beyond water particles.</p>
+
+      <p><strong>How:</strong> Click Panel → select scope → 💃 <strong>ANIMATE</strong></p>
+
+      <div class="feature-grid" style="margin:20px 0;">
+        <div class="feature-item" style="border-left:4px solid var(--rose-500);">
+          <h5>💃 NORMAL</h5>
+          <p>Pipes tilt according to tilt patterns — beautiful organic motion.</p>
+        </div>
+        <div class="feature-item" style="border-left:4px solid var(--purple-500);">
+          <h5>🔀 HYBRID ⭐</h5>
+          <p>Combines SEQUENCE + ANIMATE for maximum visual impact!</p>
+        </div>
+        <div class="feature-item" style="border-left:4px solid var(--gray-400);">
+          <h5>🔃 NEUTRAL</h5>
+          <p>Reset all pipes to vertical — use if animation looks "stuck."</p>
+        </div>
+      </div>
+
+      <h3>⏩ Animation Speed</h3>
+      <div class="speed-badges">
+        <span class="speed-badge">⏫ 2.5x</span>
+        <span class="speed-badge">🔼 1.5x</span>
+        <span class="speed-badge" style="background:var(--blue-50);border-color:var(--blue-300);">▶ 1x (default)</span>
+        <span class="speed-badge">⏸ 0.7x</span>
+        <span class="speed-badge">⏯ 0.5x</span>
+        <span class="speed-badge">🔽 0.35x</span>
+        <span class="speed-badge">⏬ 0.25x</span>
+        <span class="speed-badge">🐢 0.15x</span>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-item"><h5>🧘 Meditation</h5><p>0.25x – 0.5x — Slow, graceful</p></div>
+        <div class="feature-item"><h5>🍷 Elegant</h5><p>0.7x – 1x — Smooth, natural</p></div>
+        <div class="feature-item"><h5>🎉 Party</h5><p>1.5x – 2.5x — Fast, dynamic</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 10. SHOWS ==================== -->
+<section id="shows">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-purple">🎭</div>
+        <div>
+          <span class="section-num">Section 10</span>
+          <h2>Choreographed Shows</h2>
+        </div>
+      </div>
+      <p>Pre-programmed, fully automated water performances — a <strong>dancing fountain experience!</strong></p>
+      <ul>
+        <li>✅ Timed pipe movements & tilts</li>
+        <li>✅ Dynamic water height changes</li>
+        <li>✅ Synchronized choreography</li>
+        <li>✅ Background music (most shows)</li>
+      </ul>
+
+      <h3>▶️ How to Start a Show</h3>
+      <ol>
+        <li>Make sure your fountain is <strong>ON</strong> (⛲ POWER first!)</li>
+        <li>Click Panel → select fountain scope</li>
+        <li>Click 🎭 <strong>SHOWS</strong></li>
+        <li>Pick a show — it starts <strong>immediately!</strong> 🎬</li>
+      </ol>
+
+      <h3>🎬 The 5 Shows</h3>
+      <div class="show-grid">
+        <div class="show-card show-grand">
+          <span class="show-emoji">🎭</span>
+          <h4>Grand Opening</h4>
+          <div class="show-meta">~2 min · 24 stages · No music</div>
+          <p>Spectacular theatrical premiere — builds from gentle rise to dramatic climax at maximum height.</p>
+          <div class="show-best">⭐ Best for: Grand openings, ceremonies, first impressions<br>🎨 Colors: SUNSET, NEON, or GOLD</div>
+        </div>
+        <div class="show-card show-romantic">
+          <span class="show-emoji">💕</span>
+          <h4>Romantic Serenade</h4>
+          <div class="show-meta">~4 min · 46 stages · Piano ballad</div>
+          <p>An elegant, graceful emotional journey with smooth rises and tender pacing.</p>
+          <div class="show-best">⭐ Best for: Weddings, quiet evenings, meditation<br>🎨 Colors: LOVE, SUNSET, SNOW, or SKY</div>
+        </div>
+        <div class="show-card show-moonlight">
+          <span class="show-emoji">🌙</span>
+          <h4>Moonlight</h4>
+          <div class="show-meta">~5 min · 52 stages · Classical piano</div>
+          <p>Majestic classical experience with flowing movements and dramatic finale climax.</p>
+          <div class="show-best">⭐ Best for: Classical, elegant venues, upscale<br>🎨 Colors: SNOW, SKY, or GOLD</div>
+        </div>
+        <div class="show-card show-love">
+          <span class="show-emoji">💖</span>
+          <h4>Love Serenade</h4>
+          <div class="show-meta">~5 min · 52 stages · Romantic ballad</div>
+          <p>Passionate romance — a love story told in water with emotional crescendos.</p>
+          <div class="show-best">⭐ Best for: Proposals, Valentine's Day, anniversaries<br>🎨 Colors: LOVE, PINKS, SUNSET, or CUTE</div>
+        </div>
+        <div class="show-card show-vampire">
+          <span class="show-emoji">🧛</span>
+          <h4>Vampire Masquerade</h4>
+          <div class="show-meta">~3 min · 34 stages · Gothic soundtrack</div>
+          <p>Mysterious dark seduction — slow intro builds to dramatic power moments.</p>
+          <div class="show-best">⭐ Best for: Halloween, gothic events, masquerade balls<br>🎨 Colors: BLOOD, VIOLETS, or GRAYS</div>
+        </div>
+      </div>
+
+      <h3>🎮 Show Controls</h3>
+      <div class="feature-grid">
+        <div class="feature-item"><h5>🔄 Loop</h5><p>Toggle repeat mode — show restarts automatically</p></div>
+        <div class="feature-item"><h5>⏹ STOP</h5><p>End the show early — returns to normal mode</p></div>
+        <div class="feature-item"><h5>🎵 MUSIC</h5><p>Volume control: 0% / 25% / 50% / 75% / 100%</p></div>
+      </div>
+
+      <h3>🎨 Mixing Colors with Shows</h3>
+      <p>You can change colors <strong>while a show is playing</strong> — one of the most powerful features!</p>
+      <ol>
+        <li>Start any show</li>
+        <li>While it runs → click 🟡 LIGHTS</li>
+        <li>Choose RGB, MULTI, or a theme</li>
+        <li>Colors apply <strong>instantly</strong> to the show! ✨</li>
+      </ol>
+
+      <h4>🌟 Amazing Combinations</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Show</th><th>Color</th><th>Result</th></tr></thead>
+          <tbody>
+            <tr><td>🎭 Grand</td><td>🌈 RGB</td><td>Elegant ceremony</td></tr>
+            <tr><td>🎭 Grand</td><td>🌇 SUNSET</td><td>Warm welcome</td></tr>
+            <tr><td>💕 Romantic</td><td>💖 LOVE</td><td>Classic romance</td></tr>
+            <tr><td>🌙 Moonlight</td><td>❄️ SNOW</td><td>Classical mood</td></tr>
+            <tr><td>💖 Love</td><td>💖 LOVE</td><td>Pure romance</td></tr>
+            <tr><td>🧛 Vampire</td><td>🩸 BLOOD</td><td>Ultimate dark</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>💬 Chat Commands for Shows</h3>
+      <p>Type these in local chat (owner only). See <a href="#reference">Quick Reference</a> for all chat commands.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Command</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><code>/wx:show grand</code></td><td>Start Grand show</td></tr>
+            <tr><td><code>/wx:show romantic</code></td><td>Start Romantic show</td></tr>
+            <tr><td><code>/wx:show moonlight</code></td><td>Start Moonlight show</td></tr>
+            <tr><td><code>/wx:show love</code></td><td>Start Love show</td></tr>
+            <tr><td><code>/wx:show vampire</code></td><td>Start Vampire show</td></tr>
+            <tr><td><code>/wx:show stop</code></td><td>Stop current show</td></tr>
+            <tr><td><code>/wx:show loop</code></td><td>Toggle loop mode</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>📏 Height Scaling</h3>
+      <p>Shows automatically scale to your fountain's maximum jet height. No configuration needed — it just works!</p>
+
+      <h3>👁️ Best Viewing Distance</h3>
+      <div class="feature-grid">
+        <div class="feature-item"><h5>👁️ Optimal</h5><p>30–50 meters away</p></div>
+        <div class="feature-item"><h5>📏 Range</h5><p>15–100 meters</p></div>
+        <div class="feature-item"><h5>🔊 Sound</h5><p>~40 meters</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 11. SETTINGS ==================== -->
+<section id="settings">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-gray">⚙️</div>
+        <div>
+          <span class="section-num">Section 11</span>
+          <h2>Settings & Configuration</h2>
+        </div>
+      </div>
+      <p><strong>How:</strong> Click Panel → select scope → ⚙️ <strong>SETTINGS</strong><br>
+      Status line shows: <code>SETTINGS H:5 W:OFF G:ON</code></p>
+
+      <div class="feature-grid" style="grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); margin: 24px 0;">
+        <div class="feature-item">
+          <span class="fi-icon">📊</span>
+          <h5>HEIGHT</h5>
+          <p>Water jet height: 1 (low) to 10 (max). Default: 5</p>
+        </div>
+        <div class="feature-item">
+          <span class="fi-icon">⚡</span>
+          <h5>SPEED</h5>
+          <p>Pattern animation speed: 0.25s (fast) to 2s (slow). Default: 1s</p>
+        </div>
+        <div class="feature-item">
+          <span class="fi-icon">💧</span>
+          <h5>SPRAY</h5>
+          <p>Water spray thickness: 1 (thin) to 9 (thick)</p>
+        </div>
+        <div class="feature-item">
+          <span class="fi-icon">🌀</span>
+          <h5>WIND</h5>
+          <p>Toggle wind physics — particles drift sideways. Default: OFF</p>
+        </div>
+        <div class="feature-item">
+          <span class="fi-icon">🌟</span>
+          <h5>GLOW</h5>
+          <p>Bright particle glow — essential at night! Default: ON</p>
+        </div>
+        <div class="feature-item">
+          <span class="fi-icon">🔔</span>
+          <h5>SOUND</h5>
+          <p>Ambient water sound effects. Default: ON</p>
+        </div>
+        <div class="feature-item">
+          <span class="fi-icon">🏀</span>
+          <h5>BOUNCE</h5>
+          <p>Toggle bounce physics — particles bounce off ground. Default: OFF</p>
+        </div>
+        <div class="feature-item">
+          <span class="fi-icon">🔧</span>
+          <h5>PIPE Style</h5>
+          <p>Pipe look: TALL, ROUND, or CUBE</p>
+        </div>
+      </div>
+
+      <h3>🔷 SHAPES — Pipe Arrangements</h3>
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div>SHAPES is only available in <strong>per-fountain mode</strong> (not in GLOBAL).</div>
+      </div>
+      <p>Automatically rearrange your pipes into geometric shapes:</p>
+      <div class="shapes-gallery" style="grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));">
+        <div class="shape-card"><span class="shape-icon">📏</span><h5>LINE</h5></div>
+        <div class="shape-card"><span class="shape-icon">⭕</span><h5>CIRCLE</h5></div>
+        <div class="shape-card"><span class="shape-icon">🌙</span><h5>ARC</h5></div>
+        <div class="shape-card"><span class="shape-icon">〰️</span><h5>WAVE</h5></div>
+        <div class="shape-card"><span class="shape-icon">〰️</span><h5>SPLINE</h5></div>
+        <div class="shape-card"><span class="shape-icon">🔺</span><h5>V-SHAPE</h5></div>
+        <div class="shape-card"><span class="shape-icon">⭐</span><h5>STAR</h5></div>
+        <div class="shape-card"><span class="shape-icon">📐</span><h5>FAN</h5></div>
+        <div class="shape-card"><span class="shape-icon">🌀</span><h5>HELIX</h5></div>
+        <div class="shape-card"><span class="shape-icon">⬜</span><h5>GRID</h5></div>
+      </div>
+      <p style="font-size:14px;color:var(--gray-600);margin-top:8px;">Shape controls: ➖ SMALLER · ➕ BIGGER · ↩ RESTORE · 🔗 DYNAMIC</p>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 12. MULTI-FOUNTAIN ==================== -->
+<section id="multi">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-blue">🌍</div>
+        <div>
+          <span class="section-num">Section 12</span>
+          <h2>Managing Multiple Fountains</h2>
+        </div>
+      </div>
+      <p>ONE Panel can control <strong>up to 8 fountains</strong> simultaneously — one of the most powerful features!</p>
+
+      <h3>📡 How It Works</h3>
+      <ul>
+        <li>Fountains broadcast their presence on a radio channel automatically</li>
+        <li>The Panel listens on the same channel</li>
+        <li>Every <strong>5 seconds</strong>, the Panel sends a "ROLLCALL" — fountains respond with "I'm here!"</li>
+        <li>Fountains that don't respond for <strong>6 seconds</strong> are automatically removed</li>
+      </ul>
+      <div class="callout callout-tip">
+        <span class="callout-icon">📡</span>
+        <div>It's all automatic! Just ensure the Panel and fountains use the <strong>same channel number</strong> (default: -31).</div>
+      </div>
+
+      <h3>🔨 Setup Steps</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content"><h4>Build your first fountain</h4><p>Follow the Quick Start (Section 2)</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content"><h4>Build additional fountains</h4><p>Rez a new Fountain Box, click once to grant permission — 5 pipes auto-rez! Use the Panel's 🔷 SHAPES menu to pick a formation. Each gets a unique name automatically.</p></div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content"><h4>Verify connection</h4><p>Click the Panel — HOME screen shows all fountains. That's it!</p></div>
+        </div>
+      </div>
+
+      <h3>🌍 GLOBAL vs ⛲ Individual</h3>
+      <div class="comparison-row">
+        <div class="comparison-col" style="border-left:4px solid var(--blue-500);">
+          <h5>🌍 GLOBAL — All At Once</h5>
+          <ul>
+            <li>Turn all ON/OFF together</li>
+            <li>Same color across all</li>
+            <li>Synchronized shows</li>
+            <li>"One click controls everything!"</li>
+          </ul>
+        </div>
+        <div class="comparison-col" style="border-left:4px solid var(--green-500);">
+          <h5>⛲ Individual — Just One</h5>
+          <ul>
+            <li>Different colors per fountain</li>
+            <li>Adjust one fountain's settings</li>
+            <li>Access 🔷 SHAPES & 🔧 RENAME</li>
+            <li>Run a show on one only</li>
+          </ul>
+        </div>
+      </div>
+
+      <h3>🔧 Renaming Fountains</h3>
+      <ol>
+        <li>Click Panel → click a ⛲ fountain</li>
+        <li>Click 🔧 <strong>RENAME</strong></li>
+        <li>Type a new name (up to 30 characters)</li>
+        <li>Press Enter — done!</li>
+      </ol>
+      <p style="font-size:14px;color:var(--gray-500);">Names are truncated to 8 characters on buttons due to SL dialog limits.</p>
+
+      <h3>📻 Using Different Channels</h3>
+      <p>Create independent groups of fountains by assigning different channels:</p>
+      <div class="comparison-row">
+        <div class="comparison-col">
+          <h5>Channel -31 (Panel A)</h5>
+          <ul><li>⛲ Fountain 1</li><li>⛲ Fountain 2</li><li>⛲ Fountain 3</li></ul>
+        </div>
+        <div class="comparison-col">
+          <h5>Channel -32 (Panel B)</h5>
+          <ul><li>⛲ Fountain 4</li><li>⛲ Fountain 5</li></ul>
+        </div>
+      </div>
+      <p><strong>To change channel:</strong> Edit the object → Contents tab → open the config notecard → change <code>RemoteChannel</code> → save & reset scripts.</p>
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div>Panel and its fountains <strong>must</strong> use the same channel number!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 13. CHAT COMMANDS ==================== -->
+<section id="chatcmd">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-blue">💬</div>
+        <div>
+          <span class="section-num">Section 13</span>
+          <h2>Chat Commands</h2>
+        </div>
+      </div>
+      <p>Type these in <strong>local chat</strong> (channel 0). Only the <strong>fountain owner</strong> can use them — no Panel required.</p>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Chat commands work per-fountain. Each fountain in range will respond independently.</div>
+      </div>
+
+      <h3>🔄 Pattern Commands</h3>
+      <p>Control which water pattern plays — lock a specific one, cycle automatically, or randomize.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td><code>/wx:pattern list</code></td><td>List all 22 pattern names (P0–P21) in chat</td></tr>
+            <tr><td><code>/wx:pattern 5</code></td><td>Lock to pattern #5 (STATIC mode). Use any number 0–21</td></tr>
+            <tr><td><code>/wx:pattern auto</code></td><td>Resume cycling through all patterns</td></tr>
+            <tr><td><code>/wx:pattern random</code></td><td>Pick a random pattern each cycle</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout callout-info" style="margin-top:12px;">
+        <span class="callout-icon">ℹ️</span>
+        <div>STATIC mode stays on one pattern until you switch back to <code>auto</code> or <code>random</code>.</div>
+      </div>
+
+      <h3>🎭 Show Commands</h3>
+      <p>Launch choreographed shows (requires the Animate Module).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td><code>/wx:show grand</code></td><td>Start the Grand show</td></tr>
+            <tr><td><code>/wx:show romantic</code></td><td>Start the Romantic show</td></tr>
+            <tr><td><code>/wx:show moonlight</code></td><td>Start the Moonlight show</td></tr>
+            <tr><td><code>/wx:show love</code></td><td>Start the Love show</td></tr>
+            <tr><td><code>/wx:show vampire</code></td><td>Start the Vampire show</td></tr>
+            <tr><td><code>/wx:show stop</code></td><td>Stop the current show</td></tr>
+            <tr><td><code>/wx:show loop</code></td><td>Toggle show loop mode on/off</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>🔧 Utility Commands</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
+          <tbody>
+            <tr><td><code>/wx:straighten</code></td><td>Reset all pipes to vertical (fixes tilted pipes)</td></tr>
+            <tr><td><code>/wx:debug</code></td><td>Toggle debug output for all scripts</td></tr>
+            <tr><td><code>/wx:debug on</code></td><td>Force debug on (<code>off</code> to disable)</td></tr>
+            <tr><td><code>/wx:debug:engine</code></td><td>Debug a single script: <code>engine</code>, <code>console</code>, <code>animate</code>, <code>show</code>, <code>particle</code></td></tr>
+            <tr><td><code>/wx:memory</code></td><td>Toggle memory profiling (shows free bytes per script)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip" style="margin-top:16px;">
+        <span class="callout-icon">💡</span>
+        <div><strong>Quick examples:</strong><br>
+          <code>/wx:pattern 21</code> — lock Equalizer Wave<br>
+          <code>/wx:pattern list</code> — see all pattern names<br>
+          <code>/wx:show grand</code> — launch Grand show<br>
+          <code>/wx:pattern auto</code> — go back to cycling
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 14. ADMIN ==================== -->
+<section id="admin">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-gray">🛠</div>
+        <div>
+          <span class="section-num">Section 14</span>
+          <h2>Admin Tools</h2>
+        </div>
+      </div>
+      <p>Access system-level tools from HOME → 🛠 <strong>ADMIN</strong></p>
+
+      <div class="feature-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin: 20px 0;">
+        <div class="feature-item" style="border-left:4px solid var(--red-500);">
+          <h5>♻️ RESET ALL</h5>
+          <p>Complete system reset. Returns all fountains to defaults. Use when things seem "stuck."</p>
+        </div>
+        <div class="feature-item" style="border-left:4px solid var(--blue-500);">
+          <h5>🔐 ACCESS</h5>
+          <p>Grant nearby avatars (within 96m) permission to control your fountain.</p>
+        </div>
+        <div class="feature-item" style="border-left:4px solid var(--gray-400);">
+          <h5>📋 STATUS</h5>
+          <p>View connected fountains count and free script memory.</p>
+        </div>
+        <div class="feature-item" style="border-left:4px solid var(--green-500);">
+          <h5>📖 GUIDE</h5>
+          <p>Opens the online User Guide webpage in your browser.</p>
+        </div>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>By default, only the <strong>owner</strong> can use the Panel. Use ACCESS to add friends, partners, or event staff.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 14. ADVANCED CONFIG ==================== -->
+<section id="config">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-amber">🔧</div>
+        <div>
+          <span class="section-num">Section 15</span>
+          <h2>Advanced Configuration</h2>
+        </div>
+      </div>
+      <p>For power users — customize defaults by editing notecards directly.</p>
+
+      <h3>📟 Panel Configuration</h3>
+      <p>Notecard: <strong>"S.M.A.R.T MASTER CONFIG"</strong> (inside the Panel object)</p>
+      <div class="config-block">
+        <span class="cfg-comment"># Communication channel</span><br>
+        <span class="cfg-key">RemoteChannel</span> = <span class="cfg-val">-31</span><br><br>
+        <span class="cfg-comment"># People allowed to use the panel</span><br>
+        <span class="cfg-key">Access</span> = <span class="cfg-val">FriendName1</span><br>
+        <span class="cfg-key">Access</span> = <span class="cfg-val">FriendName2</span>
+      </div>
+
+      <h3>⛲ Fountain Configuration</h3>
+      <p>Notecard: <strong>"S.M.A.R.T SLAVE CONFIG"</strong> (inside the Fountain Box root prim)</p>
+      <div class="config-block">
+        <span class="cfg-key">RemoteChannel</span> = <span class="cfg-val">-31</span> <span class="cfg-comment"># Must match Panel!</span><br>
+        <span class="cfg-key">Throttle</span> = <span class="cfg-val">5.2</span> <span class="cfg-comment"># Default jet height (m)</span><br>
+        <span class="cfg-key">Glow</span> = <span class="cfg-val">TRUE</span> <span class="cfg-comment"># Particle glow on startup</span><br>
+        <span class="cfg-key">Wind</span> = <span class="cfg-val">FALSE</span> <span class="cfg-comment"># Wind physics on startup</span><br>
+        <span class="cfg-key">SoundLevel</span> = <span class="cfg-val">0.15</span> <span class="cfg-comment"># 0.0 – 1.0</span><br>
+        <span class="cfg-key">LightMode</span> = <span class="cfg-val">1</span> <span class="cfg-comment"># 1=STATIC 2=RGB 3=MULTI 4=THEMED</span><br>
+        <span class="cfg-key">Theme</span> = <span class="cfg-val">8</span> <span class="cfg-comment"># Theme 1-10</span><br>
+        <span class="cfg-key">WaterColor</span> = <span class="cfg-val">#B0E0E6</span> <span class="cfg-comment"># Default color (hex)</span><br>
+        <span class="cfg-key">DefaultShape</span> = <span class="cfg-val">CIRCLE</span> <span class="cfg-comment"># Auto arrangement on startup (NONE, LINE, CIRCLE, ARC, etc.)</span><br>
+        <span class="cfg-key">DefaultShapeScale</span> = <span class="cfg-val">2.0</span> <span class="cfg-comment"># Size multiplier: 0.5 – 3.0</span>
+      </div>
+
+      <div class="callout callout-warn">
+        <span class="callout-icon">⚠️</span>
+        <div>After editing notecards, you must <strong>right-click the object → Reset Scripts</strong> for changes to take effect.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 15. TROUBLESHOOTING ==================== -->
+<section id="troubleshoot">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-rose">❓</div>
+        <div>
+          <span class="section-num">Section 16</span>
+          <h2>Troubleshooting</h2>
+        </div>
+      </div>
+
+      <div class="callout callout-tip" style="margin-bottom: 24px;">
+        <span class="callout-icon">🔧</span>
+        <div><strong>Universal Fix (solves 90% of issues):</strong> Click Panel → 🛠 ADMIN → ♻️ RESET ALL. Everything returns to defaults!</div>
+      </div>
+
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">💧 Water doesn't appear</button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <p><strong>Check:</strong> Is the fountain ON? Is HEIGHT above 0? Was the Fountain Box the root prim?</p>
+            <ol>
+              <li>Go to ⚙️ SETTINGS → 📊 HEIGHT → type <strong>5</strong></li>
+              <li>Turn fountain ON via ⛲ POWER</li>
+              <li>Wait 5 seconds</li>
+              <li>Still not working? Unlink and re-link with Fountain Box selected <strong>last</strong>.</li>
+            </ol>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">📟 Panel doesn't respond</button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <ol>
+              <li>Right-click Panel → Edit</li>
+              <li>Build menu → <strong>Reset Scripts</strong></li>
+              <li>Wait 10 seconds, then click panel again</li>
+            </ol>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">⛲ Fountain not showing on Panel</button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <p><strong>Check:</strong> Same channel? (both -31 by default) In same region/sim?</p>
+            <ol>
+              <li>Verify both notecards say <code>RemoteChannel = -31</code></li>
+              <li>Reset both objects' scripts</li>
+              <li>Wait 5 seconds (one heartbeat cycle)</li>
+              <li>Click Panel — fountain should appear</li>
+            </ol>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">🎨 Colors not changing</button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <ol>
+              <li>Click 🟡 LIGHTS → try 🎭 THEMES → pick any theme</li>
+              <li>Wait 2 seconds</li>
+              <li>Still wrong? Go to ⚙️ SETTINGS → enable 🌟 GLOW</li>
+            </ol>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">🔄 Multiple fountains out of sync</button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <ol>
+              <li>Ensure both use the <strong>same channel number</strong></li>
+              <li>🛠 ADMIN → ♻️ RESET ALL</li>
+              <li>Turn all ON via 🌍 GLOBAL → ⛲ POWER</li>
+            </ol>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">📟 BPM shows 0000 when ON</button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <ol>
+              <li>GLOBAL → ⛲ POWER (turn OFF)</li>
+              <li>⛲ POWER again (turn ON)</li>
+              <li>Display should now show 0060</li>
+            </ol>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">🔘 Toggle button doesn't move</button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <ol>
+              <li>Right-click Panel → Edit</li>
+              <li>Check for small sphere on top</li>
+              <li>If present: Reset Scripts</li>
+              <li>If missing: Panel may need rebuild</li>
+            </ol>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">🎭 Show won't start</button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <p><strong>Check:</strong> Is the fountain ON? Does it have ✓ (ANIMATE module)?</p>
+            <ol>
+              <li>Turn fountain <strong>ON</strong> first</li>
+              <li>Then go to 🎭 SHOWS → pick a show</li>
+              <li>If no ✓, the ANIMATE module isn't linked — check fountain contents</li>
+            </ol>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">🔧 Something weird happened</button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <p>Just reset! Click 🛠 ADMIN → ♻️ RESET ALL. This fixes almost everything — all settings return to defaults and the fountain keeps working.</p>
+          </div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">💧 Water jets shooting sideways instead of up</button>
+          <div class="faq-a"><div class="faq-a-inner">
+            <p><strong>Cause:</strong> Pipes may have been manually tilted or the fountain was rotated after setup.</p>
+            <ol>
+              <li>Type <code>/wx:straighten</code> in local chat</li>
+              <li>All pipes reset to world-vertical orientation</li>
+              <li>Water will now shoot straight up!</li>
+            </ol>
+            <p style="margin-top:8px;">This command compensates for your fountain's root rotation automatically.</p>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== 16. QUICK REFERENCE ==================== -->
+<section id="reference">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-blue">📋</div>
+        <div>
+          <span class="section-num">Section 17</span>
+          <h2>Quick Reference</h2>
+        </div>
+      </div>
+
+      <h3>🗺️ Complete Menu Map</h3>
+      <div class="menu-tree">🏠 HOME
+├── 🌍 GLOBAL (all fountains)
+│   ├── ⛲ POWER — ON / OFF
+│   ├── 🔄 SEQUENCE — AUTO / RANDOM / STATIC (P0–P21)
+│   ├── 💃 ANIMATE — NORMAL / HYBRID / SPEED
+│   ├── 🎭 SHOWS — 5 shows + Loop + Stop + Music volume
+│   ├── 🟡 LIGHTS — RGB / MULTI / 10 Themes / 51 Colors
+│   └── ⚙️ SETTINGS — Height / Speed / Spray / Wind / Glow / Sound
+│
+├── ⛲ [Fountain Name] (single fountain)
+│   ├── (same as GLOBAL, plus:)
+│   ├── 🔷 SHAPES — 10 arrangements + sizing + Dynamic
+│   └── 🔧 RENAME — change fountain name
+│
+└── 🛠 ADMIN
+    ├── ♻️ RESET ALL
+    ├── 🔐 ACCESS
+    ├── 📋 STATUS
+    └── 📖 GUIDE</div>
+
+      <h3>⚡ Common Tasks Cheat Sheet</h3>
+      <div class="cheat-grid">
+        <div class="cheat-item"><span class="cheat-what">Turn fountain on</span><span class="cheat-how">GLOBAL → ⛲ POWER</span></div>
+        <div class="cheat-item"><span class="cheat-what">Change color</span><span class="cheat-how">GLOBAL → 🟡 LIGHTS</span></div>
+        <div class="cheat-item"><span class="cheat-what">Rainbow effect</span><span class="cheat-how">LIGHTS → 🌈 RGB</span></div>
+        <div class="cheat-item"><span class="cheat-what">Party colors</span><span class="cheat-how">LIGHTS → 🎨 MULTI</span></div>
+        <div class="cheat-item"><span class="cheat-what">Sunset theme</span><span class="cheat-how">LIGHTS → 🎭 → SUNSET</span></div>
+        <div class="cheat-item"><span class="cheat-what">Change pattern</span><span class="cheat-how">GLOBAL → 🔄 SEQUENCE</span></div>
+        <div class="cheat-item"><span class="cheat-what">Lock a pattern</span><span class="cheat-how">SEQUENCE → 📌 STATIC</span></div>
+        <div class="cheat-item"><span class="cheat-what">Start a show</span><span class="cheat-how">GLOBAL → 🎭 SHOWS</span></div>
+        <div class="cheat-item"><span class="cheat-what">Loop a show</span><span class="cheat-how">SHOWS → 🔄 Loop</span></div>
+        <div class="cheat-item"><span class="cheat-what">Stop a show</span><span class="cheat-how">SHOWS → ⏹ STOP</span></div>
+        <div class="cheat-item"><span class="cheat-what">Adjust height</span><span class="cheat-how">SETTINGS → 📊 HEIGHT</span></div>
+        <div class="cheat-item"><span class="cheat-what">Add wind</span><span class="cheat-how">SETTINGS → 🌀 WIND</span></div>
+        <div class="cheat-item"><span class="cheat-what">Make brighter</span><span class="cheat-how">SETTINGS → 🌟 GLOW</span></div>
+        <div class="cheat-item"><span class="cheat-what">Change pipe style</span><span class="cheat-how">SETTINGS → 🔧 PIPE</span></div>
+        <div class="cheat-item"><span class="cheat-what">Rearrange shape</span><span class="cheat-how">[Fountain] → 🔷 SHAPES</span></div>
+        <div class="cheat-item"><span class="cheat-what">Rename fountain</span><span class="cheat-how">[Fountain] → 🔧 RENAME</span></div>
+        <div class="cheat-item"><span class="cheat-what">Grant access</span><span class="cheat-how">ADMIN → 🔐 ACCESS</span></div>
+        <div class="cheat-item"><span class="cheat-what">Fix everything</span><span class="cheat-how">ADMIN → ♻️ RESET ALL</span></div>
+        <div class="cheat-item"><span class="cheat-what">Lock pattern (chat)</span><span class="cheat-how">/wx:pattern 5</span></div>
+        <div class="cheat-item"><span class="cheat-what">Debug mode (chat)</span><span class="cheat-how">/wx:debug</span></div>
+      </div>
+
+      <h3>📊 Default Values</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Setting</th><th>Default</th></tr></thead>
+          <tbody>
+            <tr><td>BPM Speed</td><td>60</td></tr>
+            <tr><td>Height</td><td>5</td></tr>
+            <tr><td>Jet Height (meters)</td><td>5.2</td></tr>
+            <tr><td>Volume</td><td>0.15</td></tr>
+            <tr><td>Wind</td><td>OFF</td></tr>
+            <tr><td>Glow</td><td>ON</td></tr>
+            <tr><td>Sound</td><td>ON</td></tr>
+            <tr><td>Pattern</td><td>AUTO</td></tr>
+            <tr><td>Bounce</td><td>OFF</td></tr>
+            <tr><td>Channel</td><td>-31</td></tr>
+            <tr><td>Pipe Style</td><td>TALL (change via Panel)</td></tr>
+            <tr><td>Shape</td><td>CIRCLE</td></tr>
+            <tr><td>Shape Scale</td><td>2.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>💬 Chat Commands (Owner Only)</h3>
+      <p>Type these in <strong>local chat</strong> (channel 0). Only the fountain owner can use them.</p>
+
+      <h4>🎭 Show Commands</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Command</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><code>/wx:show grand</code></td><td>Start Grand show</td></tr>
+            <tr><td><code>/wx:show romantic</code></td><td>Start Romantic show</td></tr>
+            <tr><td><code>/wx:show moonlight</code></td><td>Start Moonlight show</td></tr>
+            <tr><td><code>/wx:show love</code></td><td>Start Love show</td></tr>
+            <tr><td><code>/wx:show vampire</code></td><td>Start Vampire show</td></tr>
+            <tr><td><code>/wx:show stop</code></td><td>Stop current show</td></tr>
+            <tr><td><code>/wx:show loop</code></td><td>Toggle loop mode</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>🔄 Pattern Commands</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Command</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><code>/wx:pattern list</code></td><td>Show all 22 pattern names (P0–P21)</td></tr>
+            <tr><td><code>/wx:pattern 5</code></td><td>Lock pattern #5 (STATIC mode) — any number 0–21</td></tr>
+            <tr><td><code>/wx:pattern auto</code></td><td>Cycle through all patterns automatically</td></tr>
+            <tr><td><code>/wx:pattern random</code></td><td>Random pattern each cycle</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h4>🔧 Utility Commands</h4>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Command</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><code>/wx:straighten</code></td><td>Reset all pipes to vertical (world up)</td></tr>
+            <tr><td><code>/wx:debug</code></td><td>Toggle debug output for all scripts</td></tr>
+            <tr><td><code>/wx:debug on</code></td><td>Enable debug (use <code>off</code> to disable)</td></tr>
+            <tr><td><code>/wx:debug:engine</code></td><td>Debug one script only (engine, console, animate, show, particle)</td></tr>
+            <tr><td><code>/wx:memory</code></td><td>Toggle memory profiling across all scripts</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <div class="footer-brand">💧 WaterWorx — S.M.A.R.T Fountain System V4.0</div>
+  <p>Complete water choreography for Second Life</p>
+  <p style="margin-top:8px;font-size:12px;color:var(--gray-500);">22 patterns · 51 colors · 10 themes · 5 choreographed shows · Multi-fountain sync · Chat commands</p>
+  <div class="footer-links">
+    <a href="https://marketplace.secondlife.com/p/SMART-PRO-EDITION-NEXT-LEVEL-FOUNTAIN/23738894" target="_blank" rel="noopener">🛍️ Buy on Marketplace</a>
+    <a href="#top">Back to Top</a>
+    <a href="#quickstart">Quick Start</a>
+    <a href="#shows">Shows</a>
+    <a href="#reference">Reference</a>
+  </div>
+  <p style="margin-top:24px;font-size:12px;">Thank you for choosing WaterWorx! 🎉</p>
+</footer>
+
+<!-- Scroll-to-top button -->
+<button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">↑</button>
+
+<script>
+  // Sticky nav shadow
+  const nav = document.getElementById('stickyNav');
+  const scrollBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 100);
+    scrollBtn.classList.toggle('show', window.scrollY > 600);
+  });
+
+  // Close mobile menu on link click
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => {
+      document.querySelector('.nav-links').classList.remove('mobile-open');
+    });
+  });
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.classList.remove('active'));
+        const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-30% 0px -60% 0px' });
+  sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
