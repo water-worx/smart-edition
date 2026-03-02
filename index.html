@@ -861,6 +861,7 @@
       <a href="#animate">💃 Animate</a>
       <a href="#shows">🎭 Shows</a>
       <a href="#settings">⚙️ Settings</a>
+      <a href="#custom-shapes">📐 Custom Shapes</a>
       <a href="#multi">🌍 Multi</a>
       <a href="#chatcmd">💬 Chat</a>
       <a href="#speaker">🔊 Speaker</a>
@@ -935,20 +936,24 @@
           <h2>Quick Start — 5 Minutes!</h2>
         </div>
       </div>
-      <p>Follow these 5 simple steps and your fountain will be running in minutes.</p>
+      <p>Follow these steps and your fountain will be running in minutes.</p>
 
       <div class="steps">
         <div class="step">
           <div class="step-num">1</div>
           <div class="step-content">
-            <h4>Rez the Panel</h4>
+            <h4>Rez &amp; Configure the Panel</h4>
             <ol>
               <li>Open your Second Life Inventory</li>
-              <li>Find <strong>"S.M.A.R.T PANEL V4.0"</strong></li>
+              <li>Find <strong>"S.M.A.R.T PANEL V4.3"</strong></li>
               <li>Right-click → Drag to ground (Rez)</li>
-              <li>Wait for the chat message: 📟 <em>"BPM Display Ready"</em></li>
-              <li>Position it where you can reach it</li>
+              <li><strong>Touch (click) the Panel</strong> — on first use a channel dialog appears</li>
+              <li>Enter a channel number — e.g. <strong>-31</strong> — and press Enter</li>
             </ol>
+            <div class="callout callout-info">
+              <span class="callout-icon">📡</span>
+              <div>The channel is <strong>saved permanently</strong> — even through script resets and sim restarts. Every Panel and Fountain that should work together must use the <strong>same number</strong>.</div>
+            </div>
           </div>
         </div>
 
@@ -966,10 +971,11 @@
         <div class="step">
           <div class="step-num">3</div>
           <div class="step-content">
-            <h4>Grant Permission — Pipes Auto-Rez!</h4>
+            <h4>Grant Permission &amp; Set Channel — Pipes Auto-Rez!</h4>
             <ol>
               <li><strong>Click the Fountain Box once</strong> — a permission dialog appears</li>
               <li>Click <strong>"Yes"</strong> to grant rez permission</li>
+              <li>A <strong>channel dialog</strong> appears — enter the <strong>same number as the Panel</strong> (e.g. <code>-31</code>)</li>
               <li><strong>5 pipes auto-rez and auto-link</strong> in a line formation — no manual work!</li>
             </ol>
             <div class="callout callout-tip">
@@ -1599,6 +1605,7 @@
       </div>
       <p style="font-size:14px;color:var(--gray-600);margin-top:8px;">Shape controls: ➖ SMALLER · ➕ BIGGER · ↩ RESTORE · 🔗 DYNAMIC</p>
 
+      <div id="custom-shapes"></div>
       <h3>📐 Custom Shape Slots — Save &amp; Load Your Own Layouts</h3>
       <p>Arrange your pipes exactly the way you want, then <strong>save that layout</strong> to one of 3 custom slots. Reload it any time in one click.</p>
 
@@ -1637,10 +1644,11 @@
         <span class="callout-icon">💡</span>
         <div>All 3 slots are independent — save different layouts for different occasions (e.g., romantic heart for events, circle for everyday, star for parties).</div>
       </div>
-    </div>
-  </div>
-</section>
 
+      <div class="callout callout-info" style="margin-top:16px;">
+        <span class="callout-icon">📐</span>
+        <div>Looking for a one-click way to arrange pipes into presets like circle, star, or arc? Those are at the top of this Settings section under <strong>🔷 SHAPES</strong> — scroll up, or go to <a href="#shapes">🌊 Shapes</a>.</div>
+      </div>
 <hr class="section-divider">
 
 <!-- ==================== 12. MULTI-FOUNTAIN ==================== -->
@@ -2308,7 +2316,9 @@
           <li><strong>🌈 RAINBOW Mode</strong> — New 5th light mode! Full-spectrum per-pipe hue spread with smooth continuous rotation. Every pipe shows a different color simultaneously.</li>
           <li><strong>🔴🟢🔵 RGB Refinement</strong> — RGB mode now uses a structured 3-phase cycle (vivid holds → rainbow sweep → gentle pastels), distinct from RAINBOW.</li>
           <li><strong>4 New Patterns (P22–P25)</strong> — Bounce, Cathedral, Counter Chase, Stagger Pulse — bringing the total to 26 choreographed patterns.</li>
-          <li><strong>Channel via Linkset Data</strong> — Channel is now set on first touch and saved permanently — no notecard editing required.</li>
+          <li><strong>📐 Custom Shape Slots</strong> — Save any pipe arrangement to one of 3 custom slots (A/B/C) via <code>SHAPES → EXPORT</code>. Load back instantly, persists across resets.</li>
+          <li><strong>🔊 Wireless Speaker</strong> — Standalone music player object. Passively listens on the fountain channel and auto-plays the matching track when a show starts. Volume, loop, mute controls included.</li>
+          <li><strong>📡 Channel via Linkset Data</strong> — Communication channel is now set on first touch via a text-box and <strong>saved permanently</strong> — no notecard editing required. Change any time via <strong>ADMIN → 📡 CH</strong>.</li>
           <li><strong>Guide URL Updated</strong> — In-world GUIDE button now opens <code>water-worx.github.io/smart-edition</code>.</li>
           <li><strong>Button Fix</strong> — Fixed RGB button emoji detection in Panel menus.</li>
         </ul>
