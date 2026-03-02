@@ -863,8 +863,9 @@
       <a href="#settings">⚙️ Settings</a>
       <a href="#multi">🌍 Multi</a>
       <a href="#chatcmd">💬 Chat</a>
-      <a href="#changelog">📋 Log</a>
+      <a href="#speaker">🔊 Speaker</a>
       <a href="#admin">🛠 Admin</a>
+      <a href="#changelog">📋 Log</a>
       <a href="#troubleshoot">❓ Help</a>
       <a href="#reference">📋 Ref</a>
     </div>
@@ -1597,6 +1598,45 @@
         <div class="shape-card"><span class="shape-icon">⬜</span><h5>GRID</h5></div>
       </div>
       <p style="font-size:14px;color:var(--gray-600);margin-top:8px;">Shape controls: ➖ SMALLER · ➕ BIGGER · ↩ RESTORE · 🔗 DYNAMIC</p>
+
+      <h3>📐 Custom Shape Slots — Save &amp; Load Your Own Layouts</h3>
+      <p>Arrange your pipes exactly the way you want, then <strong>save that layout</strong> to one of 3 custom slots. Reload it any time in one click.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Arrange your pipes</h4>
+            <p>Use any SHAPES preset, or move pipes manually in the viewer into your custom arrangement.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Export to notecard</h4>
+            <p>Click Panel → select fountain → <strong>🔷 SHAPES → page 3 → 📤 EXPORT</strong>.<br>The fountain outputs all pipe positions to <em>owner chat</em>. Copy that text.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Paste into the notecard</h4>
+            <p>Edit the fountain contents → open <strong>"S.M.A.R.T CUSTOM SHAPES"</strong> notecard → paste under <code>[A]</code>, <code>[B]</code>, or <code>[C]</code> → save.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-content">
+            <h4>Load it back any time</h4>
+            <p>Click Panel → fountain → <strong>🔷 SHAPES → page 3 → Ⓐ SLOT A / Ⓑ SLOT B / Ⓒ SLOT C</strong>.<br>Pipes jump to your saved positions instantly.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>All 3 slots are independent — save different layouts for different occasions (e.g., romantic heart for events, circle for everyday, star for parties).</div>
+      </div>
     </div>
   </div>
 </section>
@@ -1687,10 +1727,10 @@
           <ul><li>⛲ Fountain 4</li><li>⛲ Fountain 5</li></ul>
         </div>
       </div>
-      <p><strong>To change channel:</strong> Edit the object → Contents tab → open the config notecard → change <code>RemoteChannel</code> → save & reset scripts.</p>
+      <p><strong>To set/change a channel:</strong> Touch the object for the first time — you'll be prompted to enter a channel number. Already set? Touch the Panel, go to <strong>🛠 ADMIN → 📡 CHANNEL</strong> to change it.</p>
       <div class="callout callout-warn">
         <span class="callout-icon">⚠️</span>
-        <div>Panel and its fountains <strong>must</strong> use the same channel number!</div>
+        <div>Panel and its fountains <strong>must</strong> use the same channel number! The channel persists across restarts — set each object once.</div>
       </div>
     </div>
   </div>
@@ -1810,11 +1850,110 @@
           <h5>📖 GUIDE</h5>
           <p>Opens the online User Guide webpage in your browser.</p>
         </div>
+        <div class="feature-item" style="border-left:4px solid var(--cyan-500);">
+          <h5>📡 CH</h5>
+          <p>Change the communication channel. Shows the current channel and lets you enter a new one.</p>
+        </div>
       </div>
 
       <div class="callout callout-tip">
         <span class="callout-icon">💡</span>
         <div>By default, only the <strong>owner</strong> can use the Panel. Use ACCESS to add friends, partners, or event staff.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="section-divider">
+
+<!-- ==================== SPEAKER ==================== -->
+<section id="speaker">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-purple">🔊</div>
+        <div>
+          <span class="section-num">Add-on</span>
+          <h2>Speaker — Wireless Music Player</h2>
+        </div>
+      </div>
+
+      <p>The <strong>S.M.A.R.T Speaker</strong> is a <strong>standalone wireless object</strong> — not linked to the Fountain or Panel. Place it anywhere in your region and it automatically plays the correct music track whenever a show starts.</p>
+
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div>Music is <strong>only played by the Speaker</strong>. The Fountain itself never plays music — it only controls the water choreography.</div>
+      </div>
+
+      <h3>⚡ How It Works</h3>
+      <ul>
+        <li>The Speaker listens on the <strong>same channel</strong> as your fountain</li>
+        <li>When you start a show, the fountain broadcasts a show command</li>
+        <li>The Speaker detects it and <strong>automatically plays the matching track</strong></li>
+        <li>No manual interaction needed — it all happens passively</li>
+      </ul>
+
+      <h3>🔧 Setup (One Time)</h3>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-content">
+            <h4>Rez the Speaker</h4>
+            <p>Drag it from your inventory and place it anywhere in the region.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-content">
+            <h4>Set the channel</h4>
+            <p><strong>Touch the Speaker</strong>. A text-box appears asking for the channel number. Enter the <strong>same channel as your fountain</strong> (default: <code>-31</code>). The channel is saved permanently.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-content">
+            <h4>Start a Show</h4>
+            <p>Click your Panel → SHOWS → pick any show. The Speaker detects it and music starts automatically! 🎵</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>🎵 Show → Music Mapping</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Show</th><th>Music Track</th></tr></thead>
+          <tbody>
+            <tr><td>🎭 Grand Opening</td><td><em>No music</em> (water choreography only)</td></tr>
+            <tr><td>💕 Romantic Serenade</td><td>Piano — Perfect</td></tr>
+            <tr><td>🌙 Moonlight</td><td>Moonlight Sonata</td></tr>
+            <tr><td>💖 Love Serenade</td><td>My Heart Will Go On (piano)</td></tr>
+            <tr><td>🧛 Vampire Masquerade</td><td>Vampire Masquerade</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>🎮 Speaker Controls (touch to open menu)</h3>
+      <div class="feature-grid">
+        <div class="feature-item"><h5>🔊 Volume</h5><p>Adjust playback volume — 0% / 25% / 50% / 75% / 100%</p></div>
+        <div class="feature-item"><h5>🔁 Loop</h5><p>Toggle whether the current track loops</p></div>
+        <div class="feature-item"><h5>🔇 Mute</h5><p>Silence music without stopping the show</p></div>
+        <div class="feature-item"><h5>⏹ Stop</h5><p>Stop playback immediately</p></div>
+        <div class="feature-item"><h5>📡 Channel</h5><p>Change which fountain channel the Speaker listens to</p></div>
+      </div>
+
+      <h3>📦 Adding Custom Music</h3>
+      <p>Drop any sound file into the Speaker prim's inventory. Name files using the convention:</p>
+      <div class="config-block">
+        <span class="cfg-comment"># Format: Prefix-SegmentNumber-Duration</span><br>
+        <span class="cfg-val">Piano-Perfect-1-9.9</span>   <span class="cfg-comment"># Segment 1, 9.9 seconds</span><br>
+        <span class="cfg-val">Piano-Perfect-2-9.9</span>   <span class="cfg-comment"># Segment 2, 9.9 seconds</span><br>
+        <span class="cfg-val">Piano-Perfect-3-9.9</span>   <span class="cfg-comment"># Segment 3, 9.9 seconds ...</span>
+      </div>
+      <p style="font-size:14px;color:var(--gray-600);">The Speaker plays segments in order, using the segment duration for timing. Place all segments of the same track with the same prefix.</p>
+
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Position the Speaker close to your fountain for the best immersive experience. SL sound fades beyond ~40 m. Multiple Speakers can coexist using different channels.</div>
       </div>
     </div>
   </div>
@@ -1835,20 +1974,34 @@
       </div>
       <p>For power users — customize defaults by editing notecards directly.</p>
 
+      <h3>� Channel Setup (First Touch)</h3>
+      <p>The communication channel between the Panel and fountains is configured <strong>automatically on first touch</strong> — no notecard editing needed!</p>
+      <ol>
+        <li>Rez the Panel (or Fountain). <strong>Touch it for the first time.</strong></li>
+        <li>A text-box dialog appears asking for a channel number.</li>
+        <li>Enter any number (e.g. <strong>-31</strong>) and press Enter.</li>
+        <li>The channel is <strong>saved permanently</strong> in the object even through resets and sim restarts.</li>
+      </ol>
+      <div class="callout callout-tip">
+        <span class="callout-icon">💡</span>
+        <div>Every Panel and Fountain you want to work together <strong>must use the same channel</strong>. Set each one to the same number on first touch.</div>
+      </div>
+
       <h3>📟 Panel Configuration</h3>
       <p>Notecard: <strong>"S.M.A.R.T MASTER CONFIG"</strong> (inside the Panel object)</p>
       <div class="config-block">
-        <span class="cfg-comment"># Communication channel</span><br>
-        <span class="cfg-key">RemoteChannel</span> = <span class="cfg-val">-31</span><br><br>
         <span class="cfg-comment"># People allowed to use the panel</span><br>
         <span class="cfg-key">Access</span> = <span class="cfg-val">FriendName1</span><br>
         <span class="cfg-key">Access</span> = <span class="cfg-val">FriendName2</span>
+      </div>
+      <div class="callout callout-info">
+        <span class="callout-icon">ℹ️</span>
+        <div><code>RemoteChannel</code> is no longer in this notecard — it is now saved automatically via the first-touch setup above.</div>
       </div>
 
       <h3>⛲ Fountain Configuration</h3>
       <p>Notecard: <strong>"S.M.A.R.T SLAVE CONFIG"</strong> (inside the Fountain Box root prim)</p>
       <div class="config-block">
-        <span class="cfg-key">RemoteChannel</span> = <span class="cfg-val">-31</span> <span class="cfg-comment"># Must match Panel!</span><br>
         <span class="cfg-key">Throttle</span> = <span class="cfg-val">5.2</span> <span class="cfg-comment"># Default jet height (m)</span><br>
         <span class="cfg-key">Glow</span> = <span class="cfg-val">TRUE</span> <span class="cfg-comment"># Particle glow on startup</span><br>
         <span class="cfg-key">Wind</span> = <span class="cfg-val">FALSE</span> <span class="cfg-comment"># Wind physics on startup</span><br>
@@ -1913,9 +2066,10 @@
         <div class="faq-item">
           <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">⛲ Fountain not showing on Panel</button>
           <div class="faq-a"><div class="faq-a-inner">
-            <p><strong>Check:</strong> Same channel? (both -31 by default) In same region/sim?</p>
+            <p><strong>Check:</strong> Are both using the same channel? Are they in the same region/sim?</p>
             <ol>
-              <li>Verify both notecards say <code>RemoteChannel = -31</code></li>
+              <li>Touch the Panel → go to <strong>🛠 ADMIN → 📡 CHANNEL</strong> and note the channel number shown</li>
+              <li>Touch the Fountain → if it was never configured, a text box will appear — enter the <strong>same channel number</strong></li>
               <li>Reset both objects' scripts</li>
               <li>Wait 5 seconds (one heartbeat cycle)</li>
               <li>Click Panel — fountain should appear</li>
@@ -2023,14 +2177,20 @@
 │
 ├── ⛲ [Fountain Name] (single fountain)
 │   ├── (same as GLOBAL, plus:)
-│   ├── 🔷 SHAPES — 10 arrangements + sizing + Dynamic
+│   ├── 🔷 SHAPES — 10 presets + sizing + Dynamic
+│   │   └── page 3: 📤 EXPORT · Ⓐ SLOT A · Ⓑ SLOT B · Ⓒ SLOT C (custom layouts)
 │   └── 🔧 RENAME — change fountain name
 │
 └── 🛠 ADMIN
     ├── ♻️ RESET ALL
     ├── 🔐 ACCESS
     ├── 📋 STATUS
-    └── 📖 GUIDE</div>
+    ├── 📖 GUIDE
+    └── 📡 CH — change channel
+
+🔊 SPEAKER (standalone object — touch to open)
+    ├── Volume · Loop · Mute · Stop
+    └── 📡 Channel — set which fountain to listen to</div>
 
       <h3>⚡ Common Tasks Cheat Sheet</h3>
       <div class="cheat-grid">
@@ -2050,6 +2210,9 @@
         <div class="cheat-item"><span class="cheat-what">Change pipe style</span><span class="cheat-how">SETTINGS → 🔧 PIPE</span></div>
         <div class="cheat-item"><span class="cheat-what">Rearrange shape</span><span class="cheat-how">[Fountain] → 🔷 SHAPES</span></div>
         <div class="cheat-item"><span class="cheat-what">Rename fountain</span><span class="cheat-how">[Fountain] → 🔧 RENAME</span></div>
+        <div class="cheat-item"><span class="cheat-what">Save pipe layout</span><span class="cheat-how">[Fountain] → SHAPES p3 → 📤 EXPORT</span></div>
+        <div class="cheat-item"><span class="cheat-what">Load saved layout</span><span class="cheat-how">[Fountain] → SHAPES p3 → SLOT A/B/C</span></div>
+        <div class="cheat-item"><span class="cheat-what">Change channel</span><span class="cheat-how">ADMIN → 📡 CH</span></div>
         <div class="cheat-item"><span class="cheat-what">Grant access</span><span class="cheat-how">ADMIN → 🔐 ACCESS</span></div>
         <div class="cheat-item"><span class="cheat-what">Fix everything</span><span class="cheat-how">ADMIN → ♻️ RESET ALL</span></div>
         <div class="cheat-item"><span class="cheat-what">Lock pattern (chat)</span><span class="cheat-how">/wx:pattern 5</span></div>
@@ -2128,35 +2291,49 @@
 </section>
 
 <!-- ==================== CHANGELOG ==================== -->
-<section id="changelog" class="card">
-  <h2>📋 Changelog</h2>
-  <div style="max-width:720px;margin:0 auto;">
+<section id="changelog">
+  <div class="container">
+    <div class="section-card">
+      <div class="section-header">
+        <div class="section-icon icon-blue">📋</div>
+        <div>
+          <span class="section-num">Version History</span>
+          <h2>Changelog</h2>
+        </div>
+      </div>
 
-    <h3 style="color:var(--cyan-400);margin-top:0;">V4.3 — June 2025</h3>
-    <ul style="line-height:1.9;">
-      <li><strong>🌈 RAINBOW Mode</strong> — New 5th light mode! Full-spectrum per-pipe hue spread with smooth continuous rotation. Every pipe shows a different color simultaneously.</li>
-      <li><strong>🔴🟢🔵 RGB Refinement</strong> — RGB mode now uses a structured 3-phase cycle (vivid holds → rainbow sweep → gentle pastels) distinct from RAINBOW.</li>
-      <li><strong>4 New Patterns (P22–P25)</strong> — Bounce, Cathedral, Counter Chase, Stagger Pulse — bringing the total to 26 choreographed patterns.</li>
-      <li><strong>Guide URL Updated</strong> — In-world GUIDE button now opens <code>water-worx.github.io/smart-edition</code>.</li>
-      <li><strong>Button Fix</strong> — Fixed RGB button emoji detection in Panel menus.</li>
-    </ul>
+      <div class="sub-section">
+        <h3>V4.3 — June 2025 <span style="display:inline-block;background:#d1fae5;color:#065f46;font-size:11px;font-weight:600;padding:2px 10px;border-radius:999px;vertical-align:middle;margin-left:8px;">Current</span></h3>
+        <ul style="line-height:1.9;color:var(--gray-700);">
+          <li><strong>🌈 RAINBOW Mode</strong> — New 5th light mode! Full-spectrum per-pipe hue spread with smooth continuous rotation. Every pipe shows a different color simultaneously.</li>
+          <li><strong>🔴🟢🔵 RGB Refinement</strong> — RGB mode now uses a structured 3-phase cycle (vivid holds → rainbow sweep → gentle pastels), distinct from RAINBOW.</li>
+          <li><strong>4 New Patterns (P22–P25)</strong> — Bounce, Cathedral, Counter Chase, Stagger Pulse — bringing the total to 26 choreographed patterns.</li>
+          <li><strong>Channel via Linkset Data</strong> — Channel is now set on first touch and saved permanently — no notecard editing required.</li>
+          <li><strong>Guide URL Updated</strong> — In-world GUIDE button now opens <code>water-worx.github.io/smart-edition</code>.</li>
+          <li><strong>Button Fix</strong> — Fixed RGB button emoji detection in Panel menus.</li>
+        </ul>
+      </div>
 
-    <h3 style="color:var(--blue-400);">V4.0.1 — Feb 2025</h3>
-    <ul style="line-height:1.9;">
-      <li><strong>Straighten Command</strong> — <code>/wx:straighten</code> resets all pipes to vertical.</li>
-      <li><strong>P21 Equalizer Wave</strong> — New pattern: all pipes with unique sine-wave heights.</li>
-      <li><strong>P2 / P6 Fix</strong> — Corrected height calculations for Alternating Pairs and Breathing Alt.</li>
-      <li><strong>Memory Optimization</strong> — Reduced peak memory usage in ENGINE PATTERNS.</li>
-    </ul>
+      <div class="sub-section">
+        <h3>V4.0.1 — February 2025</h3>
+        <ul style="line-height:1.9;color:var(--gray-700);">
+          <li><strong>Straighten Command</strong> — <code>/wx:straighten</code> resets all pipes to vertical (compensates for root rotation).</li>
+          <li><strong>P21 Equalizer Wave</strong> — New pattern: all pipes with unique dual-sine heights — no two pipes the same.</li>
+          <li><strong>P2 / P6 Fix</strong> — Corrected Alternating Pairs and Breathing Alt to fire all pipes.</li>
+          <li><strong>Memory Optimization</strong> — Reduced peak memory usage in ENGINE PATTERNS.</li>
+        </ul>
+      </div>
 
-    <h3 style="color:var(--blue-400);">V4.0 — Dec 2024</h3>
-    <ul style="line-height:1.9;">
-      <li>Initial release of S.M.A.R.T Fountain System.</li>
-      <li>22 water patterns (P0–P21), 51 static colors, 10 themes, RGB & MULTI dynamic modes.</li>
-      <li>5 choreographed shows, multi-fountain sync, shape detection, pipe tilt animation module.</li>
-      <li>Dual update checker, chat command system, notecard configuration.</li>
-    </ul>
-
+      <div class="sub-section">
+        <h3>V4.0 — December 2024</h3>
+        <ul style="line-height:1.9;color:var(--gray-700);">
+          <li>Initial release of S.M.A.R.T Fountain System.</li>
+          <li>22 water patterns (P0–P21), 51 static colors, 10 themes, RGB &amp; MULTI dynamic modes.</li>
+          <li>5 choreographed shows, multi-fountain sync, shape detection, pipe tilt animation module.</li>
+          <li>Dual update checker, chat command system, notecard configuration.</li>
+        </ul>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -2164,12 +2341,13 @@
 <footer class="footer">
   <div class="footer-brand">💧 WaterWorx — S.M.A.R.T Fountain System V4.3</div>
   <p>Complete water choreography for Second Life</p>
-  <p style="margin-top:8px;font-size:12px;color:var(--gray-500);">26 patterns · 51 colors · 10 themes · 3 dynamic modes · 5 choreographed shows · Multi-fountain sync · Chat commands</p>
+  <p style="margin-top:8px;font-size:12px;color:var(--gray-500);">26 patterns · 51 colors · 10 themes · 3 dynamic modes · 5 choreographed shows · Multi-fountain sync · Custom shape slots · Wireless Speaker</p>
   <div class="footer-links">
     <a href="https://marketplace.secondlife.com/p/SMART-PRO-EDITION-NEXT-LEVEL-FOUNTAIN/23738894" target="_blank" rel="noopener">🛍️ Buy on Marketplace</a>
     <a href="#top">Back to Top</a>
     <a href="#quickstart">Quick Start</a>
     <a href="#shows">Shows</a>
+    <a href="#speaker">🔊 Speaker</a>
     <a href="#reference">Reference</a>
   </div>
   <p style="margin-top:24px;font-size:12px;">Thank you for choosing WaterWorx! 🎉</p>
