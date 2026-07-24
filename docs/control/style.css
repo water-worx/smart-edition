@@ -171,6 +171,39 @@ h1 small { display: block; font-size: 0.75rem; color: rgba(255,255,255,.75); fon
 .tab:hover { color: var(--ink); border-color: var(--accent); }
 .tab.active { background: var(--blue-600); color: #fff; border-color: var(--blue-600); }
 
+/* Dashboard tab and Customize toggle get a visual nudge so they read
+   as "different from the rest" — Dashboard is a destination, not a
+   category, and Customize is a mode switch, not a section. */
+.tab[data-id="dashboard"] { border-color: var(--cyan-500); color: var(--cyan-500); }
+.tab[data-id="dashboard"].active { background: var(--cyan-500); border-color: var(--cyan-500); color: #fff; }
+
+.customize-toggle { margin-left: auto; border-style: dashed; }
+.customize-toggle.active { background: var(--amber-500); border-color: var(--amber-500); color: #fff; }
+
+/* Pin badge — a small dot in the corner of any pinnable control that's
+   currently on the Dashboard. Purely informational outside customize
+   mode (the button still just sends its command on click); becomes
+   the click target's whole purpose once customize mode is on. */
+.pinnable { position: relative; }
+.pinnable.pinned::after {
+  content: "📌";
+  position: absolute;
+  top: -0.35rem;
+  right: -0.35rem;
+  font-size: 0.7rem;
+  line-height: 1;
+  filter: drop-shadow(0 1px 1px rgba(0,0,0,.3));
+}
+
+/* While customize mode is active, every pinnable control gets a dashed
+   outline so it's obvious a tap pins/unpins instead of firing the
+   fountain command. */
+body.customizing .pinnable {
+  outline: 2px dashed var(--amber-500);
+  outline-offset: 2px;
+}
+body.customizing .pinnable:hover { background: rgba(245, 158, 11, .15); }
+
 main {
   padding: 0 1rem;
   max-width: 1000px;

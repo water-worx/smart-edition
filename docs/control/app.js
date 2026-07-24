@@ -8,6 +8,7 @@
 
 import { SECTIONS } from "./commands.js";
 import { ctx } from "./state.js";
+import { getPins, isPinned, togglePin } from "./pins.js";
 
 // Change this if you deploy the relay somewhere else.
 const RELAY = "https://waterworx-relay-75wh2jv80gw6.app-wx.deno.net";
@@ -214,12 +215,44 @@ function setStatus(msg, kind) {
 
 const resolve = (v, arg) => (typeof v === "function" ? v(arg) : v);
 
-function buildControl(c) {
+// ---------------------------------------------------------------
+// Dashboard pins — customize mode
+// ---------------------------------------------------------------
+
+let customizeMode = false;
+
+/**
+ * Wire a leaf button (plain button, grid item, or palette color) so it
+ * either sends its command normally, or — while customize mode is on —
+ * toggles as a Dashboard pin instead of firing the command. `pinId`
+ * must be unique across the whole manifest; callers derive it from
+ * section + control + item so two different leaves never collide.
+ */
+function makePinnable(b, pinId, descriptor, sendHandler) {
+  b.classList.add("pinnable");
+  b.dataset.pinId = pinId;
+  b.classList.toggle("pinned", isPinned(pinId));
+
+  b.onclick = () => {
+    if (!customizeMode) return sendHandler();
+    const nowPinned = togglePin({ id: pinId, ...descriptor });
+    b.classList.toggle("pinned", nowPinned);
+    renderDashboard();
+  };
+}
+
+function buildControl(c, sectionId) {
   if (c.type === "button") {
     const b = document.createElement("button");
     b.className = `btn ${c.tone ?? ""}`;
     b.textContent = c.label;
-    b.onclick = () => send(resolve(c.cmd), b, c.scope, c.guard);
+    const cmd = resolve(c.cmd);
+    makePinnable(
+      b,
+      `${sectionId}::${c.label}`,
+      { label: c.label, cmd, scope: c.scope, guard: c.guard, tone: c.tone },
+      () => send(cmd, b, c.scope, c.guard),
+    );
     return b;
   }
 
@@ -229,8 +262,15 @@ function buildControl(c) {
     for (let i = 0; i < c.count; i++) {
       const b = document.createElement("button");
       b.className = "btn small";
-      b.textContent = resolve(c.caption, i);
-      b.onclick = () => send(resolve(c.cmd, i), b, c.scope, c.guard);
+      const caption = resolve(c.caption, i);
+      const cmd = resolve(c.cmd, i);
+      b.textContent = caption;
+      makePinnable(
+        b,
+        `${sectionId}::${c.label}::${caption}`,
+        { label: caption, cmd, scope: c.scope, guard: c.guard },
+        () => send(cmd, b, c.scope, c.guard),
+      );
       wrap.append(b);
     }
     return wrap;
@@ -305,7 +345,12 @@ function buildControl(c) {
         const b = document.createElement("button");
         b.className = "btn small";
         b.textContent = color;
-        b.onclick = () => send(color, b, c.scope);
+        makePinnable(
+          b,
+          `${sectionId}::palette::${color}`,
+          { label: color, cmd: color, scope: c.scope },
+          () => send(color, b, c.scope),
+        );
         colors.append(b);
       }
     }
@@ -327,10 +372,53 @@ function buildControl(c) {
   return document.createTextNode("");
 }
 
+/** Renders the pinned shortcuts into the Dashboard tab's body, if it's
+ * the one currently showing. Re-run after every pin/unpin so the tab
+ * stays in sync even while customize mode is open on that same tab. */
+function renderDashboard() {
+  const body = document.querySelector("#sec-dashboard .controls");
+  if (!body) return; // Dashboard isn't the active tab right now.
+  body.innerHTML = "";
+
+  const pins = getPins();
+  if (pins.length === 0) {
+    const p = document.createElement("p");
+    p.className = "note";
+    p.textContent = customizeMode
+      ? "Tap any control in another tab to pin it here."
+      : "No pins yet — tap ✏️ Customize, then tap controls elsewhere to pin them here.";
+    body.append(p);
+    return;
+  }
+
+  for (const pin of pins) {
+    const b = document.createElement("button");
+    b.className = `btn ${pin.tone ?? ""} pinnable pinned`;
+    b.textContent = pin.label;
+    b.dataset.pinId = pin.id;
+    b.onclick = () => {
+      if (customizeMode) {
+        // Only one tab's DOM exists at a time, so there's nothing on
+        // "another tab" to un-badge right now — its .pinned class gets
+        // recomputed fresh from localStorage next time it's opened
+        // (see makePinnable's isPinned() check).
+        togglePin(pin);
+        renderDashboard();
+        return;
+      }
+      send(pin.cmd, b, pin.scope, pin.guard);
+    };
+    body.append(b);
+  }
+}
+
 /**
  * Tabbed layout: one tab per section, only the active one rendered
  * into #panel. Nothing requires scrolling past other sections to
  * reach a control — switching sections is a click, not a scroll.
+ * Dashboard is a pinned pseudo-section prepended ahead of the manifest,
+ * always first, so it's the default view every time the page loads —
+ * exactly the tab you want live during a show.
  */
 function render() {
   const tabs = $("#tabs");
@@ -338,15 +426,25 @@ function render() {
 
   function showSection(id) {
     root.innerHTML = "";
-    const section = SECTIONS.find((s) => s.id === id) ?? SECTIONS[0];
 
     for (const b of tabs.children) {
-      b.classList.toggle("active", b.dataset.id === section.id);
+      b.classList.toggle("active", b.dataset.id === id);
     }
 
     const s = document.createElement("section");
-    s.id = `sec-${section.id}`;
+    s.id = `sec-${id}`;
 
+    const body = document.createElement("div");
+    body.className = "controls";
+
+    if (id === "dashboard") {
+      root.append(s);
+      s.append(body);
+      renderDashboard();
+      return;
+    }
+
+    const section = SECTIONS.find((sec) => sec.id === id) ?? SECTIONS[0];
     if (section.note) {
       const p = document.createElement("p");
       p.className = "note";
@@ -354,13 +452,17 @@ function render() {
       s.append(p);
     }
 
-    const body = document.createElement("div");
-    body.className = "controls";
-    for (const c of section.controls) body.append(buildControl(c));
+    for (const c of section.controls) body.append(buildControl(c, section.id));
     s.append(body);
-
     root.append(s);
   }
+
+  const dashTab = document.createElement("button");
+  dashTab.className = "tab";
+  dashTab.dataset.id = "dashboard";
+  dashTab.textContent = "📌 Dashboard";
+  dashTab.onclick = () => showSection("dashboard");
+  tabs.append(dashTab);
 
   for (const section of SECTIONS) {
     const b = document.createElement("button");
@@ -371,7 +473,25 @@ function render() {
     tabs.append(b);
   }
 
-  showSection(SECTIONS[0].id);
+  const customizeBtn = document.createElement("button");
+  customizeBtn.id = "customize-toggle";
+  customizeBtn.className = "tab customize-toggle";
+  customizeBtn.textContent = "✏️ Customize";
+  customizeBtn.onclick = () => {
+    customizeMode = !customizeMode;
+    customizeBtn.textContent = customizeMode ? "✅ Done" : "✏️ Customize";
+    customizeBtn.classList.toggle("active", customizeMode);
+    document.body.classList.toggle("customizing", customizeMode);
+    renderDashboard();
+  };
+  tabs.append(customizeBtn);
+
+  // Land on Dashboard for returning users who've actually pinned
+  // something (the whole point — open the link, hit the show/color
+  // shortcuts, done). First-ever visit has nothing pinned yet, so
+  // start on Power instead of an empty screen telling you to pin things
+  // you haven't discovered exist.
+  showSection(getPins().length > 0 ? "dashboard" : SECTIONS[0].id);
 }
 
 // ---------------------------------------------------------------
