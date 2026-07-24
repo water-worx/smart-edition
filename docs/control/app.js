@@ -9,7 +9,7 @@
 import { SECTIONS } from "./commands.js";
 
 // Change this if you deploy the relay somewhere else.
-const RELAY = "https://waterworx-relay-r9xba396k9h0.wx-app.deno.net";
+const RELAY = "https://waterworx-relay-75wh2jv80gw6.app-wx.deno.net";
 
 const $ = (sel) => document.querySelector(sel);
 
