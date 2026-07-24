@@ -223,6 +223,23 @@ section {
 
 .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
+/* Dashboard pin groups — one per originating section, in tab order,
+   so pinned shortcuts don't collapse into one undifferentiated pile. */
+.pin-group { flex: 1 1 100%; }
+.pin-group + .pin-group {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+}
+.pin-group-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--blue-600);
+}
+
 .btn {
   flex: 1 1 auto;
   min-width: 8.5rem;

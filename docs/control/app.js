@@ -250,7 +250,7 @@ function buildControl(c, sectionId) {
     makePinnable(
       b,
       `${sectionId}::${c.label}`,
-      { label: c.label, cmd, scope: c.scope, guard: c.guard, tone: c.tone },
+      { label: c.label, cmd, scope: c.scope, guard: c.guard, tone: c.tone, section: sectionId },
       () => send(cmd, b, c.scope, c.guard),
     );
     return b;
@@ -268,7 +268,7 @@ function buildControl(c, sectionId) {
       makePinnable(
         b,
         `${sectionId}::${c.label}::${caption}`,
-        { label: caption, cmd, scope: c.scope, guard: c.guard },
+        { label: caption, cmd, scope: c.scope, guard: c.guard, section: sectionId },
         () => send(cmd, b, c.scope, c.guard),
       );
       wrap.append(b);
@@ -348,7 +348,7 @@ function buildControl(c, sectionId) {
         makePinnable(
           b,
           `${sectionId}::palette::${color}`,
-          { label: color, cmd: color, scope: c.scope },
+          { label: color, cmd: color, scope: c.scope, section: sectionId },
           () => send(color, b, c.scope),
         );
         colors.append(b);
@@ -391,24 +391,53 @@ function renderDashboard() {
     return;
   }
 
+  // Group by originating section, in the same order as the tabs —
+  // flat "everything mixed together" was the exact confusion this
+  // was built to avoid. Pins saved before section-tagging existed
+  // (or anything with an unrecognized id) fall into a trailing bucket
+  // rather than being dropped.
+  const bySection = new Map();
   for (const pin of pins) {
-    const b = document.createElement("button");
-    b.className = `btn ${pin.tone ?? ""} pinnable pinned`;
-    b.textContent = pin.label;
-    b.dataset.pinId = pin.id;
-    b.onclick = () => {
-      if (customizeMode) {
-        // Only one tab's DOM exists at a time, so there's nothing on
-        // "another tab" to un-badge right now — its .pinned class gets
-        // recomputed fresh from localStorage next time it's opened
-        // (see makePinnable's isPinned() check).
-        togglePin(pin);
-        renderDashboard();
-        return;
-      }
-      send(pin.cmd, b, pin.scope, pin.guard);
-    };
-    body.append(b);
+    const key = pin.section ?? "other";
+    if (!bySection.has(key)) bySection.set(key, []);
+    bySection.get(key).push(pin);
+  }
+  const orderedKeys = [...SECTIONS.map((s) => s.id), "other"].filter((k) => bySection.has(k));
+
+  for (const key of orderedKeys) {
+    const group = document.createElement("div");
+    group.className = "pin-group";
+
+    const h = document.createElement("h3");
+    h.className = "pin-group-title";
+    h.textContent = SECTIONS.find((s) => s.id === key)?.title ?? "Other";
+    group.append(h);
+
+    const row = document.createElement("div");
+    row.className = "controls";
+
+    for (const pin of bySection.get(key)) {
+      const b = document.createElement("button");
+      b.className = `btn ${pin.tone ?? ""} pinnable pinned`;
+      b.textContent = pin.label;
+      b.dataset.pinId = pin.id;
+      b.onclick = () => {
+        if (customizeMode) {
+          // Only one tab's DOM exists at a time, so there's nothing on
+          // "another tab" to un-badge right now — its .pinned class
+          // gets recomputed fresh from localStorage next time it's
+          // opened (see makePinnable's isPinned() check).
+          togglePin(pin);
+          renderDashboard();
+          return;
+        }
+        send(pin.cmd, b, pin.scope, pin.guard);
+      };
+      row.append(b);
+    }
+
+    group.append(row);
+    body.append(group);
   }
 }
 
