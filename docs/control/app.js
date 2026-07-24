@@ -23,6 +23,67 @@ function readToken() {
 }
 
 const token = readToken();
+let fountainId = -1;  // -1 = global, else fountain-specific
+
+// State tracking (reflects last sent commands, not guaranteed in-world state)
+let state = {
+  isOn: false,
+  mode: "SEQUENCE",    // SEQUENCE, ANIMATE, HYBRID
+  pattern: "P01",
+  show: "stopped",
+};
+
+// Apply fountain context to a command. If fountainId != -1, insert it after first ::
+function applyFountainContext(cmd) {
+  if (fountainId === -1) return cmd;
+  const idx = cmd.indexOf("::");
+  if (idx === -1) return cmd + "::" + fountainId;
+  return cmd.slice(0, idx + 2) + fountainId + "::" + cmd.slice(idx + 2);
+}
+
+// Parse commands to update local state display
+function updateStateFromCommand(cmd) {
+  if (cmd.includes("⛲ ON")) state.isOn = true;
+  else if (cmd.includes("⛲ OFF")) state.isOn = false;
+  else if (cmd.includes("🧩 STATIC")) state.mode = "STATIC";
+  else if (cmd.includes("🧩 AUTO")) state.mode = "AUTO";
+  else if (cmd.includes("🧩 RANDOM")) state.mode = "RANDOM";
+  else if (cmd.includes("ANIMATE::ON")) state.mode = "ANIMATE";
+  else if (cmd.includes("HYBRID::ON")) state.mode = "HYBRID";
+  else if (cmd.startsWith("P") && cmd.length <= 4) state.pattern = cmd;
+  else if (cmd.includes("DANCE::SHOW")) {
+    const show = cmd.split("::").pop();
+    state.show = show !== "stop" ? show : "stopped";
+  }
+  updateStatusDisplay();
+}
+
+function updateStatusDisplay() {
+  const statusBar = $("#status-bar");
+  if (!statusBar) return;
+
+  const statusEl = $("#fountain-status");
+  const modeEl = $("#fountain-mode");
+  const patternEl = $("#fountain-pattern");
+
+  if (statusEl) {
+    statusEl.textContent = state.isOn ? "🟢 ON" : "🔴 OFF";
+    statusEl.className = `badge ${state.isOn ? "on" : "off"}`;
+  }
+
+  if (modeEl) {
+    modeEl.textContent = state.mode;
+    const modeClass = state.mode === "ANIMATE" || state.mode === "HYBRID" ? "on" : "";
+    modeEl.className = `badge ${modeClass}`;
+  }
+
+  if (patternEl) {
+    const display = state.show !== "stopped" ? state.show : state.pattern;
+    patternEl.textContent = display;
+  }
+
+  statusBar.hidden = false;
+}
 
 // ---------------------------------------------------------------
 // Transport
@@ -37,14 +98,16 @@ async function send(cmd, el) {
   el?.classList.add("pending");
 
   try {
+    const finalCmd = applyFountainContext(cmd);
     const r = await fetch(`${RELAY}/api/cmd`, {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ token, cmd }),
+      body: JSON.stringify({ token, cmd: finalCmd }),
     });
     const data = await r.json().catch(() => ({}));
 
     if (r.ok && data.ok) {
+      updateStateFromCommand(finalCmd);
       setStatus(`Sent ${cmd}`, "ok");
       el?.classList.add("flash");
       setTimeout(() => el?.classList.remove("flash"), 300);
@@ -79,6 +142,16 @@ async function refreshState() {
     }
     $("#conn").className = "dot on";
     $("#region").textContent = data.region || "—";
+
+    // Update fountain context
+    if (data.fountainId !== undefined) {
+      fountainId = data.fountainId;
+      const contextEl = document.querySelector("h1 small");
+      if (contextEl) {
+        contextEl.textContent = fountainId === -1 ? "(Global)" : `(Fountain #${fountainId % 10000})`;
+      }
+    }
+
     renderFountains(data.fountains || "");
     if (data.owner) document.body.classList.add("is-owner");
   } catch {
@@ -89,6 +162,7 @@ async function refreshState() {
 /**
  * COMM replies with `::id::name::modules::id::name::modules::…`
  * (the MC::::FOUNTAIN_LIST prefix is stripped by the bridge).
+ * Display format: F-1234 or F-1234 Ⓐ (if has animate module)
  */
 function renderFountains(raw) {
   const parts = raw.split("::").filter((s) => s !== "");
@@ -97,9 +171,16 @@ function renderFountains(raw) {
     box.textContent = "No fountains detected.";
     return;
   }
-  const names = [];
-  for (let i = 0; i + 1 < parts.length; i += 3) names.push(parts[i + 1]);
-  box.textContent = `${names.length} online: ${names.join(", ")}`;
+  const labels = [];
+  for (let i = 0; i + 2 < parts.length; i += 3) {
+    const id = parseInt(parts[i], 10);
+    const mod = parts[i + 2];
+    const suffix = (id % 10000).toString().padStart(4, "0");
+    let label = `F-${suffix}`;
+    if (mod !== "") label += " Ⓐ";
+    labels.push(label);
+  }
+  box.textContent = `${labels.length} online: ${labels.join(", ")}`;
 }
 
 function setStatus(msg, kind) {

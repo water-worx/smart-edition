@@ -15,7 +15,7 @@
     <div class="brand">
       <span class="logo">⛲</span>
       <div>
-        <h1>S.M.A.R.T Control</h1>
+        <h1>S.M.A.R.T Control <small></small></h1>
         <div class="meta">
           <span id="conn" class="dot off"></span>
           <span id="region">connecting…</span>
@@ -24,6 +24,21 @@
     </div>
     <div id="fountains" class="fountains">—</div>
   </header>
+
+  <div id="status-bar" class="status-bar" hidden>
+    <div class="status-item">
+      <span class="label">Status:</span>
+      <span id="fountain-status" class="badge">—</span>
+    </div>
+    <div class="status-item">
+      <span class="label">Mode:</span>
+      <span id="fountain-mode" class="badge">—</span>
+    </div>
+    <div class="status-item">
+      <span class="label">Pattern:</span>
+      <span id="fountain-pattern" class="badge">—</span>
+    </div>
+  </div>
 
   <div id="gate" hidden>
     <div class="card">

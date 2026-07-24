@@ -52,6 +52,7 @@ header {
 .brand { display: flex; align-items: center; gap: 0.75rem; }
 .logo { font-size: 2rem; line-height: 1; }
 h1 { margin: 0; font-size: 1.125rem; letter-spacing: 0.01em; }
+h1 small { display: block; font-size: 0.75rem; color: var(--ink-dim); font-weight: normal; margin-top: 0.125rem; }
 
 .meta {
   display: flex; align-items: center; gap: 0.4rem;
@@ -73,7 +74,48 @@ h1 { margin: 0; font-size: 1.125rem; letter-spacing: 0.01em; }
   white-space: nowrap;
 }
 
-main { padding: 0 1rem; }
+.status-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+}
+
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-item .label {
+  color: var(--ink-dim);
+  font-weight: 500;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge.on { color: var(--on); border-color: var(--on); }
+.badge.off { color: var(--off); border-color: var(--off); }
+.badge.warn { color: var(--warn); border-color: var(--warn); }
+
+main {
+  padding: 0 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
 
 section {
   margin-top: 1.25rem;
@@ -122,8 +164,24 @@ h2 {
 .grid {
   flex: 1 1 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(3.75rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(3.5rem, 1fr));
   gap: 0.4rem;
+}
+
+/* Horizontal scroll for pattern grids on mobile */
+@media (max-width: 480px) {
+  .grid {
+    display: flex;
+    overflow-x: auto;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
+    scroll-behavior: smooth;
+  }
+
+  .grid .btn.small {
+    flex: 0 0 auto;
+    min-width: 3.5rem;
+  }
 }
 
 .slider { flex: 1 1 100%; }
@@ -161,3 +219,46 @@ footer { padding: 1.5rem 1rem 0; }
 #status.err { color: var(--off); }
 
 .btn.pending, .pending { opacity: 0.55; pointer-events: none; }
+
+/* Mobile responsiveness */
+@media (max-width: 600px) {
+  body { font-size: 14px; padding: 0 0 2rem; }
+
+  header {
+    padding: 0.75rem 0.75rem 0.5rem;
+  }
+
+  .brand { gap: 0.5rem; }
+  .logo { font-size: 1.5rem; }
+  h1 { font-size: 1rem; }
+  h1 small { margin-top: 0.05rem; }
+
+  .status-bar { gap: 0.75rem; padding: 0.5rem 0.75rem; }
+
+  main { padding: 0 0.75rem; }
+
+  section { padding: 0.75rem; margin-top: 1rem; }
+
+  .controls { gap: 0.35rem; }
+
+  .btn {
+    min-width: 7rem;
+    min-height: 2.5rem;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  .btn.small { padding: 0.4rem 0.5rem; font-size: 0.75rem; }
+
+  .slider-head { font-size: 0.8rem; }
+
+  .grid { gap: 0.35rem; }
+  .grid .btn.small { min-width: 3rem; padding: 0.4rem; font-size: 0.7rem; }
+
+  footer { padding: 1rem 0.75rem 0; font-size: 0.8rem; }
+}
+
+@media (max-width: 360px) {
+  .btn { min-width: 6rem; }
+  .btn.small { font-size: 0.65rem; min-width: 2.8rem; }
+}
