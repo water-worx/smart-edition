@@ -6,16 +6,19 @@
   <meta name="robots" content="noindex, nofollow">
   <!-- Session tokens live in the URL fragment; keep them out of Referer. -->
   <meta name="referrer" content="no-referrer">
-  <title>S.M.A.R.T Web Control</title>
+  <title>WaterWorx — S.M.A.R.T Web Control</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-  <header>
+  <header class="sticky-nav">
     <div class="brand">
-      <span class="logo">⛲</span>
+      <span class="logo">💧</span>
       <div>
-        <h1>S.M.A.R.T Control <small></small></h1>
+        <h1>WaterWorx <span class="accent">S.M.A.R.T</span> Control <small></small></h1>
         <div class="meta">
           <span id="conn" class="dot off"></span>
           <span id="region">connecting…</span>
@@ -62,6 +65,7 @@
       restarts, the panel re-registers automatically — wait a few seconds
       and try again.
     </p>
+    <div class="footer-brand">💧 WaterWorx — S.M.A.R.T Fountain System</div>
   </footer>
 
   <script type="module" src="app.js"></script>
