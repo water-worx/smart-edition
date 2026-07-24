@@ -171,38 +171,29 @@ h1 small { display: block; font-size: 0.75rem; color: rgba(255,255,255,.75); fon
 .tab:hover { color: var(--ink); border-color: var(--accent); }
 .tab.active { background: var(--blue-600); color: #fff; border-color: var(--blue-600); }
 
-/* Dashboard tab and Customize toggle get a visual nudge so they read
-   as "different from the rest" — Dashboard is a destination, not a
-   category, and Customize is a mode switch, not a section. */
+/* Dashboard tab gets a visual nudge — it's a destination, not a
+   category like the others. */
 .tab[data-id="dashboard"] { border-color: var(--cyan-500); color: var(--cyan-500); }
 .tab[data-id="dashboard"].active { background: var(--cyan-500); border-color: var(--cyan-500); color: #fff; }
 
-.customize-toggle { margin-left: auto; border-style: dashed; }
-.customize-toggle.active { background: var(--amber-500); border-color: var(--amber-500); color: #fff; }
-
-/* Pin badge — a small dot in the corner of any pinnable control that's
-   currently on the Dashboard. Purely informational outside customize
-   mode (the button still just sends its command on click); becomes
-   the click target's whole purpose once customize mode is on. */
-.pinnable { position: relative; }
-.pinnable.pinned::after {
-  content: "📌";
-  position: absolute;
-  top: -0.35rem;
-  right: -0.35rem;
-  font-size: 0.7rem;
-  line-height: 1;
-  filter: drop-shadow(0 1px 1px rgba(0,0,0,.3));
+/* Pin toggle — sits at the top of every section (its own tab, and its
+   Dashboard card) and is the only pin-related UI in the app; no badge
+   overlays or mode switches cluttering the actual controls. */
+.section-head { margin-bottom: 0.75rem; }
+.pin-toggle {
+  padding: 0.4rem 0.8rem;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.78rem;
+  color: var(--ink-dim);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background .15s, color .15s, border-color .15s;
 }
-
-/* While customize mode is active, every pinnable control gets a dashed
-   outline so it's obvious a tap pins/unpins instead of firing the
-   fountain command. */
-body.customizing .pinnable {
-  outline: 2px dashed var(--amber-500);
-  outline-offset: 2px;
-}
-body.customizing .pinnable:hover { background: rgba(245, 158, 11, .15); }
+.pin-toggle:hover { border-color: var(--accent); color: var(--ink); }
+.pin-toggle.pinned { background: var(--blue-50); border-color: var(--blue-100); color: var(--blue-700); }
 
 main {
   padding: 0 1rem;
@@ -223,22 +214,45 @@ section {
 
 .controls { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 
-/* Dashboard pin groups — one per originating section, in tab order,
-   so pinned shortcuts don't collapse into one undifferentiated pile. */
-.pin-group { flex: 1 1 100%; }
-.pin-group + .pin-group {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid var(--line);
+/* Dashboard cards — one per pinned section, each a self-contained copy
+   of that section's full content (same buildControl output as its own
+   tab, so behavior never diverges). Draggable by the handle to reorder. */
+.dash-card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow);
 }
-.pin-group-title {
-  margin: 0 0 0.5rem;
-  font-size: 0.75rem;
+.dash-card + .dash-card { margin-top: 1rem; }
+.dash-card.dragging {
+  opacity: 0.85;
+  box-shadow: var(--shadow-md);
+  cursor: grabbing;
+}
+
+.dash-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+.dash-card-title {
+  flex: 1;
+  margin: 0;
+  font-size: 0.95rem;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--blue-600);
+  color: var(--ink);
 }
+.drag-handle {
+  cursor: grab;
+  font-size: 1.1rem;
+  color: var(--ink-dim);
+  padding: 0.25rem 0.4rem;
+  touch-action: none; /* so dragging doesn't also scroll the page */
+  user-select: none;
+}
+.drag-handle:active { cursor: grabbing; }
 
 .btn {
   flex: 1 1 auto;
@@ -386,6 +400,10 @@ footer { padding: 1.5rem 1rem 0; text-align: center; }
   main { padding: 0 0.75rem; }
 
   section { padding: 0.75rem; margin-top: 1rem; }
+
+  .dash-card { padding: 0.75rem; }
+  .dash-card-title { font-size: 0.85rem; }
+  .pin-toggle { padding: 0.35rem 0.65rem; font-size: 0.72rem; }
 
   .controls { gap: 0.35rem; }
 

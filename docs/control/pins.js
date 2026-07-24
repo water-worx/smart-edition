@@ -1,66 +1,77 @@
 /**
- * Dashboard pins — quick-access shortcuts to controls scattered across
- * tabs (e.g. "start a show" in Shows + "change color" in Lights), so
- * mid-show you tap one Dashboard tab instead of hopping across several.
+ * Dashboard pins — whole SECTION cards pinned to one place, in a
+ * user-chosen order, so a live-show workflow (start a show, change
+ * color, adjust settings) doesn't mean hopping across tabs.
  *
- * Stored in localStorage, keyed per-browser (not per-session — pins
- * are a personal layout preference, not fountain state, so they
- * outlive any one session token and don't need to touch the relay).
+ * Stored in localStorage as an ordered array of section ids, keyed
+ * per-browser (not per-session — this is a layout preference, not
+ * fountain state, so it outlives any one session token).
  */
 
-const KEY = "smart-web-pins";
+const KEY = "smart-web-pinned-sections";
+const OLD_KEY = "smart-web-pins"; // pre-redesign: individual item pins
 
-function readAll() {
+/**
+ * One-time courtesy migration from the old per-item pin system: seed
+ * the new pinned-*sections* list with whichever sections any old pin
+ * belonged to, so switching to whole-card pinning doesn't reset
+ * someone back to a blank Dashboard. The old key is left alone rather
+ * than deleted — harmless dead data, no reason to risk touching it.
+ */
+function migrateFromItemPins() {
   try {
-    const raw = localStorage.getItem(KEY);
+    const raw = localStorage.getItem(OLD_KEY);
     if (!raw) return [];
-    const pins = JSON.parse(raw);
-
-    // One-time migration: pins saved before section-grouping existed
-    // have no `section` field, which dumped them all into a single
-    // "Other" bucket. Every pin's id has always been formatted as
-    // "<sectionId>::...", so the section is recoverable losslessly —
-    // no need to make anyone re-pin things.
-    let migrated = false;
-    const fixed = pins.map((p) => {
-      if (p.section) return p;
-      migrated = true;
-      return { ...p, section: p.id?.split("::")[0] ?? "other" };
-    });
-    if (migrated) writeAll(fixed);
-    return fixed;
+    const oldPins = JSON.parse(raw);
+    const sections = [...new Set(oldPins.map((p) => p.section).filter(Boolean))];
+    if (sections.length) writeAll(sections);
+    return sections;
   } catch {
     return [];
   }
 }
 
-function writeAll(pins) {
+function readAll() {
   try {
-    localStorage.setItem(KEY, JSON.stringify(pins));
+    const raw = localStorage.getItem(KEY);
+    if (raw) return JSON.parse(raw);
+    return migrateFromItemPins();
   } catch {
-    // Storage full or unavailable (private browsing) — pins just won't
-    // persist across reloads; not worth surfacing an error for this.
+    return [];
   }
 }
 
-export function getPins() {
+function writeAll(ids) {
+  try {
+    localStorage.setItem(KEY, JSON.stringify(ids));
+  } catch {
+    // Storage full or unavailable (private browsing) — order just
+    // won't persist across reloads; not worth surfacing an error.
+  }
+}
+
+export function getPinnedSections() {
   return readAll();
 }
 
-export function isPinned(id) {
-  return readAll().some((p) => p.id === id);
+export function isSectionPinned(id) {
+  return readAll().includes(id);
 }
 
 /** Returns the new pinned state (true = now pinned, false = now unpinned). */
-export function togglePin(descriptor) {
-  const pins = readAll();
-  const idx = pins.findIndex((p) => p.id === descriptor.id);
+export function toggleSectionPin(id) {
+  const ids = readAll();
+  const idx = ids.indexOf(id);
   if (idx === -1) {
-    pins.push(descriptor);
-    writeAll(pins);
+    ids.push(id);
+    writeAll(ids);
     return true;
   }
-  pins.splice(idx, 1);
-  writeAll(pins);
+  ids.splice(idx, 1);
+  writeAll(ids);
   return false;
+}
+
+export function reorderPinnedSections(newOrder) {
+  writeAll(newOrder);
 }

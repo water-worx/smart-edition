@@ -8,7 +8,7 @@
 
 import { SECTIONS } from "./commands.js";
 import { ctx } from "./state.js";
-import { getPins, isPinned, togglePin } from "./pins.js";
+import { getPinnedSections, isSectionPinned, toggleSectionPin, reorderPinnedSections } from "./pins.js";
 
 // Change this if you deploy the relay somewhere else.
 const RELAY = "https://waterworx-relay-75wh2jv80gw6.app-wx.deno.net";
@@ -215,44 +215,12 @@ function setStatus(msg, kind) {
 
 const resolve = (v, arg) => (typeof v === "function" ? v(arg) : v);
 
-// ---------------------------------------------------------------
-// Dashboard pins — customize mode
-// ---------------------------------------------------------------
-
-let customizeMode = false;
-
-/**
- * Wire a leaf button (plain button, grid item, or palette color) so it
- * either sends its command normally, or — while customize mode is on —
- * toggles as a Dashboard pin instead of firing the command. `pinId`
- * must be unique across the whole manifest; callers derive it from
- * section + control + item so two different leaves never collide.
- */
-function makePinnable(b, pinId, descriptor, sendHandler) {
-  b.classList.add("pinnable");
-  b.dataset.pinId = pinId;
-  b.classList.toggle("pinned", isPinned(pinId));
-
-  b.onclick = () => {
-    if (!customizeMode) return sendHandler();
-    const nowPinned = togglePin({ id: pinId, ...descriptor });
-    b.classList.toggle("pinned", nowPinned);
-    renderDashboard();
-  };
-}
-
-function buildControl(c, sectionId) {
+function buildControl(c) {
   if (c.type === "button") {
     const b = document.createElement("button");
     b.className = `btn ${c.tone ?? ""}`;
     b.textContent = c.label;
-    const cmd = resolve(c.cmd);
-    makePinnable(
-      b,
-      `${sectionId}::${c.label}`,
-      { label: c.label, cmd, scope: c.scope, guard: c.guard, tone: c.tone, section: sectionId },
-      () => send(cmd, b, c.scope, c.guard),
-    );
+    b.onclick = () => send(resolve(c.cmd), b, c.scope, c.guard);
     return b;
   }
 
@@ -262,15 +230,8 @@ function buildControl(c, sectionId) {
     for (let i = 0; i < c.count; i++) {
       const b = document.createElement("button");
       b.className = "btn small";
-      const caption = resolve(c.caption, i);
-      const cmd = resolve(c.cmd, i);
-      b.textContent = caption;
-      makePinnable(
-        b,
-        `${sectionId}::${c.label}::${caption}`,
-        { label: caption, cmd, scope: c.scope, guard: c.guard, section: sectionId },
-        () => send(cmd, b, c.scope, c.guard),
-      );
+      b.textContent = resolve(c.caption, i);
+      b.onclick = () => send(resolve(c.cmd, i), b, c.scope, c.guard);
       wrap.append(b);
     }
     return wrap;
@@ -345,12 +306,7 @@ function buildControl(c, sectionId) {
         const b = document.createElement("button");
         b.className = "btn small";
         b.textContent = color;
-        makePinnable(
-          b,
-          `${sectionId}::palette::${color}`,
-          { label: color, cmd: color, scope: c.scope, section: sectionId },
-          () => send(color, b, c.scope),
-        );
+        b.onclick = () => send(color, b, c.scope);
         colors.append(b);
       }
     }
@@ -372,72 +328,133 @@ function buildControl(c, sectionId) {
   return document.createTextNode("");
 }
 
-/** Renders the pinned shortcuts into the Dashboard tab's body, if it's
- * the one currently showing. Re-run after every pin/unpin so the tab
- * stays in sync even while customize mode is open on that same tab. */
-function renderDashboard() {
-  const body = document.querySelector("#sec-dashboard .controls");
-  if (!body) return; // Dashboard isn't the active tab right now.
-  body.innerHTML = "";
-
-  const pins = getPins();
-  if (pins.length === 0) {
+/** Builds a section's note + controls — the exact same content whether
+ * it's showing on its own tab or inside a pinned Dashboard card, so
+ * scoping/guards/live behavior never diverge between the two. */
+function buildSectionContent(section) {
+  const frag = document.createDocumentFragment();
+  if (section.note) {
     const p = document.createElement("p");
     p.className = "note";
-    p.textContent = customizeMode
-      ? "Tap any control in another tab to pin it here."
-      : "No pins yet — tap ✏️ Customize, then tap controls elsewhere to pin them here.";
-    body.append(p);
+    p.textContent = section.note;
+    frag.append(p);
+  }
+  const body = document.createElement("div");
+  body.className = "controls";
+  for (const c of section.controls) body.append(buildControl(c));
+  frag.append(body);
+  return frag;
+}
+
+/** Small pin/unpin button, shared by a section's own tab header and by
+ * its Dashboard card header — same toggle, same live state either way. */
+function makePinToggle(sectionId, onChange) {
+  const b = document.createElement("button");
+  b.className = "pin-toggle";
+  const sync = () => {
+    const pinned = isSectionPinned(sectionId);
+    b.textContent = pinned ? "📌 Pinned" : "📌 Pin to Dashboard";
+    b.classList.toggle("pinned", pinned);
+  };
+  sync();
+  b.onclick = () => {
+    toggleSectionPin(sectionId);
+    sync();
+    onChange?.();
+  };
+  return b;
+}
+
+/**
+ * Drag-to-reorder for Dashboard cards, via Pointer Events rather than
+ * HTML5 drag-and-drop — the latter has no reliable touch support, and
+ * this project stays dependency-free (no SortableJS etc.). Dragging
+ * the handle swaps the card past a sibling once the pointer crosses
+ * that sibling's vertical midpoint; order is persisted on release.
+ */
+function wireDrag(card, handle) {
+  let dragging = null;
+
+  handle.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    dragging = { container: card.parentElement, pointerId: e.pointerId };
+    card.classList.add("dragging");
+    handle.setPointerCapture(e.pointerId);
+  });
+
+  handle.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    for (const sib of dragging.container.children) {
+      if (sib === card) continue;
+      const rect = sib.getBoundingClientRect();
+      const mid = rect.top + rect.height / 2;
+      const cardIsBefore = !!(card.compareDocumentPosition(sib) & Node.DOCUMENT_POSITION_FOLLOWING);
+      if (cardIsBefore && e.clientY > mid) {
+        dragging.container.insertBefore(card, sib.nextSibling);
+        break;
+      }
+      if (!cardIsBefore && e.clientY < mid) {
+        dragging.container.insertBefore(card, sib);
+        break;
+      }
+    }
+  });
+
+  const stopDragging = () => {
+    if (!dragging) return;
+    card.classList.remove("dragging");
+    const newOrder = [...dragging.container.children].map((c) => c.dataset.id);
+    reorderPinnedSections(newOrder);
+    dragging = null;
+  };
+  handle.addEventListener("pointerup", stopDragging);
+  handle.addEventListener("pointercancel", stopDragging);
+}
+
+function buildDashCard(section) {
+  const card = document.createElement("div");
+  card.className = "dash-card";
+  card.dataset.id = section.id;
+
+  const head = document.createElement("div");
+  head.className = "dash-card-head";
+
+  const handle = document.createElement("span");
+  handle.className = "drag-handle";
+  handle.textContent = "⠿";
+  handle.setAttribute("role", "button");
+  handle.setAttribute("aria-label", `Drag to reorder ${section.title}`);
+
+  const title = document.createElement("h3");
+  title.className = "dash-card-title";
+  title.textContent = section.title;
+
+  head.append(handle, title, makePinToggle(section.id, () => renderDashboard()));
+  card.append(head, buildSectionContent(section));
+  wireDrag(card, handle);
+  return card;
+}
+
+/** Renders every pinned section as a full card into the Dashboard tab,
+ * in the user's saved order. Re-run after any pin/unpin so unpinning
+ * from inside a card removes it immediately. */
+function renderDashboard() {
+  const root = document.querySelector("#sec-dashboard");
+  if (!root) return; // Dashboard isn't the active tab right now.
+  root.innerHTML = "";
+
+  const ids = getPinnedSections();
+  if (ids.length === 0) {
+    const p = document.createElement("p");
+    p.className = "note";
+    p.textContent = "No sections pinned yet — open any tab and tap 📌 Pin to Dashboard.";
+    root.append(p);
     return;
   }
 
-  // Group by originating section, in the same order as the tabs —
-  // flat "everything mixed together" was the exact confusion this
-  // was built to avoid. Pins saved before section-tagging existed
-  // (or anything with an unrecognized id) fall into a trailing bucket
-  // rather than being dropped.
-  const bySection = new Map();
-  for (const pin of pins) {
-    const key = pin.section ?? "other";
-    if (!bySection.has(key)) bySection.set(key, []);
-    bySection.get(key).push(pin);
-  }
-  const orderedKeys = [...SECTIONS.map((s) => s.id), "other"].filter((k) => bySection.has(k));
-
-  for (const key of orderedKeys) {
-    const group = document.createElement("div");
-    group.className = "pin-group";
-
-    const h = document.createElement("h3");
-    h.className = "pin-group-title";
-    h.textContent = SECTIONS.find((s) => s.id === key)?.title ?? "Other";
-    group.append(h);
-
-    const row = document.createElement("div");
-    row.className = "controls";
-
-    for (const pin of bySection.get(key)) {
-      const b = document.createElement("button");
-      b.className = `btn ${pin.tone ?? ""} pinnable pinned`;
-      b.textContent = pin.label;
-      b.dataset.pinId = pin.id;
-      b.onclick = () => {
-        if (customizeMode) {
-          // Only one tab's DOM exists at a time, so there's nothing on
-          // "another tab" to un-badge right now — its .pinned class
-          // gets recomputed fresh from localStorage next time it's
-          // opened (see makePinnable's isPinned() check).
-          togglePin(pin);
-          renderDashboard();
-          return;
-        }
-        send(pin.cmd, b, pin.scope, pin.guard);
-      };
-      row.append(b);
-    }
-
-    group.append(row);
-    body.append(group);
+  for (const id of ids) {
+    const section = SECTIONS.find((s) => s.id === id);
+    if (section) root.append(buildDashCard(section)); // skip stale/renamed ids
   }
 }
 
@@ -462,28 +479,21 @@ function render() {
 
     const s = document.createElement("section");
     s.id = `sec-${id}`;
-
-    const body = document.createElement("div");
-    body.className = "controls";
+    root.append(s);
 
     if (id === "dashboard") {
-      root.append(s);
-      s.append(body);
       renderDashboard();
       return;
     }
 
     const section = SECTIONS.find((sec) => sec.id === id) ?? SECTIONS[0];
-    if (section.note) {
-      const p = document.createElement("p");
-      p.className = "note";
-      p.textContent = section.note;
-      s.append(p);
-    }
 
-    for (const c of section.controls) body.append(buildControl(c, section.id));
-    s.append(body);
-    root.append(s);
+    const head = document.createElement("div");
+    head.className = "section-head";
+    head.append(makePinToggle(section.id));
+    s.append(head);
+
+    s.append(buildSectionContent(section));
   }
 
   const dashTab = document.createElement("button");
@@ -502,25 +512,12 @@ function render() {
     tabs.append(b);
   }
 
-  const customizeBtn = document.createElement("button");
-  customizeBtn.id = "customize-toggle";
-  customizeBtn.className = "tab customize-toggle";
-  customizeBtn.textContent = "✏️ Customize";
-  customizeBtn.onclick = () => {
-    customizeMode = !customizeMode;
-    customizeBtn.textContent = customizeMode ? "✅ Done" : "✏️ Customize";
-    customizeBtn.classList.toggle("active", customizeMode);
-    document.body.classList.toggle("customizing", customizeMode);
-    renderDashboard();
-  };
-  tabs.append(customizeBtn);
-
-  // Land on Dashboard for returning users who've actually pinned
-  // something (the whole point — open the link, hit the show/color
+  // Land on Dashboard for returning users who've actually pinned a
+  // section (the whole point — open the link, hit your show/color
   // shortcuts, done). First-ever visit has nothing pinned yet, so
-  // start on Power instead of an empty screen telling you to pin things
-  // you haven't discovered exist.
-  showSection(getPins().length > 0 ? "dashboard" : SECTIONS[0].id);
+  // start on the first tab instead of an empty screen telling you to
+  // pin things you haven't discovered exist.
+  showSection(getPinnedSections().length > 0 ? "dashboard" : SECTIONS[0].id);
 }
 
 // ---------------------------------------------------------------
