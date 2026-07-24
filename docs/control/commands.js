@@ -20,6 +20,28 @@
  *   select  { label, options:[{label,value}], cmd(v) }
  *
  * `cmd` is either a string or a function returning a string.
+ *
+ * Fountain scoping — `scope` (per control, default "fountain")
+ * ---------------------------------------------------------------
+ * Not every in-world command has a per-fountain variant. This mirrors
+ * exactly how the Panel itself routes things (see MASTER.lsl's fc()
+ * vs fl() vs bare communicate()), so a fountain-specific web session
+ * sends the same bytes the physical Panel would:
+ *
+ *   "fountain" (default) — Panel uses fc(): global sends the command
+ *                           as-is; fountain-specific inserts the ID
+ *                           right after the first "::"
+ *                           e.g. "ANIMATE::ON" -> "ANIMATE::1234::ON"
+ *   "power"   — Panel's per-fountain power is TOGGLE-only (no explicit
+ *               ON/OFF exists below the global level): global sends
+ *               the command as-is; fountain-specific always sends
+ *               "POWER::<id>::TOGGLE" regardless of which button
+ *   "light"   — Panel uses fl(): global sends the command as-is;
+ *               fountain-specific wraps as "LIGHT::<id>::<cmd>"
+ *   "global"  — no per-fountain variant exists at all (Water sliders,
+ *               Hide, Pipe Style all use communicate() directly in
+ *               the Panel, even from inside a fountain's own menu);
+ *               always sent as-is regardless of session context
  */
 
 export const SECTIONS = [
@@ -27,10 +49,11 @@ export const SECTIONS = [
     id: "power",
     title: "Power",
     controls: [
-      // Multi-fountain sync requires explicit ON/OFF, never a toggle.
-      { type: "button", label: "Fountain ON", cmd: "⛲ ON ⛲", tone: "on" },
-      { type: "button", label: "Fountain OFF", cmd: "⛲ OFF ⛲", tone: "off" },
-      { type: "button", label: "Reset", cmd: "🔥 RESET", tone: "warn" },
+      // Multi-fountain sync requires explicit ON/OFF, never a toggle —
+      // but a single fountain only has a toggle. See "power" scope above.
+      { type: "button", label: "Fountain ON", cmd: "⛲ ON ⛲", tone: "on", scope: "power" },
+      { type: "button", label: "Fountain OFF", cmd: "⛲ OFF ⛲", tone: "off", scope: "power" },
+      { type: "button", label: "Reset", cmd: "🔥 RESET", tone: "warn", scope: "global" },
     ],
   },
 
@@ -61,7 +84,7 @@ export const SECTIONS = [
 
   {
     id: "patterns",
-    title: "Static patterns",
+    title: "Patterns",
     note: "P01–P26 are the public pattern codes; ENGINE uses 0–25 internally.",
     controls: [
       { type: "button", label: "🧩 Auto", cmd: "🧩 AUTO" },
@@ -104,8 +127,51 @@ export const SECTIONS = [
   },
 
   {
-    id: "water",
-    title: "Water",
+    id: "lights",
+    title: "Lights",
+    controls: [
+      { type: "button", label: "🔴🟢🔵 RGB", cmd: "RGB", scope: "light" },
+      { type: "button", label: "🌈 Rainbow", cmd: "RAINBOW", scope: "light" },
+      { type: "button", label: "🎨 Multi", cmd: "MULTI", scope: "light" },
+      {
+        type: "grid",
+        label: "Theme",
+        count: 10,
+        caption: (i) => ["Neon", "Xmas", "Cute", "Love", "Snow", "Sky", "Sunset", "Gold", "Forest", "Blood"][i],
+        cmd: (i) => ["NEON", "XMAS", "CUTE", "LOVE", "SNOW", "SKY", "SUNSET", "GOLD", "FOREST", "BLOOD"][i],
+        scope: "light",
+      },
+    ],
+  },
+
+  {
+    id: "shapes",
+    title: "Shapes",
+    note: "From Global, shapes apply to every fountain in the region. Open Web UI from a specific fountain's menu to target just that one.",
+    controls: [
+      {
+        type: "grid",
+        label: "Shape",
+        count: 13,
+        caption: (i) => ["Line", "Circle", "Arc", "Wave", "S-Curve", "V-Form", "Fan", "Oval", "Diamond", "Horseshoe", "Teardrop", "Eye", "Heart"][i],
+        cmd: (i) => `SHAPE::${["LINE", "CIRCLE", "ARC", "WAVE", "SPLINE", "V-SHAPE", "FAN", "OVAL", "DIAMOND", "HORSESHOE", "TEARDROP", "LENS", "HEART"][i]}::2.0`,
+      },
+      { type: "button", label: "➕ Bigger", cmd: "SHAPE::SCALE::+" },
+      { type: "button", label: "➖ Smaller", cmd: "SHAPE::SCALE::-" },
+      { type: "button", label: "⬆ Raise", cmd: "SHAPE::OFFSET::+" },
+      { type: "button", label: "⬇ Lower", cmd: "SHAPE::OFFSET::-" },
+      { type: "button", label: "↩ Restore", cmd: "SHAPE::RESTORE", tone: "warn" },
+      { type: "button", label: "🔗 Dynamic ON", cmd: "SHAPE::DYNAMIC::ON" },
+      { type: "button", label: "🔗 Dynamic OFF", cmd: "SHAPE::DYNAMIC::OFF" },
+      { type: "button", label: "➕ Add pipe", cmd: "SHAPE::PIPES::ADD" },
+      { type: "button", label: "➖ Remove pipe", cmd: "SHAPE::PIPES::REMOVE" },
+    ],
+  },
+
+  {
+    id: "settings",
+    title: "Settings",
+    note: "These apply to every fountain in the region — the Panel itself has no per-fountain variant for them.",
     controls: [
       {
         type: "slider",
@@ -113,6 +179,7 @@ export const SECTIONS = [
         min: 1, max: 10, step: 1, value: 5,
         format: (v) => `${v}`,
         cmd: (v) => `📊 ${v}`,
+        scope: "global",
       },
       {
         type: "slider",
@@ -120,32 +187,17 @@ export const SECTIONS = [
         min: 1, max: 9, step: 1, value: 3,
         format: (v) => `${v}`,
         cmd: (v) => `💧 SPRAY::${v}`,
+        scope: "global",
       },
-      { type: "button", label: "🌟 Glow", cmd: "🌟 GLOW" },
-      { type: "button", label: "🌀 Wind", cmd: "🌀 WIND" },
-      { type: "button", label: "🔔 Sound", cmd: "🔔 SOUND" },
+      { type: "button", label: "🌟 Glow", cmd: "🌟 GLOW", scope: "global" },
+      { type: "button", label: "🌀 Wind", cmd: "🌀 WIND", scope: "global" },
+      { type: "button", label: "🔔 Sound", cmd: "🔔 SOUND", scope: "global" },
+      { type: "button", label: "📏 Tall pipes", cmd: "PIPE_STYLE::TALL", scope: "global" },
+      { type: "button", label: "⚫ Round pipes", cmd: "PIPE_STYLE::ROUND", scope: "global" },
+      { type: "button", label: "🔲 Square pipes", cmd: "PIPE_STYLE::CUBE", scope: "global" },
+      { type: "button", label: "👻 Hide pipes", cmd: "👻 HIDE::PIPES", scope: "global" },
+      { type: "button", label: "👻 Hide base", cmd: "👻 HIDE::BASE", scope: "global" },
+      { type: "button", label: "👻 Hide/show all", cmd: "👻 HIDE::ALL", scope: "global" },
     ],
   },
-
-  // ---------------------------------------------------------------
-  // Room to grow. Uncomment or extend — nothing else has to change.
-  // ---------------------------------------------------------------
-  // {
-  //   id: "visibility",
-  //   title: "Visibility",
-  //   controls: [
-  //     { type: "button", label: "Hide pipes", cmd: "👻 HIDE::PIPES" },
-  //     { type: "button", label: "Hide base",  cmd: "👻 HIDE::BASE" },
-  //     { type: "button", label: "Hide all",   cmd: "👻 HIDE::ALL" },
-  //   ],
-  // },
-  // {
-  //   id: "shape",
-  //   title: "Shape",
-  //   controls: [
-  //     { type: "button", label: "Scale +", cmd: "SHAPE::SCALE::+" },
-  //     { type: "button", label: "Scale -", cmd: "SHAPE::SCALE::-" },
-  //     { type: "button", label: "Restore", cmd: "SHAPE::RESTORE" },
-  //   ],
-  // },
 ];

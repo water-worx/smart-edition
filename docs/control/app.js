@@ -7,6 +7,7 @@
  */
 
 import { SECTIONS } from "./commands.js";
+import { ctx } from "./state.js";
 
 // Change this if you deploy the relay somewhere else.
 const RELAY = "https://waterworx-relay-75wh2jv80gw6.app-wx.deno.net";
@@ -23,7 +24,6 @@ function readToken() {
 }
 
 const token = readToken();
-let fountainId = -1;  // -1 = global, else fountain-specific
 
 // State tracking (reflects last sent commands, not guaranteed in-world state)
 let state = {
@@ -33,17 +33,29 @@ let state = {
   show: "stopped",
 };
 
-// Apply fountain context to a command. If fountainId != -1, insert it after first ::
-function applyFountainContext(cmd) {
-  if (fountainId === -1) return cmd;
+/**
+ * Resolve a base command to what actually gets sent, based on the
+ * control's fountain-scoping rule and the session's fountainId. This
+ * must match the Panel's own routing exactly (fc() / fl() / bare
+ * communicate() in MASTER.lsl) — see the scope docs in commands.js.
+ */
+function resolveCommand(cmd, scope = "fountain") {
+  const fid = ctx.fountainId;
+  if (fid === -1 || scope === "global") return cmd;
+
+  if (scope === "power") return `POWER::${fid}::TOGGLE`;
+  if (scope === "light") return `LIGHT::${fid}::${cmd}`;
+
+  // "fountain" (default): insert the ID right after the first "::",
+  // or append one if the command has none at all.
   const idx = cmd.indexOf("::");
-  if (idx === -1) return cmd + "::" + fountainId;
-  return cmd.slice(0, idx + 2) + fountainId + "::" + cmd.slice(idx + 2);
+  if (idx === -1) return `${cmd}::${fid}`;
+  return cmd.slice(0, idx + 2) + fid + "::" + cmd.slice(idx + 2);
 }
 
 // Parse commands to update local state display
 function updateStateFromCommand(cmd) {
-  if (cmd.includes("⛲ ON")) state.isOn = true;
+  if (cmd.includes("⛲ ON") || cmd.includes("POWER::")) state.isOn = true;
   else if (cmd.includes("⛲ OFF")) state.isOn = false;
   else if (cmd.includes("🧩 STATIC")) state.mode = "STATIC";
   else if (cmd.includes("🧩 AUTO")) state.mode = "AUTO";
@@ -91,14 +103,14 @@ function updateStatusDisplay() {
 
 let busy = false;
 
-async function send(cmd, el) {
+async function send(cmd, el, scope) {
   if (!token) return setStatus("No session — touch the panel in-world.", "err");
   if (busy) return;
   busy = true;
   el?.classList.add("pending");
 
   try {
-    const finalCmd = applyFountainContext(cmd);
+    const finalCmd = resolveCommand(cmd, scope);
     const r = await fetch(`${RELAY}/api/cmd`, {
       method: "POST",
       headers: { "content-type": "application/json" },
@@ -145,10 +157,10 @@ async function refreshState() {
 
     // Update fountain context
     if (data.fountainId !== undefined) {
-      fountainId = data.fountainId;
+      ctx.fountainId = data.fountainId;
       const contextEl = document.querySelector("h1 small");
       if (contextEl) {
-        contextEl.textContent = fountainId === -1 ? "(Global)" : `(Fountain #${fountainId % 10000})`;
+        contextEl.textContent = ctx.fountainId === -1 ? "(Global)" : `(Fountain #${ctx.fountainId % 10000})`;
       }
     }
 
@@ -200,7 +212,7 @@ function buildControl(c) {
     const b = document.createElement("button");
     b.className = `btn ${c.tone ?? ""}`;
     b.textContent = c.label;
-    b.onclick = () => send(resolve(c.cmd), b);
+    b.onclick = () => send(resolve(c.cmd), b, c.scope);
     return b;
   }
 
@@ -211,7 +223,7 @@ function buildControl(c) {
       const b = document.createElement("button");
       b.className = "btn small";
       b.textContent = resolve(c.caption, i);
-      b.onclick = () => send(resolve(c.cmd, i), b);
+      b.onclick = () => send(resolve(c.cmd, i), b, c.scope);
       wrap.append(b);
     }
     return wrap;
@@ -240,7 +252,7 @@ function buildControl(c) {
     // Fire on release only. Each command is an in-world message, and
     // per-object llHTTPRequest throttling is 25 requests / 20 seconds —
     // streaming every drag frame would trip it instantly.
-    input.onchange = () => send(resolve(c.cmd, Number(input.value)), wrap);
+    input.onchange = () => send(resolve(c.cmd, Number(input.value)), wrap, c.scope);
 
     wrap.append(head, input);
     return wrap;
@@ -258,7 +270,7 @@ function buildControl(c) {
       opt.textContent = o.label;
       sel.append(opt);
     }
-    sel.onchange = () => send(resolve(c.cmd, sel.value), wrap);
+    sel.onchange = () => send(resolve(c.cmd, sel.value), wrap, c.scope);
     wrap.append(name, sel);
     return wrap;
   }
@@ -266,15 +278,25 @@ function buildControl(c) {
   return document.createTextNode("");
 }
 
+/**
+ * Tabbed layout: one tab per section, only the active one rendered
+ * into #panel. Nothing requires scrolling past other sections to
+ * reach a control — switching sections is a click, not a scroll.
+ */
 function render() {
+  const tabs = $("#tabs");
   const root = $("#panel");
-  for (const section of SECTIONS) {
+
+  function showSection(id) {
+    root.innerHTML = "";
+    const section = SECTIONS.find((s) => s.id === id) ?? SECTIONS[0];
+
+    for (const b of tabs.children) {
+      b.classList.toggle("active", b.dataset.id === section.id);
+    }
+
     const s = document.createElement("section");
     s.id = `sec-${section.id}`;
-
-    const h = document.createElement("h2");
-    h.textContent = section.title;
-    s.append(h);
 
     if (section.note) {
       const p = document.createElement("p");
@@ -290,6 +312,17 @@ function render() {
 
     root.append(s);
   }
+
+  for (const section of SECTIONS) {
+    const b = document.createElement("button");
+    b.className = "tab";
+    b.dataset.id = section.id;
+    b.textContent = section.title;
+    b.onclick = () => showSection(section.id);
+    tabs.append(b);
+  }
+
+  showSection(SECTIONS[0].id);
 }
 
 // ---------------------------------------------------------------
