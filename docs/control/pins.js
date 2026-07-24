@@ -13,7 +13,22 @@ const KEY = "smart-web-pins";
 function readAll() {
   try {
     const raw = localStorage.getItem(KEY);
-    return raw ? JSON.parse(raw) : [];
+    if (!raw) return [];
+    const pins = JSON.parse(raw);
+
+    // One-time migration: pins saved before section-grouping existed
+    // have no `section` field, which dumped them all into a single
+    // "Other" bucket. Every pin's id has always been formatted as
+    // "<sectionId>::...", so the section is recoverable losslessly —
+    // no need to make anyone re-pin things.
+    let migrated = false;
+    const fixed = pins.map((p) => {
+      if (p.section) return p;
+      migrated = true;
+      return { ...p, section: p.id?.split("::")[0] ?? "other" };
+    });
+    if (migrated) writeAll(fixed);
+    return fixed;
   } catch {
     return [];
   }
