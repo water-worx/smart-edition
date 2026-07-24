@@ -275,6 +275,48 @@ function buildControl(c) {
     return wrap;
   }
 
+  if (c.type === "palette") {
+    // Category pills + a color grid that swaps to match whichever
+    // category is selected. The command is the color's own label text
+    // (with emoji), matching the Panel's raw fl(msg) send exactly.
+    const wrap = document.createElement("div");
+    wrap.className = "palette";
+
+    const cats = document.createElement("div");
+    cats.className = "palette-cats";
+
+    const colors = document.createElement("div");
+    colors.className = "grid";
+
+    function showCategory(idx) {
+      const cat = c.categories[idx];
+      for (const b of cats.children) {
+        b.classList.toggle("active", Number(b.dataset.idx) === idx);
+      }
+      colors.innerHTML = "";
+      for (const color of cat.colors) {
+        const b = document.createElement("button");
+        b.className = "btn small";
+        b.textContent = color;
+        b.onclick = () => send(color, b, c.scope);
+        colors.append(b);
+      }
+    }
+
+    c.categories.forEach((cat, idx) => {
+      const b = document.createElement("button");
+      b.className = "tab";
+      b.dataset.idx = idx;
+      b.textContent = cat.name;
+      b.onclick = () => showCategory(idx);
+      cats.append(b);
+    });
+
+    wrap.append(cats, colors);
+    showCategory(0);
+    return wrap;
+  }
+
   return document.createTextNode("");
 }
 

@@ -141,6 +141,25 @@ export const SECTIONS = [
         cmd: (i) => ["NEON", "XMAS", "CUTE", "LOVE", "SNOW", "SKY", "SUNSET", "GOLD", "FOREST", "BLOOD"][i],
         scope: "light",
       },
+      // Palette colors: category selector + a 6-color grid for whichever
+      // category is picked. Commands are the exact button text (with
+      // emoji) the Panel itself sends via fl(msg) — see get_palette() in
+      // MASTER HELPER.lsl for the source of truth on these 8x6 colors.
+      {
+        type: "palette",
+        label: "Palette",
+        scope: "light",
+        categories: [
+          { name: "🔴 Reds", colors: ["🟥 RED", "🟥 CRIMSON", "🟥 DK-RED", "🟥 INDIANRED", "🟥 ORANGERED", "🟥 CORAL"] },
+          { name: "🟠 Oranges", colors: ["🟧 ORANGE", "🟧 DK-ORANGE", "🟧 SALMON", "🟧 PEACH", "🟧 AMBER", "🟧 BROWN"] },
+          { name: "🟡 Yellows", colors: ["🟨 YELLOW", "🟨 GOLD", "🟨 LT-YELLOW", "🟨 GOLDENROD", "🟨 GR-YELLOW", "🟨 LEMON"] },
+          { name: "🟢 Greens", colors: ["🟩 GREEN", "🟩 LIMEGREEN", "🟩 LT-GREEN", "🟩 DK-GREEN", "🟩 FT-GREEN", "🟩 EMERALD"] },
+          { name: "🔵 Blues", colors: ["🟦 BLUE", "🟦 SKYBLUE", "🟦 DK-BLUE", "🟦 TEAL", "🟦 CYAN", "🟦 AZURE"] },
+          { name: "💖 Pinks", colors: ["🟪 PINK", "🟪 HOTPINK", "🟪 LT-PINK", "🟪 DK-PINK", "🟪 ROSE", "🟪 FUCHSIA"] },
+          { name: "🟣 Violets", colors: ["🟪 VIOLET", "🟪 PURPLE", "🟪 LAVENDER", "🟪 PLUM", "🟪 ORCHID", "🟪 INDIGO"] },
+          { name: "⬜ Grays", colors: ["⬜ WHITE", "⬜ SILVER", "⬜ GRAY", "⬜ DK-GRAY", "⬜ LT-GREY", "⬜ BLACK"] },
+        ],
+      },
     ],
   },
 
