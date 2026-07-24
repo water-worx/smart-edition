@@ -42,6 +42,19 @@
  *               Hide, Pipe Style all use communicate() directly in
  *               the Panel, even from inside a fountain's own menu);
  *               always sent as-is regardless of session context
+ *
+ * Show guard — `guard` (per control, optional)
+ * ---------------------------------------------------------------
+ * CONSOLE.lsl's show_running flag blocks exactly one command while a
+ * DANCE show is playing: PIPE_STYLE:: (owner sees "⚠ Stop show first").
+ * Nothing else — not shape selection, size, dynamic pipes, or Hide —
+ * is gated in-world, so don't add this anywhere else.
+ *
+ *   "no-show" — refused client-side with a status message instead of
+ *               being sent, mirroring the in-world rejection. Based on
+ *               this session's own local state.show guess (set from
+ *               commands *this* session has sent) — it can't see a
+ *               show started elsewhere (another session, or in-world).
  */
 
 export const SECTIONS = [
@@ -190,7 +203,7 @@ export const SECTIONS = [
   {
     id: "settings",
     title: "Settings",
-    note: "These apply to every fountain in the region — the Panel itself has no per-fountain variant for them.",
+    note: "These apply to every fountain in the region — the Panel itself has no per-fountain variant for them. Pipe Style can't change while a show is running (from this session) — stop it first.",
     controls: [
       {
         type: "slider",
@@ -211,9 +224,12 @@ export const SECTIONS = [
       { type: "button", label: "🌟 Glow", cmd: "🌟 GLOW", scope: "global" },
       { type: "button", label: "🌀 Wind", cmd: "🌀 WIND", scope: "global" },
       { type: "button", label: "🔔 Sound", cmd: "🔔 SOUND", scope: "global" },
-      { type: "button", label: "📏 Tall pipes", cmd: "PIPE_STYLE::TALL", scope: "global" },
-      { type: "button", label: "⚫ Round pipes", cmd: "PIPE_STYLE::ROUND", scope: "global" },
-      { type: "button", label: "🔲 Square pipes", cmd: "PIPE_STYLE::CUBE", scope: "global" },
+      // Pipe Style is the one command CONSOLE.lsl actually refuses while
+      // a DANCE show is running ("⚠ Stop show first"). Nothing else in
+      // Shapes/Settings is gated — see `guard` docs above.
+      { type: "button", label: "📏 Tall pipes", cmd: "PIPE_STYLE::TALL", scope: "global", guard: "no-show" },
+      { type: "button", label: "⚫ Round pipes", cmd: "PIPE_STYLE::ROUND", scope: "global", guard: "no-show" },
+      { type: "button", label: "🔲 Square pipes", cmd: "PIPE_STYLE::CUBE", scope: "global", guard: "no-show" },
       { type: "button", label: "👻 Hide pipes", cmd: "👻 HIDE::PIPES", scope: "global" },
       { type: "button", label: "👻 Hide base", cmd: "👻 HIDE::BASE", scope: "global" },
       { type: "button", label: "👻 Hide/show all", cmd: "👻 HIDE::ALL", scope: "global" },

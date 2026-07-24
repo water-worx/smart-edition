@@ -103,8 +103,15 @@ function updateStatusDisplay() {
 
 let busy = false;
 
-async function send(cmd, el, scope) {
+async function send(cmd, el, scope, guard) {
   if (!token) return setStatus("No session — touch the panel in-world.", "err");
+  if (guard === "no-show" && state.show !== "stopped") {
+    // Mirrors CONSOLE.lsl's show_running check on PIPE_STYLE:: — refuse
+    // client-side instead of sending a command the fountain will just
+    // reject anyway. Based on this session's own guess of show state;
+    // see the "guard" docs in commands.js for the caveat on that.
+    return setStatus("⚠ Stop the show first — Pipe Style can't change while one is running.", "err");
+  }
   if (busy) return;
   busy = true;
   el?.classList.add("pending");
@@ -212,7 +219,7 @@ function buildControl(c) {
     const b = document.createElement("button");
     b.className = `btn ${c.tone ?? ""}`;
     b.textContent = c.label;
-    b.onclick = () => send(resolve(c.cmd), b, c.scope);
+    b.onclick = () => send(resolve(c.cmd), b, c.scope, c.guard);
     return b;
   }
 
@@ -223,7 +230,7 @@ function buildControl(c) {
       const b = document.createElement("button");
       b.className = "btn small";
       b.textContent = resolve(c.caption, i);
-      b.onclick = () => send(resolve(c.cmd, i), b, c.scope);
+      b.onclick = () => send(resolve(c.cmd, i), b, c.scope, c.guard);
       wrap.append(b);
     }
     return wrap;
@@ -252,7 +259,7 @@ function buildControl(c) {
     // Fire on release only. Each command is an in-world message, and
     // per-object llHTTPRequest throttling is 25 requests / 20 seconds —
     // streaming every drag frame would trip it instantly.
-    input.onchange = () => send(resolve(c.cmd, Number(input.value)), wrap, c.scope);
+    input.onchange = () => send(resolve(c.cmd, Number(input.value)), wrap, c.scope, c.guard);
 
     wrap.append(head, input);
     return wrap;
@@ -270,7 +277,7 @@ function buildControl(c) {
       opt.textContent = o.label;
       sel.append(opt);
     }
-    sel.onchange = () => send(resolve(c.cmd, sel.value), wrap, c.scope);
+    sel.onchange = () => send(resolve(c.cmd, sel.value), wrap, c.scope, c.guard);
     wrap.append(name, sel);
     return wrap;
   }
