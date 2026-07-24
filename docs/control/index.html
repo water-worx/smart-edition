@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Session tokens live in the URL fragment; keep them out of Referer. -->
+  <meta name="referrer" content="no-referrer">
+  <title>S.M.A.R.T Web Control</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header>
+    <div class="brand">
+      <span class="logo">⛲</span>
+      <div>
+        <h1>S.M.A.R.T Control</h1>
+        <div class="meta">
+          <span id="conn" class="dot off"></span>
+          <span id="region">connecting…</span>
+        </div>
+      </div>
+    </div>
+    <div id="fountains" class="fountains">—</div>
+  </header>
+
+  <div id="gate" hidden>
+    <div class="card">
+      <h2>No active session</h2>
+      <p>
+        Touch your S.M.A.R.T Panel in Second Life and accept the prompt to
+        open this page. That generates a session link tied to your panel.
+      </p>
+      <p class="note">
+        Session links expire after 12 hours. Touch the panel again for a new one.
+      </p>
+    </div>
+  </div>
+
+  <main id="panel"></main>
+
+  <footer>
+    <p id="status"></p>
+    <p class="note">
+      Commands are sent one-way to your in-world panel. If the region
+      restarts, the panel re-registers automatically — wait a few seconds
+      and try again.
+    </p>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

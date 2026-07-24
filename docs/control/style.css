@@ -1,0 +1,163 @@
+/* S.M.A.R.T web control.
+   Mirrors the in-world Panel, but freed from the llDialog constraints:
+   no 12-button pages, no paging, everything visible at once. Responsive
+   so it works on a second monitor beside the viewer or on a tablet. */
+
+:root {
+  --bg: #0b1220;
+  --panel: #131c2e;
+  --panel-2: #1a2540;
+  --line: #26334d;
+  --ink: #e8eefc;
+  --ink-dim: #93a3c4;
+  --accent: #4da3ff;
+  --on: #3ddc84;
+  --off: #ff6b6b;
+  --warn: #ffb648;
+  --radius: 12px;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f4f7fc;
+    --panel: #ffffff;
+    --panel-2: #eef3fb;
+    --line: #d7e0ef;
+    --ink: #14203a;
+    --ink-dim: #5a6b8c;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 0 0 3rem;
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-text-size-adjust: 100%;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 1rem 1rem 0.75rem;
+  padding-top: max(1rem, env(safe-area-inset-top));
+  background: var(--panel);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand { display: flex; align-items: center; gap: 0.75rem; }
+.logo { font-size: 2rem; line-height: 1; }
+h1 { margin: 0; font-size: 1.125rem; letter-spacing: 0.01em; }
+
+.meta {
+  display: flex; align-items: center; gap: 0.4rem;
+  font-size: 0.8rem; color: var(--ink-dim);
+}
+
+.dot {
+  width: 0.5rem; height: 0.5rem; border-radius: 50%;
+  background: var(--off); flex: none;
+  transition: background 0.2s;
+}
+.dot.on { background: var(--on); }
+
+.fountains {
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: var(--ink-dim);
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+main { padding: 0 1rem; }
+
+section {
+  margin-top: 1.25rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+
+h2 {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+}
+
+.note { margin: 0 0 0.75rem; font-size: 0.78rem; color: var(--ink-dim); }
+
+.controls { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.btn {
+  flex: 1 1 auto;
+  min-width: 8.5rem;
+  /* 44px minimum, so the same layout works under touch. */
+  min-height: 2.75rem;
+  padding: 0.65rem 0.9rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--ink);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.08s, background 0.15s, border-color 0.15s;
+}
+.btn:hover { border-color: var(--accent); }
+.btn:active { transform: scale(0.97); }
+.btn.flash { background: var(--accent); color: #001227; }
+.btn.on  { border-color: var(--on); }
+.btn.off { border-color: var(--off); }
+.btn.warn { border-color: var(--warn); }
+
+.btn.small { min-width: 0; flex: 0 0 auto; padding: 0.55rem 0.7rem; font-size: 0.8rem; }
+
+.grid {
+  flex: 1 1 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(3.75rem, 1fr));
+  gap: 0.4rem;
+}
+
+.slider { flex: 1 1 100%; }
+.slider-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  font-size: 0.85rem; margin-bottom: 0.25rem;
+}
+.slider-head output { color: var(--accent); font-variant-numeric: tabular-nums; }
+.slider input[type="range"] { width: 100%; accent-color: var(--accent); }
+.slider.pending { opacity: 0.55; }
+
+select {
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.6rem;
+  font: inherit;
+  color: var(--ink);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.card {
+  margin: 2rem 1rem;
+  padding: 1.25rem;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.card h2 { font-size: 1rem; text-transform: none; letter-spacing: 0; color: var(--ink); }
+
+footer { padding: 1.5rem 1rem 0; }
+#status { margin: 0 0 0.5rem; font-size: 0.85rem; min-height: 1.25rem; }
+#status.ok  { color: var(--on); }
+#status.err { color: var(--off); }
+
+.btn.pending, .pending { opacity: 0.55; pointer-events: none; }
