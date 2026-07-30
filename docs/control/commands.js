@@ -129,6 +129,16 @@ export const SECTIONS = [
         format: (v) => `${v}×`,
         cmd: (v) => `ANIMATE::SPEED::${v}`,
       },
+      // How far the pipes lean. ANIMATE clamps to 0.1-3.0 and pushes the
+      // value to both ANIMATE HELPER scripts via CONFIG::, which is what
+      // actually scales patterns 21-46.
+      {
+        type: "slider",
+        label: "Tilt intensity",
+        min: 0.1, max: 3, step: 0.1, value: 1,
+        format: (v) => `${v}×`,
+        cmd: (v) => `ANIMATE::TILT_MULT::${v}`,
+      },
       {
         type: "slider",
         label: "Cycle time",

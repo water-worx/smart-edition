@@ -254,14 +254,27 @@ function buildControl(c) {
       type: "range",
       min: c.min, max: c.max, step: c.step, value: c.value,
     });
+    // Track fill percentage, published to CSS as --fill. The stylesheet
+    // draws the filled portion of the track from it; a custom-styled
+    // range input loses the progressive fill `accent-color` gives you
+    // for free, and a slider whose track doesn't track its value reads
+    // as permanently maxed.
+    const syncFill = () => {
+      const span = Number(c.max) - Number(c.min);
+      const pct = span > 0 ? ((Number(input.value) - Number(c.min)) / span) * 100 : 0;
+      input.style.setProperty("--fill", `${pct}%`);
+    };
+
     input.oninput = () => {
       val.textContent = resolve(c.format, Number(input.value)) ?? input.value;
+      syncFill();
     };
     // Fire on release only. Each command is an in-world message, and
     // per-object llHTTPRequest throttling is 25 requests / 20 seconds —
     // streaming every drag frame would trip it instantly.
     input.onchange = () => send(resolve(c.cmd, Number(input.value)), wrap, c.scope, c.guard);
 
+    syncFill();
     wrap.append(head, input);
     return wrap;
   }

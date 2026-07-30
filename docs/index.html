@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WaterWorx — S.M.A.R.T Fountain System V5.1 User Guide</title>
-  <meta name="description" content="Complete user guide for the WaterWorx S.M.A.R.T Fountain System V5.1 for Second Life. Setup, controls, shows, multi-fountain management and more.">
+  <title>WaterWorx — S.M.A.R.T Fountain System V5.2 User Guide</title>
+  <meta name="description" content="Complete user guide for the WaterWorx S.M.A.R.T Fountain System V5.2 for Second Life. Setup, controls, shows, multi-fountain management and more.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -235,45 +235,6 @@
       font-size: 24px;
       cursor: pointer;
       color: var(--gray-700);
-    }
-    .topnav-mobile-only { display: none; }
-
-    /* ========== Desktop Side Links ========== */
-    .side-toc {
-      position: fixed;
-      top: 140px;
-      right: 18px;
-      width: 190px;
-      background: rgba(255,255,255,.95);
-      backdrop-filter: blur(10px);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow-lg);
-      padding: 12px;
-      z-index: 98;
-    }
-    .side-toc-title {
-      font-size: 11px;
-      letter-spacing: .8px;
-      text-transform: uppercase;
-      color: var(--gray-500);
-      font-weight: 700;
-      margin: 2px 4px 8px;
-    }
-    .side-toc a {
-      display: block;
-      text-decoration: none;
-      color: var(--gray-700);
-      font-size: 13px;
-      font-weight: 600;
-      padding: 8px 10px;
-      border-radius: 8px;
-      transition: background .15s, color .15s;
-    }
-    .side-toc a:hover,
-    .side-toc a.active {
-      background: var(--blue-50);
-      color: var(--blue-700);
     }
 
     /* ========== Content Container ========== */
@@ -728,14 +689,9 @@
         box-shadow: var(--shadow-lg);
         gap: 4px;
       }
-      .nav-links.mobile-open .topnav-mobile-only { display: block; }
       .hero { padding: 72px 20px 60px; }
       .cheat-grid { grid-template-columns: 1fr; }
       .show-grid { grid-template-columns: 1fr; }
-    }
-
-    @media (max-width: 1200px) {
-      .side-toc { display: none; }
     }
 
     /* ========== Comparison Table ========== */
@@ -875,7 +831,7 @@
 
 <!-- ==================== HERO ==================== -->
 <header class="hero" id="top">
-  <div class="hero-badge">WaterWorx · Version 5.1</div>
+  <div class="hero-badge">WaterWorx · Version 5.0</div>
   <h1>💧 S.M.A.R.T <span>Fountain</span> System</h1>
   <p>by <strong>WaterWorx</strong> — Your complete guide to running stunning choreographed water shows in Second&nbsp;Life.</p>
   <div class="hero-buttons">
@@ -907,22 +863,15 @@
       <a href="#settings">⚙️ Settings</a>
       <a href="#custom-shapes">📐 Custom Shapes</a>
       <a href="#multi">🌍 Multi</a>
-      <a href="#chatcmd" class="topnav-mobile-only">💬 Chat</a>
-      <a href="#speaker" class="topnav-mobile-only">🔊 Speaker</a>
+      <a href="#chatcmd">💬 Chat</a>
+      <a href="#speaker">🔊 Speaker</a>
       <a href="#admin">🛠 Admin</a>
+      <a href="#changelog">📋 Log</a>
+      <a href="#troubleshoot">❓ Help</a>
       <a href="#reference">📋 Ref</a>
     </div>
   </div>
 </nav>
-
-<aside class="side-toc" aria-label="Quick Links">
-  <div class="side-toc-title">Quick Links</div>
-  <a href="#chatcmd">💬 Chat Commands</a>
-  <a href="#speaker">🔊 Speaker</a>
-  <a href="#troubleshoot">❓ Troubleshoot</a>
-  <a href="#changelog">📋 Changelog</a>
-  <a href="#reference">📚 Quick Reference</a>
-</aside>
 
 <!-- ==================== 1. PACKAGE ==================== -->
 <section id="package">
@@ -955,7 +904,7 @@
       <div class="package-grid">
         <div class="package-card">
           <span class="card-icon">📟</span>
-          <h4>S.M.A.R.T Panel V5.1</h4>
+          <h4>S.M.A.R.T Panel V5.2</h4>
           <p>Your touch-screen control panel for all fountains.</p>
           <span class="badge">✅ Pre-configured</span>
         </div>
@@ -988,10 +937,6 @@
         </div>
       </div>
       <p>Follow these steps and your fountain will be running in minutes.</p>
-      <div class="callout callout-info" style="margin-top:12px;">
-        <span class="callout-icon">✅</span>
-        <div><strong>Best order:</strong> set up the <strong>Panel first</strong>. After that, you can rez fountains any time and set each one to the same channel once.</div>
-      </div>
 
       <div class="steps">
         <div class="step">
@@ -1000,7 +945,7 @@
             <h4>Rez &amp; Configure the Panel</h4>
             <ol>
               <li>Open your Second Life Inventory</li>
-              <li>Find <strong>"S.M.A.R.T PANEL V5.1"</strong></li>
+              <li>Find <strong>"S.M.A.R.T PANEL V5.2"</strong></li>
               <li>Right-click → Drag to ground (Rez)</li>
               <li><strong>Touch (click) the Panel</strong> — on first use a channel dialog appears</li>
               <li>Enter a channel number — e.g. <strong>-31</strong> — and press Enter</li>
@@ -1008,10 +953,6 @@
             <div class="callout callout-info">
               <span class="callout-icon">📡</span>
               <div>The channel is <strong>saved permanently</strong> — even through script resets and sim restarts. Every Panel and Fountain that should work together must use the <strong>same number</strong>.</div>
-            </div>
-            <div class="callout callout-tip" style="margin-top:10px;">
-              <span class="callout-icon">🧭</span>
-              <div><strong>Recommended for multi-fountain setups:</strong> configure the <strong>Panel first</strong> (once), then rez fountains any time later and set each fountain to the same channel. You do <strong>not</strong> need to rez all fountains at once.</div>
             </div>
           </div>
         </div>
@@ -1037,10 +978,6 @@
               <li>A <strong>channel dialog</strong> appears — enter the <strong>same number as the Panel</strong> (e.g. <code>-31</code>)</li>
               <li><strong>5 pipes auto-rez and auto-link</strong> in a line formation — no manual work!</li>
             </ol>
-            <div class="callout callout-info" style="margin-top:10px;">
-              <span class="callout-icon">ℹ️</span>
-              <div>After setup, touching the fountain is mainly for permissions. If you want to change channel later, use <strong>Panel → 🛠 ADMIN → 📡 CHANNEL</strong>.</div>
-            </div>
             <div class="callout callout-tip">
               <span class="callout-icon">💡</span>
               <div>Want more pipes? Open <strong>🔷 SHAPES</strong>, then <strong>🧱 PIPES</strong> to add or remove pipes. Turn on <strong>🔗 DYNAMIC</strong> there if you want pipe count to auto-scale with the shape.</div>
@@ -1339,7 +1276,7 @@
         </div>
         <div class="feature-item" style="border-left:4px solid var(--amber-500);">
           <h5>📌 STATIC</h5>
-          <p>Lock one favorite pattern (P0–P25) on repeat.</p>
+          <p>Lock one favorite pattern (P01–P26) on repeat.</p>
         </div>
       </div>
 
@@ -1348,32 +1285,32 @@
         <table>
           <thead><tr><th>#</th><th>Name</th><th>Type</th></tr></thead>
           <tbody>
-            <tr><td>P0</td><td>Synchronized</td><td>All pipes together</td></tr>
-            <tr><td>P1</td><td>Sequential Chase</td><td>One-by-one sweep</td></tr>
-            <tr><td>P2</td><td>Alternating Pairs</td><td>Even/odd toggle</td></tr>
-            <tr><td>P3</td><td>Crescendo Sweep</td><td>Building intensity</td></tr>
-            <tr><td>P4</td><td>Symmetric Wave</td><td>Mirror wave</td></tr>
-            <tr><td>P5</td><td>Mountain Peak</td><td>Center high</td></tr>
-            <tr><td>P6</td><td>Breathing Alt</td><td>Gentle pulsing</td></tr>
-            <tr><td>P7</td><td>Mirror Pairs</td><td>Edge-inward</td></tr>
-            <tr><td>P8</td><td>Heartbeat Pulse</td><td>Calm breathing</td></tr>
-            <tr><td>P9</td><td>Zigzag</td><td>Left-right bounce</td></tr>
-            <tr><td>P10</td><td>Ocean Swell</td><td>Traveling wave</td></tr>
-            <tr><td>P11</td><td>Double Wave</td><td>Two waves</td></tr>
-            <tr><td>P12</td><td>Tiered</td><td>Height gradient</td></tr>
-            <tr><td>P13</td><td>Ripple</td><td>Concentric rings</td></tr>
-            <tr><td>P14</td><td>Dancing Jets</td><td>Random energy</td></tr>
-            <tr><td>P15</td><td>Spotlight</td><td>Solo pipe drama</td></tr>
-            <tr><td>P16</td><td>V-Shape</td><td>Valley formation</td></tr>
-            <tr><td>P17</td><td>Parabolic Arc</td><td>Smooth arc</td></tr>
-            <tr><td>P18</td><td>Spiral Rise</td><td>Spinning height</td></tr>
-            <tr><td>P19</td><td>Grand Finale</td><td>All at maximum!</td></tr>
-            <tr><td>P20</td><td>Sine Wave</td><td>Traveling wave</td></tr>
-            <tr><td>P21</td><td>Equalizer Wave</td><td>All pipes, unique sine heights</td></tr>
-            <tr><td>P22</td><td>Bounce</td><td>Ball-bounce elastic motion</td></tr>
-            <tr><td>P23</td><td>Cathedral</td><td>Gothic arch formation</td></tr>
-            <tr><td>P24</td><td>Counter Chase</td><td>Two-directional sweep</td></tr>
-            <tr><td>P25</td><td>Stagger Pulse</td><td>Offset pulsing groups</td></tr>
+            <tr><td>P01</td><td>Synchronized</td><td>All pipes together</td></tr>
+            <tr><td>P02</td><td>Sequential Chase</td><td>One-by-one sweep</td></tr>
+            <tr><td>P03</td><td>Alternating Pairs</td><td>Even/odd toggle</td></tr>
+            <tr><td>P04</td><td>Crescendo Sweep</td><td>Building intensity</td></tr>
+            <tr><td>P05</td><td>Pyramid Steps</td><td>Stepped tiers</td></tr>
+            <tr><td>P06</td><td>Mountain Peak</td><td>Center high</td></tr>
+            <tr><td>P07</td><td>Crown Rotate</td><td>Rotating peaks</td></tr>
+            <tr><td>P08</td><td>Mirror Pairs</td><td>Edge-inward</td></tr>
+            <tr><td>P09</td><td>Heartbeat Pulse</td><td>Calm breathing</td></tr>
+            <tr><td>P10</td><td>Zigzag</td><td>Left-right bounce</td></tr>
+            <tr><td>P11</td><td>Ocean Swell</td><td>Traveling wave</td></tr>
+            <tr><td>P12</td><td>Double Wave</td><td>Two waves</td></tr>
+            <tr><td>P13</td><td>Tiered</td><td>Height gradient</td></tr>
+            <tr><td>P14</td><td>Ripple</td><td>Concentric rings</td></tr>
+            <tr><td>P15</td><td>Dancing Jets</td><td>Random energy</td></tr>
+            <tr><td>P16</td><td>Candle Flicker</td><td>Soft irregular flicker</td></tr>
+            <tr><td>P17</td><td>V-Shape</td><td>Valley formation</td></tr>
+            <tr><td>P18</td><td>Parabolic Arc</td><td>Smooth arc</td></tr>
+            <tr><td>P19</td><td>Ping Pong</td><td>Peak bounces end to end</td></tr>
+            <tr><td>P20</td><td>Grand Finale</td><td>All at maximum!</td></tr>
+            <tr><td>P21</td><td>Sine Wave</td><td>Traveling wave</td></tr>
+            <tr><td>P22</td><td>Equalizer Wave</td><td>All pipes, unique sine heights</td></tr>
+            <tr><td>P23</td><td>Bounce</td><td>Ball-bounce elastic motion</td></tr>
+            <tr><td>P24</td><td>Cathedral</td><td>Gothic arch formation</td></tr>
+            <tr><td>P25</td><td>Counter Chase</td><td>Two-directional sweep</td></tr>
+            <tr><td>P26</td><td>Stagger Pulse</td><td>Offset pulsing groups</td></tr>
           </tbody>
         </table>
       </div>
@@ -1382,19 +1319,19 @@
       <div class="feature-grid">
         <div class="feature-item">
           <h5>🧘 Relaxation</h5>
-          <p>P8 Heartbeat • P10 Ocean Swell • P6 Breathing Alt</p>
+          <p>P09 Heartbeat Pulse • P11 Ocean Swell • P13 Tiered</p>
         </div>
         <div class="feature-item">
           <h5>🎉 Energy & Parties</h5>
-          <p>P0 Synchronized • P14 Dancing Jets • P19 Grand Finale • P22 Bounce</p>
+          <p>P01 Synchronized • P15 Dancing Jets • P20 Grand Finale • P23 Bounce</p>
         </div>
         <div class="feature-item">
           <h5>🌹 Beauty & Elegance</h5>
-          <p>P4 Symmetric Wave • P13 Ripple • P17 Parabolic Arc • P23 Cathedral</p>
+          <p>P05 Pyramid Steps • P14 Ripple • P18 Parabolic Arc • P24 Cathedral</p>
         </div>
         <div class="feature-item">
           <h5>🎬 Showmanship</h5>
-          <p>P1 Sequential Chase • P15 Spotlight • P18 Spiral Rise • P24 Counter Chase</p>
+          <p>P02 Sequential Chase • P07 Crown Rotate • P19 Ping Pong • P25 Counter Chase</p>
         </div>
       </div>
     </div>
@@ -1455,25 +1392,6 @@
         <div class="feature-item"><h5>🧘 Meditation</h5><p>0.25x – 0.5x — Slow, graceful</p></div>
         <div class="feature-item"><h5>🍷 Elegant</h5><p>0.7x – 1x — Smooth, natural</p></div>
         <div class="feature-item"><h5>🎉 Party</h5><p>1.5x – 2.5x — Fast, dynamic</p></div>
-      </div>
-
-      <h3>🛑 Stop ANIMATE (Back to Static)</h3>
-      <ol>
-        <li>Click Panel → choose GLOBAL or a specific fountain</li>
-        <li>Click <strong>🔄 SEQUENCE</strong></li>
-        <li>Choose <strong>🔁 AUTO</strong>, <strong>🎲 RANDOM</strong>, or <strong>📌 STATIC</strong></li>
-      </ol>
-      <p>This returns control to normal water patterns (no tilt choreography).</p>
-
-      <h3>▶ Enable ANIMATE Again</h3>
-      <ol>
-        <li>Click Panel → choose GLOBAL or a specific fountain (with ✓ module)</li>
-        <li>Click <strong>💃 ANIMATE</strong></li>
-        <li>Choose <strong>💃 NORMAL</strong> or <strong>🔀 HYBRID</strong></li>
-      </ol>
-      <div class="callout callout-info">
-        <span class="callout-icon">ℹ️</span>
-        <div><strong>🔃 NEUTRAL</strong> only straightens pipes. To fully return to normal pattern mode, use <strong>🔄 SEQUENCE</strong>.</div>
       </div>
     </div>
   </div>
@@ -1777,10 +1695,6 @@
           <div class="step-content"><h4>Verify connection</h4><p>Click the Panel — HOME screen shows all fountains. That's it!</p></div>
         </div>
       </div>
-      <div class="callout callout-info" style="margin-top:12px;">
-        <span class="callout-icon">🧭</span>
-        <div>You can keep one Panel rezzed all the time and add fountains later. A new fountain appears on the Panel after its channel matches.</div>
-      </div>
 
       <h3>🌍 GLOBAL vs ⛲ Individual</h3>
       <div class="comparison-row">
@@ -1860,8 +1774,8 @@
         <table>
           <thead><tr><th>Command</th><th>What It Does</th></tr></thead>
           <tbody>
-            <tr><td><code>/wx:pattern list</code></td><td>List all 26 pattern names (P0–P25) in chat</td></tr>
-            <tr><td><code>/wx:pattern 5</code></td><td>Lock to pattern #5 (STATIC mode). Use any number 0–25</td></tr>
+            <tr><td><code>/wx:pattern list</code></td><td>List all 26 pattern names (P01–P26) in chat</td></tr>
+            <tr><td><code>/wx:pattern P06</code></td><td>Lock to Mountain Peak (STATIC mode). Use any code P01–P26</td></tr>
             <tr><td><code>/wx:pattern auto</code></td><td>Resume cycling through all patterns</td></tr>
             <tr><td><code>/wx:pattern random</code></td><td>Pick a random pattern each cycle</td></tr>
           </tbody>
@@ -1906,7 +1820,7 @@
       <div class="callout callout-tip" style="margin-top:16px;">
         <span class="callout-icon">💡</span>
         <div><strong>Quick examples:</strong><br>
-          <code>/wx:pattern 21</code> — lock Equalizer Wave<br>
+          <code>/wx:pattern P22</code> — lock Equalizer Wave<br>
           <code>/wx:pattern list</code> — see all pattern names<br>
           <code>/wx:show grand</code> — launch Grand show<br>
           <code>/wx:pattern auto</code> — go back to cycling
@@ -2072,7 +1986,7 @@
       </div>
       <p>For power users — customize defaults by editing notecards directly.</p>
 
-      <h3>📡 Channel Setup (First Touch)</h3>
+      <h3>� Channel Setup (First Touch)</h3>
       <p>The communication channel between the Panel and fountains is configured <strong>automatically on first touch</strong> — no notecard editing needed!</p>
       <ol>
         <li>Rez the Panel (or Fountain). <strong>Touch it for the first time.</strong></li>
@@ -2083,10 +1997,6 @@
       <div class="callout callout-tip">
         <span class="callout-icon">💡</span>
         <div>Every Panel and Fountain you want to work together <strong>must use the same channel</strong>. Set each one to the same number on first touch.</div>
-      </div>
-      <div class="callout callout-info" style="margin-top:10px;">
-        <span class="callout-icon">ℹ️</span>
-        <div>For normal channel changes, use <strong>Panel → 🛠 ADMIN → 📡 CHANNEL</strong>. This is the safest method.</div>
       </div>
 
       <h3>📟 Panel Configuration</h3>
@@ -2142,29 +2052,11 @@
         <div><strong>Universal Fix (solves 90% of issues):</strong> Click Panel → 🛠 ADMIN → ♻️ RESET ALL. Everything returns to defaults!</div>
       </div>
 
-      <div class="callout callout-info" style="margin-bottom: 18px;">
-        <span class="callout-icon">⚡</span>
-        <div><strong>Fast 30-second check:</strong> 1) Panel channel is correct (🛠 ADMIN → 📡 CHANNEL), 2) fountain channel matches, 3) fountain is ON, 4) wait one heartbeat (5 seconds).</div>
-      </div>
-
-      <h3>🧭 Quick Fix Matrix</h3>
-      <div class="table-wrap">
-        <table>
-          <thead><tr><th>If You See This</th><th>Do This First</th></tr></thead>
-          <tbody>
-            <tr><td>Panel sees no fountains</td><td>Check Panel channel (🛠 ADMIN → 📡 CHANNEL), then match fountain channel and wait 5s</td></tr>
-            <tr><td>POWER button does nothing</td><td>Use 🌍 GLOBAL → ⛲ POWER once, then run 🛠 ADMIN → ♻️ RESET ALL</td></tr>
-            <tr><td>Shapes stop responding</td><td>Finish any pending permission/channel textbox, then retry from 🔷 SHAPES</td></tr>
-            <tr><td>Pipes still tilted</td><td>Use 💃 ANIMATE → 🔃 NEUTRAL, then switch to 🔄 SEQUENCE if you want static mode</td></tr>
-          </tbody>
-        </table>
-      </div>
-
       <div class="faq-list">
         <div class="faq-item">
           <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">💧 Water doesn't appear</button>
           <div class="faq-a"><div class="faq-a-inner">
-            <p><strong>Quick check:</strong> fountain ON, HEIGHT above 0, and correct root prim.</p>
+            <p><strong>Check:</strong> Is the fountain ON? Is HEIGHT above 0? Was the Fountain Box the root prim?</p>
             <ol>
               <li>Go to ⚙️ SETTINGS → 📊 HEIGHT → type <strong>5</strong></li>
               <li>Turn fountain ON via ⛲ POWER</li>
@@ -2181,42 +2073,18 @@
               <li>Build menu → <strong>Reset Scripts</strong></li>
               <li>Wait 10 seconds, then click panel again</li>
             </ol>
-            <p>If this was first setup, complete the channel textbox first, then touch again.</p>
-          </div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">🧩 Can I update existing setups, or must I rebuild from scratch?</button>
-          <div class="faq-a"><div class="faq-a-inner">
-            <p>You can update existing setups. You do <strong>not</strong> need to rebuild from scratch.</p>
-            <ol>
-              <li>Run your normal updater</li>
-              <li>Confirm the Panel channel in <strong>🛠 ADMIN → 📡 CHANNEL</strong></li>
-              <li>Ensure each existing fountain has the same channel</li>
-              <li>Run one <strong>Reset Scripts</strong> after updating</li>
-            </ol>
           </div></div>
         </div>
         <div class="faq-item">
           <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">⛲ Fountain not showing on Panel</button>
           <div class="faq-a"><div class="faq-a-inner">
-            <p><strong>Most common cause:</strong> channel mismatch.</p>
+            <p><strong>Check:</strong> Are both using the same channel? Are they in the same region/sim?</p>
             <ol>
               <li>Touch the Panel → go to <strong>🛠 ADMIN → 📡 CHANNEL</strong> and note the channel number shown</li>
               <li>Touch the Fountain → if it was never configured, a text box will appear — enter the <strong>same channel number</strong></li>
               <li>Reset both objects' scripts</li>
               <li>Wait 5 seconds (one heartbeat cycle)</li>
               <li>Click Panel — fountain should appear</li>
-            </ol>
-          </div></div>
-        </div>
-        <div class="faq-item">
-          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">📡 I touched the fountain while editing and got channel/setup prompts</button>
-          <div class="faq-a"><div class="faq-a-inner">
-            <p>This usually means setup was not finished yet, or it timed out.</p>
-            <ol>
-              <li>Set/verify channel on the Panel first: <strong>🛠 ADMIN → 📡 CHANNEL</strong></li>
-              <li>If fountain still needs setup, touch it once and complete the textbox</li>
-              <li>If no setup is needed, just continue from the Panel menus</li>
             </ol>
           </div></div>
         </div>
@@ -2273,17 +2141,6 @@
           </div></div>
         </div>
         <div class="faq-item">
-          <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">💃 How do I stop ANIMATE and go back to static patterns?</button>
-          <div class="faq-a"><div class="faq-a-inner">
-            <ol>
-              <li>Click <strong>🔄 SEQUENCE</strong></li>
-              <li>Pick <strong>🔁 AUTO</strong>, <strong>🎲 RANDOM</strong>, or <strong>📌 STATIC</strong></li>
-              <li>If pipes still look tilted, click <strong>💃 ANIMATE → 🔃 NEUTRAL</strong> once</li>
-            </ol>
-            <p>To turn ANIMATE back on later: <strong>💃 ANIMATE → NORMAL</strong> or <strong>HYBRID</strong>.</p>
-          </div></div>
-        </div>
-        <div class="faq-item">
           <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">🔧 Something weird happened</button>
           <div class="faq-a"><div class="faq-a-inner">
             <p>Just reset! Click 🛠 ADMIN → ♻️ RESET ALL. This fixes almost everything — all settings return to defaults and the fountain keeps working.</p>
@@ -2324,7 +2181,7 @@
       <div class="menu-tree">🏠 HOME
 ├── 🌍 GLOBAL (all fountains)
 │   ├── ⛲ POWER — ON / OFF
-│   ├── 🔄 SEQUENCE — AUTO / RANDOM / STATIC (P0–P25)
+│   ├── 🔄 SEQUENCE — AUTO / RANDOM / STATIC (P01–P26)
 │   ├── 💃 ANIMATE — NORMAL / HYBRID / SPEED
 │   ├── 🎭 SHOWS — 5 shows + Loop + Stop + Music volume
 │   ├── 🟡 LIGHTS — RGB / RAINBOW / MULTI / 10 Themes / 51 Colors
@@ -2360,8 +2217,6 @@
         <div class="cheat-item"><span class="cheat-what">Start a show</span><span class="cheat-how">GLOBAL → 🎭 SHOWS</span></div>
         <div class="cheat-item"><span class="cheat-what">Loop a show</span><span class="cheat-how">SHOWS → 🔄 Loop</span></div>
         <div class="cheat-item"><span class="cheat-what">Stop a show</span><span class="cheat-how">SHOWS → ⏹ STOP</span></div>
-        <div class="cheat-item"><span class="cheat-what">Stop animate mode</span><span class="cheat-how">SEQUENCE → AUTO/RANDOM/STATIC</span></div>
-        <div class="cheat-item"><span class="cheat-what">Re-enable animate mode</span><span class="cheat-how">ANIMATE → NORMAL/HYBRID</span></div>
         <div class="cheat-item"><span class="cheat-what">Adjust height</span><span class="cheat-how">SETTINGS → 📊 HEIGHT</span></div>
         <div class="cheat-item"><span class="cheat-what">Add wind</span><span class="cheat-how">SETTINGS → 🌀 WIND</span></div>
         <div class="cheat-item"><span class="cheat-what">Make brighter</span><span class="cheat-how">SETTINGS → 🌟 GLOW</span></div>
@@ -2373,7 +2228,7 @@
         <div class="cheat-item"><span class="cheat-what">Change channel</span><span class="cheat-how">ADMIN → 📡 CHANNEL</span></div>
         <div class="cheat-item"><span class="cheat-what">Grant access</span><span class="cheat-how">ADMIN → 🔐 ACCESS</span></div>
         <div class="cheat-item"><span class="cheat-what">Fix everything</span><span class="cheat-how">ADMIN → ♻️ RESET ALL</span></div>
-        <div class="cheat-item"><span class="cheat-what">Lock pattern (chat)</span><span class="cheat-how">/wx:pattern 5</span></div>
+        <div class="cheat-item"><span class="cheat-what">Lock pattern (chat)</span><span class="cheat-how">/wx:pattern P06</span></div>
         <div class="cheat-item"><span class="cheat-what">Debug mode (chat)</span><span class="cheat-how">/wx:debug</span></div>
       </div>
 
@@ -2423,8 +2278,8 @@
         <table>
           <thead><tr><th>Command</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td><code>/wx:pattern list</code></td><td>Show all 26 pattern names (P0–P25)</td></tr>
-            <tr><td><code>/wx:pattern 5</code></td><td>Lock pattern #5 (STATIC mode) — any number 0–25</td></tr>
+            <tr><td><code>/wx:pattern list</code></td><td>Show all 26 pattern names (P01–P26)</td></tr>
+            <tr><td><code>/wx:pattern P06</code></td><td>Lock Mountain Peak (STATIC mode) — any code P01–P26</td></tr>
             <tr><td><code>/wx:pattern auto</code></td><td>Cycle through all patterns automatically</td></tr>
             <tr><td><code>/wx:pattern random</code></td><td>Random pattern each cycle</td></tr>
           </tbody>
@@ -2461,7 +2316,15 @@
       </div>
 
       <div class="sub-section">
-        <h3>V5.1 — February 2026 <span style="display:inline-block;background:#d1fae5;color:#065f46;font-size:11px;font-weight:600;padding:2px 10px;border-radius:999px;vertical-align:middle;margin-left:8px;">Current</span></h3>
+        <h3>V5.2 — July 2026 <span style="display:inline-block;background:#d1fae5;color:#065f46;font-size:11px;font-weight:600;padding:2px 10px;border-radius:999px;vertical-align:middle;margin-left:8px;">Current</span></h3>
+        <ul style="line-height:1.9;color:var(--gray-700);">
+          <li><strong>🌐 Web Control Panel</strong> — New browser-based control surface with tabbed layout (Lights, Shapes, Settings, Dashboard), relay-based bridge to the in-world Panel, and a pinnable Dashboard tab for quick-access shortcuts grouped by originating section with drag reorder.</li>
+          <li><strong>Bug Fixes</strong> — Web UI show-time gating now matches what CONSOLE.lsl actually blocks; Dashboard pins grouped by originating section instead of one flat list, with automatic migration for pre-grouping pins.</li>
+        </ul>
+      </div>
+
+      <div class="sub-section">
+        <h3>V5.0 — February 2026</h3>
         <ul style="line-height:1.9;color:var(--gray-700);">
           <li><strong>🌈 RAINBOW Mode</strong> — New 5th light mode! Full-spectrum per-pipe hue spread with smooth continuous rotation. Every pipe shows a different color simultaneously.</li>
           <li><strong>🔴🟢🔵 RGB Refinement</strong> — RGB mode now uses a structured 3-phase cycle (vivid holds → rainbow sweep → gentle pastels), distinct from RAINBOW.</li>
@@ -2471,11 +2334,7 @@
           <li><strong>📡 Channel via Linkset Data</strong> — Communication channel is now set on first touch via a text-box and <strong>saved permanently</strong> — no notecard editing required. Change any time via <strong>ADMIN → 📡 CH</strong>.</li>
           <li><strong>Guide URL Updated</strong> — In-world GUIDE button now opens <code>water-worx.github.io/smart-edition</code>.</li>
           <li><strong>Button Fix</strong> — Fixed RGB button emoji detection in Panel menus.</li>
-          <li><strong>Panel Dialog Version Label</strong> — HOME dialog now shows the panel version header (for example, <code>S.M.A.R.T PANEL v5.1</code>) above the status lines.</li>
-          <li><strong>Setup UX Hardening</strong> — Improved first-touch setup flow and prompts for both panel and fountain channel configuration.</li>
-          <li><strong>Channel Stability Fix</strong> — Fountain touch handling now avoids accidental channel changes during permission-based shape/pipe operations.</li>
-          <li><strong>Shape Size Reliability</strong> — Refined minimum-size clamping behavior for better consistency in the <strong>📏 SIZE</strong> menu.</li>
-          <li><strong>Power Reliability</strong> — Improved per-fountain POWER handling in low-memory edge cases.</li>
+          <li><strong>Panel Dialog Version Label</strong> — HOME dialog now shows the panel version header (for example, <code>S.M.A.R.T PANEL v5.0</code>) above the status lines.</li>
         </ul>
       </div>
 
@@ -2504,7 +2363,7 @@
 
 <!-- ==================== FOOTER ==================== -->
 <footer class="footer">
-  <div class="footer-brand">💧 WaterWorx — S.M.A.R.T Fountain System V5.1</div>
+  <div class="footer-brand">💧 WaterWorx — S.M.A.R.T Fountain System V5.2</div>
   <p>Complete water choreography for Second Life</p>
   <p style="margin-top:8px;font-size:12px;color:var(--gray-500);">26 patterns · 51 colors · 10 themes · 3 dynamic modes · 5 choreographed shows · Multi-fountain sync · Custom shape slots · Wireless Speaker</p>
   <div class="footer-links">
@@ -2540,16 +2399,12 @@
   // Active nav link on scroll
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
-  const sideLinks = document.querySelectorAll('.side-toc a');
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         navLinks.forEach(a => a.classList.remove('active'));
-        sideLinks.forEach(a => a.classList.remove('active'));
-        const activeNav = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
-        const activeSide = document.querySelector(`.side-toc a[href="#${entry.target.id}"]`);
-        if (activeNav) activeNav.classList.add('active');
-        if (activeSide) activeSide.classList.add('active');
+        const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+        if (active) active.classList.add('active');
       }
     });
   }, { rootMargin: '-30% 0px -60% 0px' });
