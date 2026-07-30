@@ -1,115 +1,48 @@
-/* WaterWorx S.M.A.R.T web control.
+/* WaterWorx S.M.A.R.T web control — matches guide styling
    ================================================================
-   "Deep water" theme — glass panels over a lit aqua gradient, sized
-   for touch and dense enough that no control group is more than one
-   tap away. Layout intent is unchanged from the original: no
-   llDialog-style paging, everything in a section visible at once.
-
-   CSS-ONLY. Every selector below is a hook that app.js already
-   produces — .btn/.grid/.slider/.palette/.tab/.dash-card/.badge/.dot
-   and the state classes .active/.flash/.pending/.pinned/.dragging.
-   Do not rename one without changing app.js to match. */
+   Same Tailwind color palette and aesthetic as the user guide:
+   - Light background (gray-50)
+   - Blue/cyan header gradient
+   - Minimal, clean card-based layout
+   - Backdrop-filter blur on sticky elements
+   - Responsive design with touch-friendly controls */
 
 :root {
-  /* Brand ramp — shared by both themes */
+  /* Tailwind colors — same palette as guide */
   --blue-50:  #eff6ff;
   --blue-100: #dbeafe;
+  --blue-200: #bfdbfe;
+  --blue-300: #93c5fd;
   --blue-400: #60a5fa;
   --blue-500: #3b82f6;
   --blue-600: #2563eb;
   --blue-700: #1d4ed8;
   --blue-800: #1e40af;
-  --blue-900: #172554;
-  --cyan-300: #67e8f9;
+  --blue-900: #1e3a8a;
   --cyan-400: #22d3ee;
   --cyan-500: #06b6d4;
-  --cyan-600: #0891b2;
+  --purple-500: #a855f7;
+  --purple-600: #9333ea;
   --gray-50:  #f9fafb;
   --gray-100: #f3f4f6;
   --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
   --gray-400: #9ca3af;
   --gray-500: #6b7280;
+  --gray-600: #4b5563;
   --gray-700: #374151;
   --gray-800: #1f2937;
   --gray-900: #111827;
   --green-500: #22c55e;
   --red-500:  #ef4444;
   --amber-500: #f59e0b;
-
-  /* ---- Light theme (default) ---------------------------------- */
-  --bg: #eef4fb;
-  --bg-glow-1: rgba(34, 211, 238, .22);   /* cyan bloom, top-right */
-  --bg-glow-2: rgba(37, 99, 235, .16);    /* blue bloom, lower-left */
-
-  --panel: rgba(255, 255, 255, .82);
-  --panel-solid: #ffffff;
-  --panel-2: rgba(255, 255, 255, .55);
-  --sunken: rgba(15, 42, 82, .06);        /* recessed track behind tabs */
-
-  --line: rgba(15, 42, 82, .12);
-  --line-soft: rgba(15, 42, 82, .07);
-  --edge: rgba(255, 255, 255, .9);        /* top highlight on glass */
-
-  --ink: #0f2a52;
-  --ink-dim: #5b7396;
-
-  --accent: var(--blue-600);
-  --accent-2: var(--cyan-500);
-  --on: #16a34a;
-  --off: #dc2626;
-  --warn: #d97706;
-
-  --on-bg: rgba(22, 163, 74, .10);
-  --off-bg: rgba(220, 38, 38, .10);
-  --warn-bg: rgba(217, 119, 6, .10);
+  --rose-500: #f43f5e;
 
   --radius: 12px;
-  --radius-lg: 18px;
-  --radius-pill: 999px;
-
-  --shadow: 0 1px 2px rgba(15, 42, 82, .06), 0 4px 12px rgba(15, 42, 82, .06);
-  --shadow-md: 0 2px 4px rgba(15, 42, 82, .07), 0 12px 28px rgba(15, 42, 82, .10);
-  --shadow-lift: 0 4px 8px rgba(15, 42, 82, .08), 0 18px 40px rgba(15, 42, 82, .14);
-  --glow-accent: 0 0 0 3px rgba(37, 99, 235, .16);
-
-  --header-grad: linear-gradient(135deg, #10306b 0%, #1d4ed8 46%, #0891b2 100%);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #f5f5f5;
-    --bg-glow-1: rgba(34, 211, 238, .08);
-    --bg-glow-2: rgba(37, 99, 235, .06);
-
-    --panel: rgba(255, 255, 255, .95);
-    --panel-solid: #ffffff;
-    --panel-2: rgba(15, 42, 82, .04);
-    --sunken: rgba(15, 42, 82, .08);
-
-    --line: rgba(15, 42, 82, .14);
-    --line-soft: rgba(15, 42, 82, .08);
-    --edge: rgba(255, 255, 255, .6);
-
-    --ink: #0f2a52;
-    --ink-dim: #5b7396;
-
-    --accent: #5aa9ff;
-    --accent-2: var(--cyan-400);
-    --on: #4ade80;
-    --off: #f87171;
-    --warn: #fbbf24;
-
-    --on-bg: rgba(74, 222, 128, .12);
-    --off-bg: rgba(248, 113, 113, .12);
-    --warn-bg: rgba(251, 191, 36, .12);
-
-    --shadow: 0 1px 2px rgba(0, 0, 0, .5), 0 4px 14px rgba(0, 0, 0, .38);
-    --shadow-md: 0 2px 6px rgba(0, 0, 0, .55), 0 14px 34px rgba(0, 0, 0, .45);
-    --shadow-lift: 0 6px 14px rgba(0, 0, 0, .55), 0 22px 48px rgba(0, 0, 0, .55);
-    --glow-accent: 0 0 0 3px rgba(90, 169, 255, .22);
-
-    --header-grad: linear-gradient(135deg, #0a1c3d 0%, #14357d 48%, #0b5f75 100%);
-  }
+  --radius-lg: 16px;
+  --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,.08), 0 2px 4px -2px rgba(0,0,0,.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.08), 0 4px 6px -4px rgba(0,0,0,.06);
 }
 
 * { box-sizing: border-box; }
@@ -117,29 +50,13 @@
 body {
   margin: 0;
   padding: 0 0 3rem;
-  color: var(--ink);
-  font: 16px/1.55 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  -webkit-text-size-adjust: 100%;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--gray-50);
+  color: var(--gray-800);
+  line-height: 1.6;
+  font-size: 16px;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-
-  background: var(--bg);
-  min-height: 100vh;
-}
-
-/* Two soft light blooms behind everything. On a fixed pseudo-element
-   rather than `background-attachment: fixed` on <body> — the latter
-   forces a full-page repaint on every scroll frame on mobile, and
-   paints unreliably on very tall viewports. */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(1100px 620px at 88% -8%, var(--bg-glow-1), transparent 62%),
-    radial-gradient(900px 620px at 4% 104%, var(--bg-glow-2), transparent 60%);
 }
 
 /* ================================================================
@@ -149,105 +66,66 @@ body::before {
 header {
   position: sticky;
   top: 0;
-  z-index: 20;
-  padding: 1rem 1.15rem .85rem;
-  padding-top: max(1rem, env(safe-area-inset-top));
-  background: var(--header-grad);
+  z-index: 100;
+  background: linear-gradient(135deg, var(--blue-800) 0%, var(--blue-600) 40%, var(--cyan-500) 100%);
   color: #fff;
-  border-bottom-left-radius: var(--radius-lg);
-  border-bottom-right-radius: var(--radius-lg);
+  padding: 1rem 1rem 0.75rem;
+  padding-top: max(1rem, env(safe-area-inset-top));
   box-shadow: var(--shadow-md);
-  overflow: hidden;
-  isolation: isolate;
+  transition: box-shadow .3s;
 }
 
-/* Slow caustic sheen drifting across the header — the one piece of
-   ambient motion in the UI. Purely decorative, disabled under
-   prefers-reduced-motion. */
-header::after {
-  content: "";
-  position: absolute;
-  inset: -60% -20%;
-  z-index: -1;
-  pointer-events: none;
-  background:
-    radial-gradient(42% 60% at 20% 40%, rgba(255,255,255,.16), transparent 70%),
-    radial-gradient(38% 56% at 72% 62%, rgba(103,232,249,.20), transparent 72%);
-  animation: drift 22s ease-in-out infinite alternate;
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-
-@keyframes drift {
-  from { transform: translate3d(-4%, -2%, 0) scale(1); }
-  to   { transform: translate3d(6%, 3%, 0) scale(1.12); }
-}
-
-.brand { display: flex; align-items: center; gap: .8rem; }
 
 .logo {
-  height: 3rem;
+  height: 2.5rem;
   width: auto;
   flex: none;
-  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
 }
 
 h1 {
   margin: 0;
   font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: -.01em;
+  font-weight: 700;
+  letter-spacing: 0.01em;
   color: #fff;
-}
-h1 .accent {
-  background: linear-gradient(90deg, var(--cyan-300), #fff);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-h1 small {
-  display: block;
-  font-size: .75rem;
-  color: rgba(255, 255, 255, .72);
-  font-weight: 500;
-  margin-top: .1rem;
 }
 
 .meta {
   display: flex;
   align-items: center;
-  gap: .45rem;
-  margin-top: .1rem;
-  font-size: .8rem;
-  color: rgba(255, 255, 255, .86);
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, .85);
+  margin-top: 0.25rem;
 }
 
 .dot {
-  width: .55rem;
-  height: .55rem;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 50%;
   background: var(--red-500);
   flex: none;
-  transition: background .25s, box-shadow .25s;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, .28);
-}
-.dot.on {
-  background: #4ade80;
-  box-shadow: 0 0 0 2px rgba(255, 255, 255, .3), 0 0 10px 2px rgba(74, 222, 128, .8);
-  animation: pulse-dot 2.4s ease-in-out infinite;
+  transition: background .25s;
 }
 
-@keyframes pulse-dot {
-  0%, 100% { box-shadow: 0 0 0 2px rgba(255,255,255,.3), 0 0 10px 2px rgba(74,222,128,.75); }
-  50%      { box-shadow: 0 0 0 2px rgba(255,255,255,.3), 0 0 16px 5px rgba(74,222,128,.28); }
+.dot.on {
+  background: var(--green-500);
 }
 
 .fountains {
-  margin-top: .7rem;
-  font-size: .8rem;
-  color: rgba(255, 255, 255, .88);
+  margin-top: 0.6rem;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, .85);
   overflow-x: auto;
   white-space: nowrap;
   scrollbar-width: thin;
-  -webkit-overflow-scrolling: touch;
 }
 
 /* ================================================================
@@ -257,256 +135,166 @@ h1 small {
 .status-bar {
   display: flex;
   flex-wrap: wrap;
-  gap: .6rem 1.1rem;
-  align-items: center;
-  max-width: 1040px;
-  margin: .9rem auto 0;
-  padding: .7rem 1rem;
-  background: var(--panel);
-  -webkit-backdrop-filter: blur(14px) saturate(150%);
-  backdrop-filter: blur(14px) saturate(150%);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow);
-  font-size: .85rem;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, .92);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--gray-200);
+  font-size: 0.85rem;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.status-item { display: flex; align-items: center; gap: .5rem; }
+.status-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
 
 .status-item .label {
-  color: var(--ink-dim);
+  color: var(--gray-600);
   font-weight: 600;
-  font-size: .78rem;
-  letter-spacing: .02em;
+  font-size: 0.78rem;
   text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .badge {
   display: inline-block;
-  padding: .28rem .7rem;
-  background: var(--panel-2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-pill);
-  color: var(--ink);
-  font-size: .8rem;
-  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  background: var(--blue-50);
+  border: 1px solid var(--blue-200);
+  border-radius: 999px;
+  color: var(--blue-700);
+  font-size: 0.8rem;
+  font-weight: 600;
   white-space: nowrap;
-  transition: background .2s, color .2s, border-color .2s, box-shadow .2s;
 }
 
 .badge.on {
-  color: var(--on);
-  background: var(--on-bg);
-  border-color: color-mix(in srgb, var(--on) 40%, transparent);
-  box-shadow: 0 0 14px -2px color-mix(in srgb, var(--on) 45%, transparent);
+  color: #15803d;
+  background: #dcfce7;
+  border-color: #bbf7d0;
 }
+
 .badge.off {
-  color: var(--off);
-  background: var(--off-bg);
-  border-color: color-mix(in srgb, var(--off) 40%, transparent);
+  color: #b91c1c;
+  background: #fee2e2;
+  border-color: #fecaca;
 }
+
 .badge.warn {
-  color: var(--warn);
-  background: var(--warn-bg);
-  border-color: color-mix(in srgb, var(--warn) 40%, transparent);
+  color: #b45309;
+  background: #fef3c7;
+  border-color: #fde68a;
 }
 
 /* ================================================================
-   Tabs — segmented control in a recessed track
+   Tabs
    ================================================================ */
 
 .tabs {
   display: flex;
-  gap: .3rem;
-  max-width: 1040px;
-  margin: .75rem auto 0;
-  padding: .3rem;
-  background: var(--sunken);
-  border: 1px solid var(--line-soft);
-  border-radius: var(--radius-pill);
+  gap: 0.35rem;
+  padding: 0.6rem 1rem;
+  background: rgba(255, 255, 255, .92);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--gray-200);
   overflow-x: auto;
-  scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  max-width: 1200px;
+  margin: 0 auto;
 }
-.tabs::-webkit-scrollbar { display: none; }
 
 .tab {
   flex: 0 0 auto;
-  padding: .5rem 1.05rem;
+  padding: 0.5rem 1rem;
   font: inherit;
   font-weight: 600;
-  font-size: .85rem;
-  color: var(--ink-dim);
+  font-size: 0.85rem;
+  color: var(--gray-600);
   background: transparent;
   border: 1px solid transparent;
-  border-radius: var(--radius-pill);
+  border-radius: 999px;
   cursor: pointer;
   white-space: nowrap;
-  transition: color .18s, background .18s, box-shadow .18s, transform .12s;
+  transition: background .15s, color .15s, border-color .15s;
 }
-.tab:hover { color: var(--ink); background: var(--panel-2); }
-.tab:active { transform: scale(.97); }
-.tab:focus-visible { outline: none; box-shadow: var(--glow-accent); }
+
+.tab:hover {
+  color: var(--blue-700);
+  border-color: var(--blue-500);
+}
 
 .tab.active {
+  background: var(--blue-600);
   color: #fff;
-  background: linear-gradient(135deg, var(--blue-600), var(--cyan-600));
-  box-shadow: 0 2px 10px -2px rgba(37, 99, 235, .6);
-}
-
-/* Dashboard is a destination rather than a category — give it its own
-   accent so it reads as separate from the control groups. */
-.tab[data-id="dashboard"] { color: var(--accent-2); }
-.tab[data-id="dashboard"].active {
-  background: linear-gradient(135deg, var(--cyan-500), var(--blue-500));
-  color: #fff;
-  box-shadow: 0 2px 10px -2px rgba(6, 182, 212, .6);
+  border-color: var(--blue-600);
 }
 
 /* ================================================================
-   Panels
+   Layout
    ================================================================ */
 
 main {
   padding: 0 1rem;
-  max-width: 1040px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
 section,
 .dash-card,
 .card {
-  position: relative;
-  background: var(--panel);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-  backdrop-filter: blur(16px) saturate(150%);
-  border: 1px solid var(--line);
+  margin-top: 1rem;
+  background: #fff;
+  border: 1px solid var(--gray-200);
   border-radius: var(--radius-lg);
   padding: 1.25rem;
   box-shadow: var(--shadow);
 }
 
-section { margin-top: 1rem; }
-
-/* Hairline highlight along the top edge — reads as light catching the
-   lip of a glass panel and separates cards from the lit background. */
-section::before,
-.dash-card::before,
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 1px;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  background: linear-gradient(90deg, transparent, var(--edge), transparent);
-  pointer-events: none;
-}
-
 .note {
-  margin: 0 0 .85rem;
-  font-size: .79rem;
-  line-height: 1.5;
-  color: var(--ink-dim);
+  margin: 0 0 0.75rem;
+  font-size: 0.78rem;
+  color: var(--gray-600);
 }
 
-.controls { display: flex; flex-wrap: wrap; gap: .5rem; }
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
 
 .section-head {
   display: flex;
   align-items: center;
-  margin-bottom: .85rem;
+  margin-bottom: 0.75rem;
 }
 
-/* ================================================================
-   Dashboard cards
-   ================================================================ */
-
-/* render() always wraps the active tab in a <section>, and the Dashboard
-   fills that section with .dash-cards. Two nested glass panels look
-   muddy, so the Dashboard's own wrapper is stripped back to a bare
-   container and the cards carry the panel styling. */
-#sec-dashboard {
-  padding: 0;
-  background: none;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
-  border: none;
-  box-shadow: none;
-}
-#sec-dashboard::before { display: none; }
-
-/* Empty state — no cards to sit in, so give the note its own panel. */
-#sec-dashboard > .note {
-  margin: 0;
-  padding: 1.5rem 1.25rem;
-  text-align: center;
-  background: var(--panel);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
-  backdrop-filter: blur(16px) saturate(150%);
-  border: 1px dashed var(--line);
-  border-radius: var(--radius-lg);
-}
-
-.dash-card + .dash-card { margin-top: 1rem; }
-
-.dash-card.dragging {
-  opacity: .9;
-  box-shadow: var(--shadow-lift);
-  cursor: grabbing;
-  transform: scale(1.01);
-}
-
-.dash-card-head {
-  display: flex;
-  align-items: center;
-  gap: .6rem;
-  margin-bottom: .85rem;
-  padding-bottom: .7rem;
-  border-bottom: 1px solid var(--line-soft);
-}
-
-.dash-card-title {
-  flex: 1;
-  margin: 0;
-  font-size: .95rem;
-  font-weight: 700;
-  letter-spacing: -.01em;
-  color: var(--ink);
-}
-
-.drag-handle {
-  cursor: grab;
-  font-size: 1.1rem;
-  color: var(--ink-dim);
-  padding: .25rem .4rem;
-  border-radius: 8px;
-  touch-action: none; /* so dragging doesn't also scroll the page */
-  user-select: none;
-  transition: background .15s, color .15s;
-}
-.drag-handle:hover { background: var(--panel-2); color: var(--ink); }
-.drag-handle:active { cursor: grabbing; }
-
-/* Pin toggle — the only pin-related UI in the app; no badge overlays
-   or mode switches cluttering the actual controls. */
 .pin-toggle {
-  padding: .4rem .85rem;
+  padding: 0.4rem 0.8rem;
   font: inherit;
   font-weight: 600;
-  font-size: .77rem;
-  color: var(--ink-dim);
-  background: var(--panel-2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  color: var(--gray-600);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 999px;
   cursor: pointer;
-  transition: background .15s, color .15s, border-color .15s, box-shadow .15s;
+  transition: background .15s, color .15s, border-color .15s;
 }
-.pin-toggle:hover { border-color: var(--accent); color: var(--ink); }
-.pin-toggle:focus-visible { outline: none; box-shadow: var(--glow-accent); }
+
+.pin-toggle:hover {
+  border-color: var(--blue-500);
+  color: var(--blue-700);
+}
+
 .pin-toggle.pinned {
-  color: var(--accent-2);
-  background: color-mix(in srgb, var(--accent-2) 12%, transparent);
-  border-color: color-mix(in srgb, var(--accent-2) 45%, transparent);
+  background: var(--blue-50);
+  border-color: var(--blue-200);
+  color: var(--blue-700);
 }
 
 /* ================================================================
@@ -514,134 +302,93 @@ section::before,
    ================================================================ */
 
 .btn {
-  position: relative;
   flex: 1 1 auto;
   min-width: 8.5rem;
-  /* 44px minimum, so the same layout works under touch. */
-  min-height: 2.8rem;
-  padding: .65rem .95rem;
+  min-height: 2.75rem;
+  padding: 0.65rem 0.9rem;
   font: inherit;
   font-weight: 600;
-  font-size: .9rem;
-  color: var(--ink);
-  background: var(--panel-2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
+  font-size: 0.9rem;
+  color: var(--gray-800);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-300);
+  border-radius: 10px;
   cursor: pointer;
-  overflow: hidden;
-  transition: transform .1s cubic-bezier(.34, 1.56, .64, 1),
-              background .18s, border-color .18s, box-shadow .18s, color .18s;
-}
-
-/* Inner top highlight, so buttons read as raised rather than flat fills. */
-.btn::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 50%;
-  background: linear-gradient(180deg, rgba(255,255,255,.14), transparent);
-  pointer-events: none;
+  transition: transform .08s, background .15s, border-color .15s, box-shadow .15s;
 }
 
 .btn:hover {
-  border-color: var(--accent);
-  box-shadow: var(--shadow), 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent);
-  transform: translateY(-1px);
+  border-color: var(--blue-500);
+  box-shadow: var(--shadow);
 }
-.btn:active { transform: translateY(0) scale(.975); }
-.btn:focus-visible { outline: none; box-shadow: var(--glow-accent); }
 
-/* Momentary confirmation that the command actually went out. */
+.btn:active {
+  transform: scale(.97);
+}
+
 .btn.flash {
-  background: linear-gradient(135deg, var(--blue-600), var(--cyan-500));
+  background: var(--blue-600);
   color: #fff;
-  border-color: transparent;
-  box-shadow: 0 0 22px -4px var(--accent-2);
+  border-color: var(--blue-600);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .15);
 }
 
 .btn.on {
-  color: var(--on);
-  background: var(--on-bg);
-  border-color: color-mix(in srgb, var(--on) 38%, transparent);
-}
-.btn.on:hover {
-  border-color: var(--on);
-  box-shadow: 0 0 18px -6px var(--on);
+  border-color: var(--green-500);
+  color: #15803d;
+  background: #dcfce7;
 }
 
 .btn.off {
-  color: var(--off);
-  background: var(--off-bg);
-  border-color: color-mix(in srgb, var(--off) 38%, transparent);
-}
-.btn.off:hover {
-  border-color: var(--off);
-  box-shadow: 0 0 18px -6px var(--off);
+  border-color: var(--red-500);
+  color: #b91c1c;
+  background: #fee2e2;
 }
 
 .btn.warn {
-  color: var(--warn);
-  background: var(--warn-bg);
-  border-color: color-mix(in srgb, var(--warn) 38%, transparent);
-}
-.btn.warn:hover {
-  border-color: var(--warn);
-  box-shadow: 0 0 18px -6px var(--warn);
+  border-color: var(--amber-500);
+  color: #b45309;
+  background: #fef3c7;
 }
 
 .btn.small {
   min-width: 0;
   flex: 0 0 auto;
-  padding: .5rem .4rem;
-  font-size: .76rem;
-  font-weight: 600;
+  padding: 0.5rem 0.4rem;
+  font-size: 0.75rem;
   line-height: 1.2;
   text-align: center;
-  /* Long single-word captions (Horseshoe, Teardrop, Goldenrod...) must
-     wrap or break rather than spill outside the button. */
   white-space: normal;
   overflow-wrap: break-word;
   word-break: break-word;
   hyphens: auto;
 }
 
-/* Selected swatch in the palette grid. */
-.btn.small.active {
-  color: #fff;
-  background: linear-gradient(135deg, var(--blue-600), var(--cyan-600));
-  border-color: transparent;
-  box-shadow: 0 0 16px -4px var(--accent-2);
-}
-
 .grid {
   flex: 1 1 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(4.6rem, 1fr));
-  gap: .4rem;
+  grid-template-columns: repeat(auto-fill, minmax(4.5rem, 1fr));
+  gap: 0.4rem;
   align-items: stretch;
 }
-.grid .btn.small { min-height: 2.8rem; height: auto; }
 
-/* Pattern codes (P01..P26) line up better in tabular figures. */
-.grid .btn.small { font-variant-numeric: tabular-nums; }
+.grid .btn.small {
+  min-height: 2.75rem;
+  height: auto;
+}
 
-/* Horizontal scroll for pattern grids on mobile */
 @media (max-width: 480px) {
   .grid {
     display: flex;
     overflow-x: auto;
-    gap: .5rem;
-    padding-bottom: .5rem;
+    gap: 0.5rem;
+    padding-bottom: 0.5rem;
     scroll-behavior: smooth;
-    scroll-snap-type: x proximity;
-    scrollbar-width: none;
   }
-  .grid::-webkit-scrollbar { display: none; }
 
   .grid .btn.small {
     flex: 0 0 auto;
-    width: 4.6rem;
-    scroll-snap-align: start;
+    width: 4.5rem;
   }
 }
 
@@ -649,269 +396,278 @@ section::before,
    Palette
    ================================================================ */
 
-.palette { flex: 1 1 100%; }
+.palette {
+  flex: 1 1 100%;
+}
 
 .palette-cats {
   display: flex;
   flex-wrap: wrap;
-  gap: .3rem;
-  margin-bottom: .7rem;
-  padding: .28rem;
-  background: var(--sunken);
-  border: 1px solid var(--line-soft);
-  border-radius: var(--radius);
+  gap: 0.35rem;
+  margin-bottom: 0.6rem;
 }
-.palette-cats .tab { padding: .38rem .7rem; font-size: .77rem; }
+
+.palette-cats .tab {
+  padding: 0.4rem 0.75rem;
+  font-size: 0.78rem;
+}
 
 /* ================================================================
-   Sliders & selects
+   Sliders & Selects
    ================================================================ */
 
 .slider {
   flex: 1 1 100%;
-  padding: .7rem .85rem .8rem;
-  background: var(--panel-2);
-  border: 1px solid var(--line-soft);
-  border-radius: var(--radius);
 }
 
 .slider-head {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  font-size: .85rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  margin-bottom: .45rem;
+  margin-bottom: 0.25rem;
 }
+
 .slider-head output {
-  padding: .1rem .5rem;
-  background: color-mix(in srgb, var(--accent) 14%, transparent);
-  border-radius: var(--radius-pill);
-  color: var(--accent);
+  color: var(--blue-600);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
 .slider input[type="range"] {
-  -webkit-appearance: none;
-  appearance: none;
   width: 100%;
-  height: 1.5rem;
-  margin: 0;
-  background: transparent;
-  cursor: pointer;
+  accent-color: var(--blue-600);
 }
 
-/* Filled portion is accent, remainder is a dim groove. --fill is set by
-   app.js on input (see syncFill); the 0% fallback keeps the track sane
-   if the property is ever missing. */
-.slider input[type="range"] { --fill: 0%; }
-
-.slider input[type="range"]::-webkit-slider-runnable-track {
-  height: .45rem;
-  border-radius: var(--radius-pill);
-  background:
-    linear-gradient(90deg, var(--accent), var(--accent-2)) 0 / var(--fill) 100% no-repeat,
-    var(--sunken);
-  box-shadow: inset 0 0 0 1px var(--line-soft);
+.slider.pending {
+  opacity: 0.55;
 }
-.slider input[type="range"]::-moz-range-track {
-  height: .45rem;
-  border-radius: var(--radius-pill);
-  background:
-    linear-gradient(90deg, var(--accent), var(--accent-2)) 0 / var(--fill) 100% no-repeat,
-    var(--sunken);
-  box-shadow: inset 0 0 0 1px var(--line-soft);
-}
-
-.slider input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 1.25rem;
-  height: 1.25rem;
-  margin-top: -.4rem;
-  border-radius: 50%;
-  background: #fff;
-  border: 2px solid var(--accent);
-  box-shadow: 0 2px 8px rgba(15, 42, 82, .3);
-  transition: transform .12s, box-shadow .15s;
-}
-.slider input[type="range"]::-moz-range-thumb {
-  width: 1.25rem;
-  height: 1.25rem;
-  border-radius: 50%;
-  background: #fff;
-  border: 2px solid var(--accent);
-  box-shadow: 0 2px 8px rgba(15, 42, 82, .3);
-  transition: transform .12s, box-shadow .15s;
-}
-
-.slider input[type="range"]:hover::-webkit-slider-thumb { transform: scale(1.12); }
-.slider input[type="range"]:hover::-moz-range-thumb { transform: scale(1.12); }
-.slider input[type="range"]:focus-visible::-webkit-slider-thumb { box-shadow: var(--glow-accent); }
-.slider input[type="range"]:focus-visible::-moz-range-thumb { box-shadow: var(--glow-accent); }
-
-.slider.pending { opacity: .55; }
 
 select {
   width: 100%;
-  margin-top: .3rem;
-  padding: .6rem .75rem;
+  margin-top: 0.25rem;
+  padding: 0.6rem;
   font: inherit;
-  font-weight: 600;
-  color: var(--ink);
-  background: var(--panel-2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  cursor: pointer;
+  color: var(--gray-800);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-300);
+  border-radius: 10px;
 }
-select:focus-visible { outline: none; box-shadow: var(--glow-accent); }
 
 /* ================================================================
-   Gate card / footer
+   Dashboard
+   ================================================================ */
+
+.dash-card + .dash-card {
+  margin-top: 1rem;
+}
+
+.dash-card.dragging {
+  opacity: 0.85;
+  box-shadow: var(--shadow-lg);
+  cursor: grabbing;
+}
+
+.dash-card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.dash-card-title {
+  flex: 1;
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--gray-800);
+}
+
+.drag-handle {
+  cursor: grab;
+  font-size: 1.1rem;
+  color: var(--gray-600);
+  padding: 0.25rem 0.4rem;
+  touch-action: none;
+  user-select: none;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+}
+
+/* ================================================================
+   Gate / Footer
    ================================================================ */
 
 .card {
   max-width: 640px;
   margin: 2rem auto;
-  box-shadow: var(--shadow-md);
 }
+
 .card h2 {
-  margin-top: 0;
-  font-size: 1.05rem;
-  font-weight: 800;
-  letter-spacing: -.01em;
-  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--gray-800);
 }
 
 footer {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 1.75rem 1rem 0;
-  padding-bottom: max(0px, env(safe-area-inset-bottom));
+  padding: 1.5rem 1rem 0;
   text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 #status {
-  margin: 0 0 .5rem;
-  font-size: .85rem;
-  font-weight: 600;
+  margin: 0 0 0.5rem;
+  font-size: 0.85rem;
   min-height: 1.25rem;
+  font-weight: 600;
 }
-#status.ok  { color: var(--on); }
-#status.err { color: var(--off); }
+
+#status.ok {
+  color: #15803d;
+}
+
+#status.err {
+  color: #b91c1c;
+}
 
 .footer-brand {
   margin-top: 1rem;
   padding-top: 1rem;
-  border-top: 1px solid var(--line-soft);
-  font-size: .8rem;
-  font-weight: 700;
-  letter-spacing: .01em;
-  color: var(--ink-dim);
+  border-top: 1px solid var(--gray-200);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--gray-600);
 }
 
-/* In-flight commands are non-interactive so a double tap can't queue a
-   second send while the first is still going out. */
-.btn.pending, .pending { opacity: .55; pointer-events: none; }
+.btn.pending,
+.pending {
+  opacity: 0.55;
+  pointer-events: none;
+}
 
-/* Snappier taps — skip the ~300ms double-tap-zoom delay on touch. */
-.btn, .tab, .pin-toggle { touch-action: manipulation; }
+.btn, .tab, .pin-toggle {
+  touch-action: manipulation;
+}
 
 /* ================================================================
    Responsive
    ================================================================ */
 
 @media (max-width: 600px) {
-  body { font-size: 14px; padding: 0 0 2rem; }
+  body {
+    font-size: 14px;
+    padding: 0 0 2rem;
+  }
 
-  header { padding: .8rem .85rem .6rem; }
+  header {
+    padding: 0.75rem 0.75rem 0.5rem;
+  }
 
-  .brand { gap: .55rem; }
-  .logo { font-size: 1.55rem; }
-  h1 { font-size: .92rem; }
-  h1 small { margin-top: .05rem; }
+  .brand {
+    gap: 0.5rem;
+  }
+
+  .logo {
+    height: 2rem;
+  }
+
+  h1 {
+    font-size: 0.9rem;
+  }
 
   .status-bar {
-    gap: .5rem .8rem;
-    margin-top: .7rem;
-    padding: .6rem .8rem;
-    border-radius: var(--radius);
+    gap: 0.6rem 0.75rem;
+    padding: 0.5rem 0.75rem;
   }
-  .status-item { font-size: .8rem; }
-  .status-item .label { font-size: .7rem; }
 
-  .tabs { margin-top: .6rem; padding: .25rem; }
-  .tab { padding: .42rem .8rem; font-size: .78rem; }
+  .tabs {
+    padding: 0.5rem 0.75rem;
+    gap: 0.25rem;
+  }
 
-  main { padding: 0 .75rem; }
+  .tab {
+    padding: 0.4rem 0.75rem;
+    font-size: 0.78rem;
+  }
 
-  section, .dash-card { padding: .9rem; border-radius: var(--radius); }
-  section::before, .dash-card::before { border-radius: var(--radius) var(--radius) 0 0; }
+  main {
+    padding: 0 0.75rem;
+  }
 
-  .dash-card-title { font-size: .86rem; }
-  .pin-toggle { padding: .35rem .7rem; font-size: .72rem; }
+  section, .dash-card {
+    padding: 0.75rem;
+    margin-top: 0.75rem;
+  }
 
-  .controls { gap: .35rem; }
+  .dash-card-title {
+    font-size: 0.85rem;
+  }
+
+  .pin-toggle {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.72rem;
+  }
+
+  .controls {
+    gap: 0.35rem;
+  }
 
   .btn {
     min-width: 7rem;
-    min-height: 2.6rem;
-    padding: .5rem .75rem;
-    font-size: .85rem;
-  }
-  .btn.small { font-size: .72rem; padding: .45rem .35rem; }
-
-  .slider { padding: .6rem .7rem .7rem; }
-  .slider-head { font-size: .8rem; }
-
-  .grid { gap: .35rem; grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr)); }
-  .grid .btn.small { min-height: 2.6rem; }
-
-  @media (max-width: 480px) {
-    .grid .btn.small { width: 4rem; }
+    min-height: 2.5rem;
+    padding: 0.5rem 0.7rem;
+    font-size: 0.85rem;
   }
 
-  .palette-cats .tab { padding: .34rem .58rem; font-size: .71rem; }
+  .btn.small {
+    font-size: 0.72rem;
+    padding: 0.45rem 0.35rem;
+  }
 
-  .card { margin: 1.25rem .25rem; padding: 1rem; }
+  .slider-head {
+    font-size: 0.8rem;
+  }
 
-  footer { padding: 1.25rem .75rem 0; font-size: .8rem; }
+  .grid {
+    gap: 0.35rem;
+    grid-template-columns: repeat(auto-fill, minmax(4rem, 1fr));
+  }
+
+  .grid .btn.small {
+    min-height: 2.5rem;
+  }
+
+  .palette-cats .tab {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.72rem;
+  }
+
+  footer {
+    padding: 1rem 0.75rem 0;
+    font-size: 0.8rem;
+  }
 }
 
 @media (max-width: 360px) {
-  .btn { min-width: 6rem; }
-  .btn.small { font-size: .68rem; }
-  .grid .btn.small { width: 3.6rem; }
-}
-
-/* Wider screens: let dense grids breathe instead of stretching buttons. */
-@media (min-width: 900px) {
-  .grid { grid-template-columns: repeat(auto-fill, minmax(5.2rem, 1fr)); }
-}
-
-/* ================================================================
-   Accessibility
-   ================================================================ */
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: .001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .001ms !important;
-    scroll-behavior: auto !important;
+  .btn {
+    min-width: 6rem;
   }
-  header::after { animation: none; }
-  .btn:hover { transform: none; }
+
+  .btn.small {
+    font-size: 0.68rem;
+  }
+
+  .grid .btn.small {
+    width: 3.6rem;
+  }
 }
 
-/* Fallback for browsers without color-mix(): the mixed values above are
-   only ever used for tints and ring colours, and every rule that uses
-   one also sets a solid colour/background, so the control stays legible.
-   Backdrop-filter degrades the same way — --panel keeps real alpha, so
-   panels stay readable without the blur. */
-@supports not (backdrop-filter: blur(4px)) {
-  section, .dash-card, .card, .status-bar { background: var(--panel-solid); }
+footer {
+  padding-bottom: max(0px, env(safe-area-inset-bottom));
 }
