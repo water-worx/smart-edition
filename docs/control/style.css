@@ -184,8 +184,9 @@ header::after {
 .brand { display: flex; align-items: center; gap: .8rem; }
 
 .logo {
-  font-size: 2rem;
-  line-height: 1;
+  height: 3rem;
+  width: auto;
+  flex: none;
   filter: drop-shadow(0 2px 6px rgba(0, 0, 0, .35));
 }
 
